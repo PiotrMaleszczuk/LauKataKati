@@ -1,0 +1,6 @@
+D:\ai\DaraLibrary\DaraLibrary\bin\Release\DaraLibrary.dll
+D:\ai\DaraLibrary\DaraLibrary\bin\Release\DaraLibrary.pdb
+D:\ai\DaraLibrary\DaraLibrary\obj\Release\DaraLibrary.dll
+D:\ai\DaraLibrary\DaraLibrary\obj\Release\DaraLibrary.pdb
+D:\ai\DaraLibrary\DaraLibrary\obj\Release\DaraLibrary.g.resources
+D:\ai\DaraLibrary\DaraLibrary\obj\Release\DaraLibrary.csprojResolveAssemblyReference.cache

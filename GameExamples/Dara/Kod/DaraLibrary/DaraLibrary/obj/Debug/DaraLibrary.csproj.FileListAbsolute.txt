@@ -1,0 +1,35 @@
+c:\users\igleyy\documents\visual studio 2010\Projects\DaraLibrary\DaraLibrary\bin\Debug\DaraLibrary.dll
+c:\users\igleyy\documents\visual studio 2010\Projects\DaraLibrary\DaraLibrary\bin\Debug\DaraLibrary.pdb
+c:\users\igleyy\documents\visual studio 2010\Projects\DaraLibrary\DaraLibrary\obj\Debug\ResolveAssemblyReference.cache
+c:\users\igleyy\documents\visual studio 2010\Projects\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.dll
+c:\users\igleyy\documents\visual studio 2010\Projects\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.pdb
+D:\ai\DaraLibrary\DaraLibrary\bin\Debug\DaraLibrary.dll
+D:\ai\DaraLibrary\DaraLibrary\bin\Debug\DaraLibrary.pdb
+D:\ai\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.dll
+D:\ai\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.pdb
+D:\ai\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.g.resources
+D:\ai\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.csprojResolveAssemblyReference.cache
+H:\ai2\DaraLibrary\DaraLibrary\bin\Debug\DaraLibrary.dll
+H:\ai2\DaraLibrary\DaraLibrary\bin\Debug\DaraLibrary.pdb
+H:\ai2\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.csprojResolveAssemblyReference.cache
+H:\ai2\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.g.resources
+H:\ai2\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.dll
+H:\ai2\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.pdb
+G:\ai2\DaraLibrary\DaraLibrary\bin\Debug\DaraLibrary.dll
+G:\ai2\DaraLibrary\DaraLibrary\bin\Debug\DaraLibrary.pdb
+G:\ai2\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.csprojResolveAssemblyReference.cache
+G:\ai2\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.g.resources
+G:\ai2\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.dll
+G:\ai2\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.pdb
+F:\ai2\DaraLibrary\DaraLibrary\bin\Debug\DaraLibrary.dll
+F:\ai2\DaraLibrary\DaraLibrary\bin\Debug\DaraLibrary.pdb
+F:\ai2\DaraLibrary\DaraLibrary\obj\Debug\ResolveAssemblyReference.cache
+F:\ai2\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.g.resources
+F:\ai2\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.dll
+F:\ai2\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.pdb
+C:\Users\Artur\Desktop\ai2\ai2\DaraLibrary\DaraLibrary\bin\Debug\DaraLibrary.dll
+C:\Users\Artur\Desktop\ai2\ai2\DaraLibrary\DaraLibrary\bin\Debug\DaraLibrary.pdb
+C:\Users\Artur\Desktop\ai2\ai2\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.csprojResolveAssemblyReference.cache
+C:\Users\Artur\Desktop\ai2\ai2\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.g.resources
+C:\Users\Artur\Desktop\ai2\ai2\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.dll
+C:\Users\Artur\Desktop\ai2\ai2\DaraLibrary\DaraLibrary\obj\Debug\DaraLibrary.pdb

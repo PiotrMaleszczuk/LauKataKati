@@ -1,0 +1,411 @@
+%======= Pomocnicze rzeczy ===============================================================================================
+sklej([],X,X).
+sklej([X|L1],L2,[X|L3]) :-
+	sklej(L1,L2,L3).
+
+odwroc([],[]).
+odwroc([H|T],L) :-
+	odwroc(T,R),
+	sklej(R,[H],L).
+
+%==========================================================================================================================
+%======= Obliczanie ilosci punktow ========================================================================================
+przeciwnik(1,2).
+przeciwnik(2,1).
+
+ilePkt(Tab,Gracz,Wynik):-
+		punkty(Tab,Gracz,Przeciwnik,0,0,Wynik),
+		przeciwnik(Gracz,Przeciwnik).
+
+punkty([Gracz|_],Gracz,_,_,_,0).
+punkty([Przeciwnik|Tail],Gracz,Przeciwnik,_,_,Wynik):-
+		punkty2(Tail,Gracz,Przeciwnik,1,0,Wynik).
+
+punkty([3|Tail],Gracz,Przeciwnik,_,_,Wynik):-
+		punkty2(Tail,Gracz,Przeciwnik,1,0,Wynik).
+
+punkty([0|Tail],Gracz,Przeciwnik,_,_,Wynik):-
+		punkty2(Tail,Gracz,Przeciwnik,0,0,Wynik).
+
+
+punkty2([Gracz],Gracz,_,_,_,0).
+
+punkty2([Przeciwnik],_,Przeciwnik,Bord,Pkt,Wynik):-
+		NewBord is Bord +1,
+		ocenPkt(NewBord,Pkt,Wynik).
+
+punkty2([3],_,_,Bord,Pkt,Wynik):-
+		NewBord is Bord +1,
+		ocenPkt(NewBord,Pkt,Wynik).
+
+punkty2([0],_,_,Bord,Pkt,Wynik):-
+		ocenPkt(Bord,Pkt,Wynik).
+
+punkty2([Przeciwnik|Tail],_,Przeciwnik,_,_,0).
+punkty2([3|Tail],_,_,_,_,0).
+
+punkty2([0|Tail],Gracz,Przeciwnik,Bord,Pkt,Wynik):-
+		punkty2(Tail,Gracz,Przeciwnik,Bord,Pkt,Wynik).
+
+punkty2([Gracz|Tail],Gracz,Przeciwnik,Bord,Pkt,Wynik):-
+		NewPkt is Pkt+1,
+		punkty2(Tail,Gracz,Przeciwnik,Bord,NewPkt,Wynik).
+
+
+
+ocenPkt(0,0,0).
+ocenPkt(0,1,2).
+ocenPkt(0,2,15).
+ocenPkt(0,3,40).
+ocenPkt(0,4,80).
+ocenPkt(1,0,0).
+ocenPkt(1,1,3).
+ocenPkt(1,2,18).
+ocenPkt(1,3,45).
+ocenPkt(1,4,90).
+ocenPkt(2,0,0).
+ocenPkt(2,1,5).
+ocenPkt(2,2,20).
+ocenPkt(2,3,50).
+ocenPkt(2,4,100).
+
+%=======================================================================================================================
+%======= Przegladanie tablic heurystyczna ==============================================================================
+
+% poziomo ===================================================
+
+budujSzesc(Tab,Wynik):-budujSzesc2(Tab,Wynik,5).
+budujSzesc2([Head|Tail],[Head|Wynik],Count):-
+		NewCount is Count-1,
+		budujSzesc2(Tail,Wynik,NewCount).
+budujSzesc2([Head|_],[Head],0).
+
+
+poziomo([Head],IleX,0,Gracz,Wynik):-
+		sprawdzWiersz(Head,IleX,Gracz,Wynik).
+
+poziomo([Head|Tail],IleX,IleY,Gracz,Wynik):-
+		NewIleY is IleY-1,
+		sprawdzWiersz(Head,IleX,Gracz,WynikWiersza),
+		poziomo(Tail,IleX,NewIleY,Gracz,WynikTemp),
+		Wynik is WynikWiersza + WynikTemp.
+
+
+sprawdzWiersz([Head|Tail],IleX,Gracz,Wynik):-
+		NewIleX is IleX-1,
+		sprawdzWiersz(Tail,NewIleX,Gracz,WynikTemp),
+		budujSzesc([Head|Tail],GotowaSzesc),
+		ilePkt(GotowaSzesc,Gracz,Punkty),
+		Wynik is WynikTemp + Punkty.
+
+sprawdzWiersz(Tab,0,Gracz,Wynik):-
+		budujSzesc(Tab,GotowaSzesc),
+		ilePkt(GotowaSzesc,Gracz,Wynik).
+% Pionowo ===================================================
+
+
+dajWartoscGlowy([Head],Head).
+
+dajWartoscGlowy([Head|Tail],Head,Tail).
+
+zamienWierKol(Temp,Wynik):-zamienWierKol2(Temp,[],[],[],Wynik).
+
+zamienWierKol2([],[],TempHead,WynikTemp,[TempHead|WynikTemp]).
+
+zamienWierKol2([],[Head],TempHead,WynikTemp,Wynik):-zamienWierKol2([],[],Head,[TempHead|WynikTemp],Wynik).
+
+zamienWierKol2([],TempTail,TempHead,WynikTemp,Wynik):-
+		odwroc(TempTail,OdwroconyTempTail),
+		zamienWierKol2(OdwroconyTempTail,[],[],[TempHead|WynikTemp],Wynik).
+
+zamienWierKol2([Head],TempTail,TempHead,WynikTemp,Wynik):-
+		dajWartoscGlowy(Head,WartoscGlowy),
+		zamienWierKol2([],TailGlowy,[WartoscGlowy|TempHead],WynikTemp,Wynik).
+
+zamienWierKol2([Head|Tail],TempTail,TempHead,WynikTemp,Wynik):-
+		dajWartoscGlowy(Head,WartoscGlowy),
+		zamienWierKol2(Tail,TempTail,[WartoscGlowy|TempHead],WynikTemp,Wynik).
+
+
+zamienWierKol2([Head],TempTail,TempHead,WynikTemp,Wynik):-
+		dajWartoscGlowy(Head,WartoscGlowy,TailGlowy),
+		zamienWierKol2([],[TailGlowy|TempTail],[WartoscGlowy|TempHead],WynikTemp,Wynik).
+
+zamienWierKol2([Head|Tail],TempTail,TempHead,WynikTemp,Wynik):-
+		dajWartoscGlowy(Head,WartoscGlowy,TailGlowy),
+		zamienWierKol2(Tail,[TailGlowy|TempTail],[WartoscGlowy|TempHead],WynikTemp,Wynik).
+
+
+pionowo(Tablica,IleX,IleY,Gracz,Wynik):-
+		zamienWierKol(Tablica,OdwroconaTablica),
+		poziomo(OdwroconaTablica,IleY,IleX,Gracz,Wynik).
+
+
+% Z gory na dol \   ============================================
+
+skosOdLewej([[X00,X01,X02,X03,X04|_],[X10,X11,X12,X13,X14,X15|_],[X20,X21,X22,X23,X24,X25,X26|_],[X30,X31,X32,X33,X34,X35,X36,X37|_],	[X40,X41,X42,X43,X44,X45,X46,X47,X48|_],[_,X51,X52,X53,X54,X55,X56,X57,X58,X59],[_,_,X62,X63,X64,X65,X66,X67,X68,X69],	[_,_,_,X73,X74,X75,X76,X77,X78,X79],[_,_,_,_,X84,X85,X86,X87,X88,X89],[_,_,_,_,_,X95,X96,X97,X98,X99]],Gracz,WYNIK):-
+		ilePkt([X00,X11,X22,X33,X44,X55],Gracz,W1),
+		ilePkt([X01,X12,X23,X34,X45,X56],Gracz,W2),
+		ilePkt([X02,X13,X24,X35,X46,X57],Gracz,W3),
+		ilePkt([X03,X14,X25,X36,X47,X58],Gracz,W4),
+		ilePkt([X04,X15,X26,X37,X48,X59],Gracz,W5),
+		ilePkt([X10,X21,X32,X43,X54,X65],Gracz,W6),
+		ilePkt([X11,X22,X33,X44,X55,X66],Gracz,W7),
+		ilePkt([X12,X23,X34,X45,X56,X67],Gracz,W8),
+		ilePkt([X13,X24,X35,X46,X57,X68],Gracz,W9),
+		ilePkt([X14,X25,X36,X47,X58,X69],Gracz,W10),
+		ilePkt([X20,X31,X42,X53,X64,X75],Gracz,W11),
+		ilePkt([X21,X32,X43,X54,X65,X76],Gracz,W12),
+		ilePkt([X22,X33,X44,X55,X66,X77],Gracz,W13),
+		ilePkt([X23,X34,X45,X56,X67,X78],Gracz,W14),
+		ilePkt([X24,X35,X46,X57,X68,X79],Gracz,W15),
+		ilePkt([X30,X41,X52,X63,X74,X85],Gracz,W16),
+		ilePkt([X31,X42,X53,X64,X75,X86],Gracz,W17),
+		ilePkt([X32,X43,X54,X65,X76,X87],Gracz,W18),
+		ilePkt([X33,X44,X55,X66,X77,X88],Gracz,W19),
+		ilePkt([X34,X45,X56,X67,X78,X89],Gracz,W20),
+		ilePkt([X40,X51,X62,X73,X84,X95],Gracz,W21),
+		ilePkt([X41,X52,X63,X74,X85,X96],Gracz,W22),
+		ilePkt([X42,X53,X64,X75,X86,X97],Gracz,W23),
+		ilePkt([X43,X54,X65,X76,X87,X98],Gracz,W24),
+		ilePkt([X44,X55,X66,X77,X88,X99],Gracz,W25),
+		WYNIK is W1+W2+W3+W4+W5+W6+W7+W8+W9+W10+W11+W12+W13+W14+W15+W16+W17+W18+W19+W20+W21+W22+W23+W24+W25.
+
+
+% Z dolu na gore /  ============================================
+
+odwrocTablice([Head|Tail],[NewHead|Wyn]):-
+	odwroc(Head,NewHead),
+	odwrocTablice(Tail,Wyn).
+
+
+odwrocTablice([Head|_],[NewHead]):-
+	odwroc(Head,NewHead).
+
+skosOdPrawej(Tablica,Gracz,Wynik):-
+	odwrocTablice(Tablica,NewTablica),
+	skosOdLewej(NewTablica,Gracz,Wynik).
+
+%================================================================================================================================
+%======= oblicz uzytecznosc stanu ===============================================================================================
+
+%===========Sprawdzanie wymiarow tablicy =====
+sprawdzWymiarTablicy([_],1).
+sprawdzWymiarTablicy([_|Tail],Wynik):-sprawdzWymiarTablicy(Tail,TempWynik),Wynik is TempWynik+1.
+%=============================================
+
+obliczStan(Tablica,Wynik):-
+		sprawdzWymiarTablicy(Tablica,Wymiar),
+		IleX is Wymiar-6,
+		IleY is Wymiar-1,
+		poziomo(Tablica,IleX,IleY,1,PktKompPoziomo),
+		pionowo(Tablica,IleY,IleX,1,PktKompPionowo),
+		skosOdLewej(Tablica,1,PktKompLewy),
+		skosOdPrawej(Tablica,1,PktKompPrawy),
+		poziomo(Tablica,IleX,IleY,2,PktGraczPoziomo),
+		pionowo(Tablica,IleY,IleX,2,PktGraczPionowo),
+		skosOdLewej(Tablica,2,PktGraczLewy),
+		skosOdPrawej(Tablica,2,PktGraczPrawy),
+		WynikKomp is PktKompPoziomo + PktKompPionowo + PktKompLewy + PktKompPrawy ,
+		WynikGracz is PktGraczPoziomo + PktGraczPionowo + PktGraczLewy + PktGraczPrawy,
+		Wynik is WynikKomp-WynikGracz.
+
+%================================================================================================================================
+%====== mini Max ================================================================================================================
+czyRownyElWiersza([TypElem|_],0,TypElem).
+czyRownyElWiersza([_|Tail],WspX,TypElem):-NewWspX is WspX -1,czyRownyElWiersza(Tail,NewWspX,TypElem).
+
+czyRownyElTab([Head|_],WspX,0,TypElem):-czyRownyElWiersza(Head,WspX,TypElem).
+czyRownyElTab([_|Tail],WspX,WspY,TypElem):-NewWspY is WspY-1, czyRownyElTab(Tail,WspX,NewWspY,TypElem).
+
+zamienElWiersza([_|Tail],0,TypElem,[TypElem|Tail]).
+zamienElWiersza([Head|Tail],WspX,TypElem,[Head|NewTail]):-NewWspX is WspX -1,zamienElWiersza(Tail,NewWspX,TypElem,NewTail).
+
+zamienElTab([Head|Tail],WspX,0,TypElem,[NewHead|Tail]):-zamienElWiersza(Head,WspX,TypElem,NewHead).
+zamienElTab([Head|Tail],WspX,WspY,TypElem,[Head|NewTail]):-NewWspY is WspY-1, zamienElTab(Tail,WspX,NewWspY,TypElem,NewTail).
+
+czyNiePusty(Tablica,WspX,WspY):-czyRownyElTab(Tablica,WspX,WspY,1).
+czyNiePusty(Tablica,WspX,WspY):-czyRownyElTab(Tablica,WspX,WspY,2).
+czyNiePusty(Tablica,WspX,WspY):-czyRownyElTab(Tablica,WspX,WspY,3).
+
+czyPelna(1).
+czyPelna(2).
+czyPelna(3).
+czyPelna(1|_).
+czyPelna(2|_).
+czyPelna(3|_).
+czyPelna([Head]):-czyPelna(Head).
+czyPelna([Head|Tail]):-czyPelna(Tail),czyPelna(Head).
+
+
+czyFreedom(Tablica,OstatniX,OstatniY):-
+		Yminus is OstatniY-1,
+		Yplus is OstatniY +1,
+		Xminus is OstatniX -1,
+		Xplus is OstatniX +1,
+		czyNiePusty(Tablica,Xminus,Yminus),
+		czyNiePusty(Tablica,Xminus,OstatniY),
+		czyNiePusty(Tablica,Xminus,Yplus),
+		czyNiePusty(Tablica,OstatniX,Yminus),
+		czyNiePusty(Tablica,OstatniX,Yplus),
+		czyNiePusty(Tablica,Xplus,Yminus),
+		czyNiePusty(Tablica,Xplus,OstatniY),
+		czyNiePusty(Tablica,Xplus,Yplus).
+
+
+
+
+miniMax(Tablica,_,_,_,0,Wynik):-obliczStan(Tablica,Wynik).
+miniMax(Tablica,_,_,_,_,Wynik):-czyPelna(Tablica),obliczStan(Tablica,Wynik).
+
+miniMax(Tablica,Xnext,Ynext,1,_,-10):-
+		not(czyRownyElTab(Tablica,Xnext,Ynext,0)).
+
+miniMax(Tablica,Xnext,Ynext,2,_,10):-
+		not(czyRownyElTab(Tablica,Xnext,Ynext,0)).
+
+
+miniMax(Tablica,Xnext,Ynext,2,Poziom,Wynik):-
+		NewPoziom is Poziom -1,
+		czyFreedom(Tablica,Xnext,Ynext),
+		czyRownyElTab(Tablica,Xnext,Ynext,0),
+		zamienElTab(Tablica,Xnext,Ynext,2,NewTab),
+		sprawdzWymiarTablicy(Tablica,RozmiarTablicy),
+		przegladajTablice(NewTab,0,0,RozmiarTablicy,RozmiarTablicy,RozmiarTablicy,1,NewPoziom,Wynik).
+
+miniMax(Tablica,Xnext,Ynext,2,Poziom,Wynik):-
+		XM is Xnext-1,
+		XP is Xnext+1,
+		YM is Ynext-1,
+		YP is Ynext+1,
+		NewPoziom is Poziom -1,
+		czyRownyElTab(Tablica,Xnext,Ynext,0),
+		zamienElTab(Tablica,Xnext,Ynext,2,NewTab),
+		not(czyFreedom(Tablica,Xnext,Ynext)),
+		przegladajTablice(NewTab,XM,YM,XP,YP,XP,1,NewPoziom,Wynik).
+
+
+miniMax(Tablica,Xnext,Ynext,1,Poziom,Wynik):-
+		NewPoziom is Poziom -1,
+		czyFreedom(Tablica,Xnext,Ynext),
+		czyRownyElTab(Tablica,Xnext,Ynext,0),
+		zamienElTab(Tablica,Xnext,Ynext,1,NewTab),
+		sprawdzWymiarTablicy(Tablica,RozmiarTablicy),
+		przegladajTablice(NewTab,0,0,RozmiarTablicy,RozmiarTablicy,RozmiarTablicy,2,NewPoziom,Wynik).
+
+miniMax(Tablica,Xnext,Ynext,1,Poziom,Wynik):-
+		XM is Xnext-1,
+		XP is Xnext+1,
+		YM is Ynext-1,
+		YP is Ynext+1,
+		NewPoziom is Poziom -1,
+		czyRownyElTab(Tablica,Xnext,Ynext,0),
+		zamienElTab(Tablica,Xnext,Ynext,1,NewTab),
+		not(czyFreedom(Tablica,Xnext,Ynext)),
+		przegladajTablice(NewTab,XM,YM,XP,YP,XP,2,NewPoziom,Wynik).
+
+
+
+przegladajTablice(Tablica,Xdo,Ydo,Xdo,Ydo,_,1,Poziom,Wynik):-
+		miniMax(Tablica,Xdo,Ydo,1,Poziom,Wynik).
+
+przegladajTablice(Tablica,Xdo,Ydo,Xdo,Ydo,_,2,Poziom,Wynik):-
+		miniMax(Tablica,Xdo,Ydo,2,Poziom,Wynik).
+
+
+przegladajTablice(Tablica,Xdo,Yod,Xdo,Ydo,Xpomocniczy,2,Poziom,Wynik):-
+		NewYod is Yod +1,
+		miniMax(Tablica,Xdo,Yod,2,Poziom,WynikMinMax),
+		przegladajTablice(Tablica,Xpomocniczy,NewYod,Xdo,Ydo,Xpomocniczy,2,Poziom,WynikSprawdz),
+		Wynik is min(WynikMinMax,WynikSprawdz).
+
+
+
+przegladajTablice(Tablica,Xdo,Yod,Xdo,Ydo,Xpomocniczy,1,Poziom,Wynik):-
+		NewYod is Yod +1,
+		miniMax(Tablica,Xdo,Yod,1,Poziom,WynikMinMax),
+		przegladajTablice(Tablica,Xpomocniczy,NewYod,Xdo,Ydo,Xpomocniczy,1,Poziom,WynikSprawdz),
+		Wynik is max(WynikMinMax,WynikSprawdz).
+
+
+
+przegladajTablice(Tablica,Xod,Yod,Xdo,Ydo,Xpomocniczy,Gracz,Poziom,Wynik):-
+		NewXod is Xod +1,
+		miniMax(Tablica,Xod,Yod,Gracz,Poziom,WynikMinMax),
+		przegladajTablice(Tablica,NewXod,Yod,Xdo,Ydo,Xpomocniczy,Gracz,Poziom,WynikSprawdz),
+		Wynik is max(WynikMinMax,WynikSprawdz).
+
+
+%dlaJakich(_,Xdo,Ydo,Xdo,Ydo,_,_,_,Xdo,Ydo).
+
+
+dlaJakich(Tablica,Xod,Yod,_,_,_,Poziom,MaxWartosc,Xod,Yod):-
+		miniMax(Tablica,Xod,Yod,1,Poziom,MaxWartosc).
+
+
+dlaJakich(Tablica,Xdo,Yod,Xdo,Ydo,Xpomocniczy,Poziom,MaxWartosc,Xwybr,Ywybr):-
+		NewYod is Yod +1,
+		miniMax(Tablica,Xdo,Yod,1,Poziom,WynikMinMax),
+		MaxWartosc\=WynikMinMax,
+		dlaJakich(Tablica,Xpomocniczy,NewYod,Xdo,Ydo,Xpomocniczy,Poziom,MaxWartosc,Xwybr,Ywybr).
+
+
+dlaJakich(Tablica,Xod,Yod,Xdo,Ydo,Xpomocniczy,Poziom,MaxWartosc,Xwybr,Ywybr):-
+		NewXod is Xod +1,
+		miniMax(Tablica,Xod,Yod,1,Poziom,WynikMinMax),
+		MaxWartosc\=WynikMinMax,
+		dlaJakich(Tablica,NewXod,Yod,Xdo,Ydo,Xpomocniczy,Poziom,MaxWartosc,Xwybr,Ywybr).
+
+
+
+wybierzNastepny(Tablica,Xostatni,Yostatni,Poziom,WynikX,WynikY):-
+		XM is Xostatni-1,
+		XP is Xostatni+1,
+		YM is Yostatni-1,
+		YP is Yostatni+1,
+		przegladajTablice(Tablica,XM,YM,XP,YP,XP,1,Poziom,WynikMax),
+		dlaJakich(Tablica,XM,YM,XP,YP,XP,Poziom,WynikMax,WynikX,WynikY).
+
+
+
+wybierzNastepnyX(Tablica,Xostatni,Yostatni,Poziom,WynikX):-
+		wybierzNastepny(Tablica,Xostatni,Yostatni,Poziom,WynikX,_).
+
+wybierzNastepnyY(Tablica,Xostatni,Yostatni,Poziom,WynikY):-
+		wybierzNastepny(Tablica,Xostatni,Yostatni,Poziom,_,WynikY).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

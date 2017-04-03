@@ -1,0 +1,37 @@
+c:\users\igleyy\documents\visual studio 2010\Projects\DaraTest\DaraTest\bin\Debug\DaraTest.exe
+c:\users\igleyy\documents\visual studio 2010\Projects\DaraTest\DaraTest\bin\Debug\DaraTest.pdb
+c:\users\igleyy\documents\visual studio 2010\Projects\DaraTest\DaraTest\bin\Debug\DaraLibrary.dll
+c:\users\igleyy\documents\visual studio 2010\Projects\DaraTest\DaraTest\bin\Debug\DaraLibrary.pdb
+c:\users\igleyy\documents\visual studio 2010\Projects\DaraTest\DaraTest\obj\x86\Debug\ResolveAssemblyReference.cache
+c:\users\igleyy\documents\visual studio 2010\Projects\DaraTest\DaraTest\obj\x86\Debug\DaraTest.exe
+c:\users\igleyy\documents\visual studio 2010\Projects\DaraTest\DaraTest\obj\x86\Debug\DaraTest.pdb
+E:\ai\DaraTest\DaraTest\obj\x86\Debug\DaraTest.exe
+E:\ai\DaraTest\DaraTest\obj\x86\Debug\DaraTest.pdb
+D:\ai\DaraTest\DaraTest\obj\x86\Debug\DaraTest.exe
+D:\ai\DaraTest\DaraTest\obj\x86\Debug\DaraTest.pdb
+D:\ai\DaraTest\DaraTest\bin\Debug\DaraTest.exe
+D:\ai\DaraTest\DaraTest\bin\Debug\DaraTest.pdb
+D:\ai\DaraTest\DaraTest\bin\Debug\DaraLibrary.dll
+D:\ai\DaraTest\DaraTest\bin\Debug\DaraLibrary.pdb
+D:\ai\DaraTest\DaraTest\obj\x86\Debug\DaraTest.csprojResolveAssemblyReference.cache
+H:\ai2\DaraTest\DaraTest\bin\Debug\DaraTest.exe
+H:\ai2\DaraTest\DaraTest\bin\Debug\DaraTest.pdb
+H:\ai2\DaraTest\DaraTest\bin\Debug\DaraLibrary.dll
+H:\ai2\DaraTest\DaraTest\bin\Debug\DaraLibrary.pdb
+H:\ai2\DaraTest\DaraTest\obj\x86\Debug\DaraTest.csprojResolveAssemblyReference.cache
+H:\ai2\DaraTest\DaraTest\obj\x86\Debug\DaraTest.exe
+H:\ai2\DaraTest\DaraTest\obj\x86\Debug\DaraTest.pdb
+F:\ai2\DaraTest\DaraTest\bin\Debug\DaraTest.exe
+F:\ai2\DaraTest\DaraTest\bin\Debug\DaraTest.pdb
+F:\ai2\DaraTest\DaraTest\bin\Debug\DaraLibrary.dll
+F:\ai2\DaraTest\DaraTest\bin\Debug\DaraLibrary.pdb
+F:\ai2\DaraTest\DaraTest\obj\x86\Debug\ResolveAssemblyReference.cache
+F:\ai2\DaraTest\DaraTest\obj\x86\Debug\DaraTest.exe
+F:\ai2\DaraTest\DaraTest\obj\x86\Debug\DaraTest.pdb
+C:\Users\Artur\Desktop\ai2\ai2\DaraTest\DaraTest\bin\Debug\DaraTest.exe
+C:\Users\Artur\Desktop\ai2\ai2\DaraTest\DaraTest\bin\Debug\DaraTest.pdb
+C:\Users\Artur\Desktop\ai2\ai2\DaraTest\DaraTest\bin\Debug\DaraLibrary.dll
+C:\Users\Artur\Desktop\ai2\ai2\DaraTest\DaraTest\bin\Debug\DaraLibrary.pdb
+C:\Users\Artur\Desktop\ai2\ai2\DaraTest\DaraTest\obj\x86\Debug\DaraTest.csprojResolveAssemblyReference.cache
+C:\Users\Artur\Desktop\ai2\ai2\DaraTest\DaraTest\obj\x86\Debug\DaraTest.exe
+C:\Users\Artur\Desktop\ai2\ai2\DaraTest\DaraTest\obj\x86\Debug\DaraTest.pdb

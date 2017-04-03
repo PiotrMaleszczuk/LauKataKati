@@ -1,0 +1,7 @@
+P:\Politechnika\pretwa-src\Pretwa\bin\Release\pretwa.XML
+P:\Politechnika\pretwa-src\Pretwa\bin\Release\Pretwa.dll
+P:\Politechnika\pretwa-src\Pretwa\bin\Release\Pretwa.pdb
+P:\Politechnika\pretwa-src\Pretwa\bin\Release\FSharp.Core.dll
+P:\Politechnika\pretwa-src\Pretwa\bin\Release\FSharp.Core.xml
+P:\Politechnika\pretwa-src\Pretwa\obj\Release\Pretwa.dll
+P:\Politechnika\pretwa-src\Pretwa\obj\Release\Pretwa.pdb

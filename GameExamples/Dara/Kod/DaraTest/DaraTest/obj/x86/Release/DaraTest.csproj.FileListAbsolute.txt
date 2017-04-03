@@ -1,0 +1,7 @@
+D:\ai\DaraTest\DaraTest\bin\Release\DaraTest.exe
+D:\ai\DaraTest\DaraTest\bin\Release\DaraTest.pdb
+D:\ai\DaraTest\DaraTest\bin\Release\DaraLibrary.dll
+D:\ai\DaraTest\DaraTest\bin\Release\DaraLibrary.pdb
+D:\ai\DaraTest\DaraTest\obj\x86\Release\DaraTest.csprojResolveAssemblyReference.cache
+D:\ai\DaraTest\DaraTest\obj\x86\Release\DaraTest.exe
+D:\ai\DaraTest\DaraTest\obj\x86\Release\DaraTest.pdb

@@ -1,0 +1,15 @@
+//Jak skonfigurowaæ:
+//
+//1) Pobraæ SWI Prolog: http://www.swi-prolog.org/download/stable	
+//	
+//2) add a new variable SWI_HOME_DIR under system variables in environment variables, and set the path to the place where you installed the SWI-Prolog (Mine is D:\swipl);
+//
+//3) Add the path %SWI_HOME_DIR%\bin to your PATH variable, rather than use something like "D:\swipl\bin". (Otherwise [FATAL ERROR: Could not find system resources] will occur)
+//
+//4) Add the path %SWI_HOME_DIR%\lib\jpl.jar to your PATH variable, rather than use something like "D:\swipl\lib\jpl.jar". (Otherwise [FATAL ERROR: Could not find system resources] will occur)
+//
+//Jak dalej nie dzia³a to:
+//	
+//5) Eclipse -> Menu -> Run Configurations... -> MainApp -> Zak³adka: Arguments -> VM arguments: -Djava.library.path="C:\Program Files\swipl\bin;."  //w œcie¿ka do zainstalowanego swi prologu
+//
+//6) Eclipse -> Menu -> Run Configurations... -> MainApp -> Zak³adka: Environment -> New... -> Name: PATH - > Value: C:\Program Files\swipl\bin;${env_var:PATH}  //w œcie¿ka do zainstalowanego swi prologu

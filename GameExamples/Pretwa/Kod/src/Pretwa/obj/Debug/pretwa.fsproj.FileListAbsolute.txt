@@ -1,0 +1,15 @@
+P:\Politechnika\pretwa\bin\Debug\pretwa.exe.config
+P:\Politechnika\pretwa\bin\Debug\pretwa.XML
+P:\Politechnika\pretwa\bin\Debug\pretwa.exe
+P:\Politechnika\pretwa\bin\Debug\pretwa.pdb
+P:\Politechnika\pretwa\bin\Debug\FSharp.Core.dll
+P:\Politechnika\pretwa\bin\Debug\FSharp.Core.xml
+P:\Politechnika\pretwa\obj\Debug\pretwa.exe
+P:\Politechnika\pretwa\obj\Debug\pretwa.pdb
+P:\Politechnika\pretwa-src\Pretwa\bin\Debug\pretwa.XML
+P:\Politechnika\pretwa-src\Pretwa\bin\Debug\Pretwa.dll
+P:\Politechnika\pretwa-src\Pretwa\bin\Debug\Pretwa.pdb
+P:\Politechnika\pretwa-src\Pretwa\bin\Debug\FSharp.Core.dll
+P:\Politechnika\pretwa-src\Pretwa\bin\Debug\FSharp.Core.xml
+P:\Politechnika\pretwa-src\Pretwa\obj\Debug\Pretwa.dll
+P:\Politechnika\pretwa-src\Pretwa\obj\Debug\Pretwa.pdb
