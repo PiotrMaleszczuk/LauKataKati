@@ -8,7 +8,7 @@ public class App : MonoBehaviour {
     
     [Serializable]
     public class View {
-
+		public Transform board;
     }
 
     [Serializable]
@@ -18,7 +18,7 @@ public class App : MonoBehaviour {
 
     [Serializable]
     public class Controller {
-        
+		public GameController game;
     }
 
     public Model model;
