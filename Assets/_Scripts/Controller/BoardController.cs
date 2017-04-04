@@ -12,10 +12,12 @@ public class BoardController : MonoBehaviour {
     private Transform[] pointArray;
     private Transform points;
     private GameObject[] pawnsArray;
+    private Transform boardTransform;
 
     public void Init() {
         app = App.Instance;
         board = new int[3][];
+        boardTransform = app.view.board;
         pawn1 = app.model.pawn1;
         pawn2 = app.model.pawn2;
         points = app.view.points;
@@ -27,8 +29,8 @@ public class BoardController : MonoBehaviour {
             pointArray[i] = points.GetChild(i);
         }
 
-        int iterPawn = 0;       //iteracja pionkow
-        int iterPos = 0;        //iteracja pozycji
+        int iterPawn = 0;
+        int iterPos = 0;
         for (int i = 0; i < board.Length; i++) {
             board[i] = new int[7];
             for (int j = 0; j < board[i].Length; j++) {
@@ -45,6 +47,8 @@ public class BoardController : MonoBehaviour {
                             board[i][j] = 1;
                             boardString += board[i][j];
                             GameObject pawn = Instantiate(pawn1);
+                            pawn.name = "Pawn " + iterPawn;
+                            pawn.transform.SetParent(boardTransform);
                             pawn.transform.localPosition = new Vector3(pointArray[iterPos].localPosition.x, pointArray[iterPos].localPosition.y, 0f);
                             pawnsArray[iterPawn] = pawn;
                             PawnScript pawnScript = pawnsArray[iterPawn].GetComponent<PawnScript>();
@@ -58,6 +62,8 @@ public class BoardController : MonoBehaviour {
                             board[i][j] = 2;
                             boardString += board[i][j];
                             GameObject pawn = Instantiate(pawn2);
+                            pawn.name = "Pawn " + iterPawn;
+                            pawn.transform.SetParent(boardTransform);
                             pawn.transform.localPosition = new Vector3(pointArray[iterPos].localPosition.x, pointArray[iterPos].localPosition.y, 0f);
                             pawnsArray[iterPawn] = pawn;
                             PawnScript pawnScript = pawnsArray[iterPawn].GetComponent<PawnScript>();

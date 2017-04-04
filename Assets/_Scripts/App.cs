@@ -9,6 +9,7 @@ public class App : MonoBehaviour {
     [Serializable]
     public class View {
         public Transform points;
+        public Transform board;
     }
 
     [Serializable]
