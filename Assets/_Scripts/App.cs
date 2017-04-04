@@ -19,6 +19,7 @@ public class App : MonoBehaviour {
     [Serializable]
     public class Controller {
 		public GameController game;
+        public BoardController board;
     }
 
     public Model model;

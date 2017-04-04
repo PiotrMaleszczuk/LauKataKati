@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class GameController : MonoBehaviour {
 
+    private App app;
+
 	//Controllers inits
 	void Awake(){
-
+        app = App.Instance;
+        app.controller.board.Init();
 	}
 }
