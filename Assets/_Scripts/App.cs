@@ -8,12 +8,13 @@ public class App : MonoBehaviour {
     
     [Serializable]
     public class View {
-		public Transform board;
+        public Transform points;
     }
 
     [Serializable]
     public class Model {
-        
+        public GameObject pawn1;
+        public GameObject pawn2;
     }
 
     [Serializable]
