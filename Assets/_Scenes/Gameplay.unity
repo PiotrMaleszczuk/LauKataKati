@@ -435,6 +435,7 @@ MonoBehaviour:
     game: {fileID: 1834928194}
     board: {fileID: 1834928195}
     click: {fileID: 1834928196}
+    logic: {fileID: 1834928197}
 --- !u!1 &687159587
 GameObject:
   m_ObjectHideFlags: 0
@@ -981,6 +982,7 @@ GameObject:
   - component: {fileID: 1834928194}
   - component: {fileID: 1834928195}
   - component: {fileID: 1834928196}
+  - component: {fileID: 1834928197}
   m_Layer: 0
   m_Name: controller
   m_TagString: Untagged
@@ -1032,6 +1034,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c1eaab14d16b28140ac1635ed352ed61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1834928197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1834928192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2439f70ea0f056b4d91ec57c7b8cd56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1879820772

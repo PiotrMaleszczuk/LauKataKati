@@ -11,5 +11,6 @@ public class GameController : MonoBehaviour {
         app = App.Instance;
         app.controller.board.Init();
         app.controller.click.Init();
+		app.controller.logic.Init();
 	}
 }
