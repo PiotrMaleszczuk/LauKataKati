@@ -10,5 +10,6 @@ public class GameController : MonoBehaviour {
 	void Awake(){
         app = App.Instance;
         app.controller.board.Init();
+        app.controller.click.Init();
 	}
 }

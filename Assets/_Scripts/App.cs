@@ -22,6 +22,7 @@ public class App : MonoBehaviour {
     public class Controller {
 		public GameController game;
         public BoardController board;
+        public ClickController click;
     }
 
     public Model model;

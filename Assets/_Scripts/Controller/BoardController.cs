@@ -50,6 +50,7 @@ public class BoardController : MonoBehaviour {
                             pawn.name = "Pawn " + iterPawn;
                             pawn.transform.SetParent(boardTransform);
                             pawn.transform.localPosition = new Vector3(pointArray[iterPos].localPosition.x, pointArray[iterPos].localPosition.y, 0f);
+                            pawn.AddComponent<CircleCollider2D>();
                             pawnsArray[iterPawn] = pawn;
                             PawnScript pawnScript = pawnsArray[iterPawn].GetComponent<PawnScript>();
                             pawnScript.id = iterPawn;
@@ -65,6 +66,7 @@ public class BoardController : MonoBehaviour {
                             pawn.name = "Pawn " + iterPawn;
                             pawn.transform.SetParent(boardTransform);
                             pawn.transform.localPosition = new Vector3(pointArray[iterPos].localPosition.x, pointArray[iterPos].localPosition.y, 0f);
+                            pawn.AddComponent<CircleCollider2D>();
                             pawnsArray[iterPawn] = pawn;
                             PawnScript pawnScript = pawnsArray[iterPawn].GetComponent<PawnScript>();
                             pawnScript.id = iterPawn;
@@ -81,5 +83,9 @@ public class BoardController : MonoBehaviour {
             boardString += "\n";
         }
         print(boardString);
+    }
+
+    public void Click(int team, int matrix_x, int matrix_y) {
+        print("team: " + team + " x: " + matrix_x + " y: " + matrix_y);
     }
 }
