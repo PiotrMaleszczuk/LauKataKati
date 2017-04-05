@@ -89,11 +89,9 @@ public class BoardController : MonoBehaviour {
         print("team: " + team + " x: " + matrix_x + " y: " + matrix_y);
 		List<int[]> tmp = new List<int[]> ();
 		tmp = app.controller.logic.checking (team, matrix_x, matrix_y, board, false);
-		print ("Przemko");
 		for(int i=0; i<tmp.Count;i++) {
-			print ("x: " + tmp[i][0] + " y: " +tmp[i][1]);
+			print ("Logic = x: " + tmp[i][0] + " y: " +tmp[i][1]);
 		}
-		print ("Przemko end");
 
     }
 }

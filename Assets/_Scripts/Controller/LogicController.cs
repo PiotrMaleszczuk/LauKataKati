@@ -38,10 +38,10 @@ public class LogicController : MonoBehaviour {
 			extension_check (1, 1);
 
 		if (mtx_x == 2 && mtx_y == 2)
-			extension_check (1, -1);
+			extension_check (-1, 1);
 
 		if (mtx_x == 0 && mtx_y == 4)
-			extension_check (-1, -1);
+			extension_check (1, -1);
 
 		if (mtx_x == 2 && mtx_y == 4)
 			extension_check (-1, -1);
@@ -57,21 +57,17 @@ public class LogicController : MonoBehaviour {
 
 		//klasyczne sprawdzenie
 		for (int i = -1; i < 2; i += 2) {
-			if (mtx_x + i >= 0 && mtx_x + i <= 6) {
+			if (mtx_x + i >= 0 && mtx_x + i <= 2) {
 				extension_check (i, 0);
 			}
-			if (mtx_y + i >= 0 && mtx_y + i <= 2) {
+			if (mtx_y + i >= 0 && mtx_y + i <= 6) {
 				extension_check (0, i);
 			}
 		}
-		print ("elo");
-
 		//przydaloby sie rowniez odeslac flage "capture"
 		if (this.capture) {
-			print (capture_moves_list.Count);
 			return capture_moves_list;
 		} else {
-			print (normal_moves_list.Count);
 			return normal_moves_list;
 		}
 	}
