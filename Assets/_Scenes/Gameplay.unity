@@ -428,6 +428,7 @@ MonoBehaviour:
   model:
     pawn1: {fileID: 1581128880225810, guid: 6d33a63bda5c5ac4dacd8cc43d8899cc, type: 2}
     pawn2: {fileID: 1580604609598030, guid: 4a28e8926546c7e479fdf1eeeb266691, type: 2}
+    pawn0: {fileID: 1468509241309004, guid: e0c82c5e96ac5af40bd25e9ca005ef85, type: 2}
   view:
     points: {fileID: 1624816899}
     board: {fileID: 1044893567}
@@ -1047,6 +1048,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2439f70ea0f056b4d91ec57c7b8cd56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  capture: 0
 --- !u!1 &1879820772
 GameObject:
   m_ObjectHideFlags: 0
