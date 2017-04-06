@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 //using UnityEngine.Advertisements;
 using System;
 
@@ -22,6 +23,8 @@ public class MenuController : MonoBehaviour {
 	private const string SHOP_TO_MAIN_TRIGGER = "ShopToMain";
 	private const string OPTIONS_TO_MAIN_TRIGGER = "OptionsToMain";
 
+	private const string SCENE_GAMEPLAY = "Gameplay";
+
 	public Animator animator;
 
 	// All Buttons in scene Menu
@@ -40,7 +43,7 @@ public class MenuController : MonoBehaviour {
 	}
 
 	public void StartGame(){
-		print ("TODO: StartGame");
+		SceneManager.LoadScene (SCENE_GAMEPLAY);
 	}
 
 	public void GoToShop(){

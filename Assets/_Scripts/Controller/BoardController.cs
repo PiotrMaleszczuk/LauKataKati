@@ -62,6 +62,7 @@ public class BoardController : MonoBehaviour
 				empty_position.transform.SetParent (emptyTransform);
 				empty_position.transform.localPosition = new Vector3 (pointArray [iterPos].localPosition.x, pointArray [iterPos].localPosition.y, 1);
 				empty_position.AddComponent<CircleCollider2D> ();
+				empty_position.GetComponent<CircleCollider2D> ().radius = 1.25f;
 				emptyArray [iterPos] = empty_position;
 				PawnScript emptyScript = emptyArray [iterPos].GetComponent<PawnScript> ();
 				emptyScript.id = iterPos;
