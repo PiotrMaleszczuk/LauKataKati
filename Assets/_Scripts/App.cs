@@ -11,6 +11,7 @@ public class App : MonoBehaviour {
         public Transform points;
         public Transform board;
         public Transform empty;
+        public Transform glow;
     }
 
     [Serializable]
@@ -18,6 +19,7 @@ public class App : MonoBehaviour {
         public GameObject pawn1;
         public GameObject pawn2;
         public GameObject empty;
+        public GameObject glows;
     }
 
     [Serializable]
@@ -26,6 +28,7 @@ public class App : MonoBehaviour {
         public BoardController board;
         public ClickController click;
 		public LogicController logic;
+        public GlowController glow;
     }
 
     public Model model;

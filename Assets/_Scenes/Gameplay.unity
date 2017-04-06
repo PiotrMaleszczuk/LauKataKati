@@ -119,6 +119,34 @@ Transform:
   m_Father: {fileID: 1624816899}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &327033413
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 327033414}
+  m_Layer: 0
+  m_Name: GlowPositions
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &327033414
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 327033413}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1602083696}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &444656545
 GameObject:
   m_ObjectHideFlags: 0
@@ -429,15 +457,18 @@ MonoBehaviour:
     pawn1: {fileID: 1581128880225810, guid: 6d33a63bda5c5ac4dacd8cc43d8899cc, type: 2}
     pawn2: {fileID: 1580604609598030, guid: 4a28e8926546c7e479fdf1eeeb266691, type: 2}
     empty: {fileID: 1468509241309004, guid: e0c82c5e96ac5af40bd25e9ca005ef85, type: 2}
+    glows: {fileID: 1466278327674106, guid: 0fc9c699f73cbe14cb21c74d7b62ba2d, type: 2}
   view:
     points: {fileID: 1624816899}
     board: {fileID: 1044893567}
     empty: {fileID: 1460438956}
+    glow: {fileID: 327033414}
   controller:
     game: {fileID: 1834928194}
     board: {fileID: 1834928195}
     click: {fileID: 1834928196}
     logic: {fileID: 1834928197}
+    glow: {fileID: 1834928198}
 --- !u!1 &687159587
 GameObject:
   m_ObjectHideFlags: 0
@@ -860,6 +891,7 @@ Transform:
   - {fileID: 524425621}
   - {fileID: 1044893567}
   - {fileID: 1460438956}
+  - {fileID: 327033414}
   m_Father: {fileID: 586250971}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1014,6 +1046,7 @@ GameObject:
   - component: {fileID: 1834928195}
   - component: {fileID: 1834928196}
   - component: {fileID: 1834928197}
+  - component: {fileID: 1834928198}
   m_Layer: 0
   m_Name: controller
   m_TagString: Untagged
@@ -1056,6 +1089,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f142c73f0868c34492831b6d7edc7ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  boardTransform: {fileID: 0}
 --- !u!114 &1834928196
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1079,6 +1113,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   capture: 0
+--- !u!114 &1834928198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1834928192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a184bf4e04f94a44bb8e1cadea5dac9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1879820772
 GameObject:
   m_ObjectHideFlags: 0

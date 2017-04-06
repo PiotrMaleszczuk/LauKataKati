@@ -12,5 +12,6 @@ public class GameController : MonoBehaviour {
         app.controller.board.Init();
         app.controller.click.Init();
 		app.controller.logic.Init();
+        app.controller.glow.Init();
 	}
 }
