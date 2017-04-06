@@ -8,28 +8,33 @@ public class BoardController : MonoBehaviour
 	private App app;
 	private GameObject pawn1;
 	private GameObject pawn2;
-    private GameObject pawn0;
+    private GameObject empty;
 
 	private int[][] board;
 	private Transform[] pointArray;
 	private Transform points;
 	private GameObject[] pawnsArray;
 	private Transform boardTransform;
+    private Transform emptyTransform;
+
+    private GameObject[] emptyArray;
 
 	public void Init ()
 	{
 		app = App.Instance;
 		board = new int[3][];
 		boardTransform = app.view.board;
+        emptyTransform = app.view.empty;
 		pawn1 = app.model.pawn1;
 		pawn2 = app.model.pawn2;
-        pawn0 = app.model.pawn0;
+        empty = app.model.empty;
 		points = app.view.points;
 		string boardString = "";
 		pointArray = new Transform[points.childCount];
 		pawnsArray = new GameObject[points.childCount];
+        emptyArray = new GameObject[points.childCount];
 
-		for (int i = 0; i < points.childCount; i++) {
+        for (int i = 0; i < points.childCount; i++) {
 			pointArray [i] = points.GetChild (i);
 		}
 
@@ -38,66 +43,67 @@ public class BoardController : MonoBehaviour
 		for (int i = 0; i < board.Length; i++) {
 			board [i] = new int[7];
 			for (int j = 0; j < board [i].Length; j++) {
-				if (i == 1 && j == 3) {
-                    GameObject pawn = Instantiate(pawn0);
-                    pawn.name = "Pawn " + iterPawn;
-                    pawn.transform.SetParent(boardTransform);
-                    pawn.transform.localPosition = new Vector3(pointArray[iterPos].localPosition.x, pointArray[iterPos].localPosition.y, 0f);
-                    pawn.AddComponent<CircleCollider2D>();
-                    pawnsArray[iterPawn] = pawn;
-                    PawnScript pawnScript = pawnsArray[iterPawn].GetComponent<PawnScript>();
-                    pawnScript.id = iterPawn;
-                    pawnScript.team = 0;
-                    pawnScript.matrix_x = i;
-                    pawnScript.matrix_y = j;
-                    iterPawn++;
+                GameObject empty_position = Instantiate(empty);
+                empty_position.name = " " + iterPos;
+                empty_position.transform.SetParent(emptyTransform);
+                empty_position.transform.localPosition = new Vector3(pointArray[iterPos].localPosition.x, pointArray[iterPos].localPosition.y, 1);
+                empty_position.AddComponent<CircleCollider2D>();
+                emptyArray[iterPos] = empty_position;
+                PawnScript emptyScript = emptyArray[iterPos].GetComponent<PawnScript>();
+                emptyScript.id = iterPos;
+                emptyScript.team = 0;
+                emptyScript.matrix_x = i;
+                emptyScript.matrix_y = j;
+
+                if (i == 1 && j == 3) {
+                    board[i][j] = 0;
+                    boardString += board[i][j];
                     iterPos++;
+                }
+                else if (i % 2 == 0 && j == 3) {
+                    board[i][j] = -1;
+                    boardString += board[i][j];
                 } else {
-					if (i % 2 == 0 && j == 3) {
-						board [i] [j] = -1;
-						boardString += board [i] [j];
-					} else {
-						if (i == 1 && j == 1) {
-							board [i] [j] = 0;
-							boardString += board [i] [j];
-							iterPos++;
-						} else {
-							if (j <= 2) {
-								board [i] [j] = 1;
-								boardString += board [i] [j];
-								GameObject pawn = Instantiate (pawn1);
-								pawn.name = "Pawn " + iterPawn;
-								pawn.transform.SetParent (boardTransform);
-								pawn.transform.localPosition = new Vector3 (pointArray [iterPos].localPosition.x, pointArray [iterPos].localPosition.y, 0f);
-								pawn.AddComponent<CircleCollider2D> ();
-								pawnsArray [iterPawn] = pawn;
-								PawnScript pawnScript = pawnsArray [iterPawn].GetComponent<PawnScript> ();
-								pawnScript.id = iterPawn;
-								pawnScript.team = 1;
-								pawnScript.matrix_x = i;
-								pawnScript.matrix_y = j;
-								iterPawn++;
-								iterPos++;
-							} else {
-								board [i] [j] = 2;
-								boardString += board [i] [j];
-								GameObject pawn = Instantiate (pawn2);
-								pawn.name = "Pawn " + iterPawn;
-								pawn.transform.SetParent (boardTransform);
-								pawn.transform.localPosition = new Vector3 (pointArray [iterPos].localPosition.x, pointArray [iterPos].localPosition.y, 0f);
-								pawn.AddComponent<CircleCollider2D> ();
-								pawnsArray [iterPawn] = pawn;
-								PawnScript pawnScript = pawnsArray [iterPawn].GetComponent<PawnScript> ();
-								pawnScript.id = iterPawn;
-								pawnScript.team = 2;
-								pawnScript.matrix_x = i;
-								pawnScript.matrix_y = j;
-								iterPawn++;
-								iterPos++;
-							}
-						}
-					}
-				}
+                    if (i == 1 && j == 1) {
+                        board[i][j] = 0;
+                        boardString += board[i][j];
+                        iterPos++;
+                    } else {
+                        if (j <= 2) {
+                            board[i][j] = 1;
+                            boardString += board[i][j];
+                            GameObject pawn = Instantiate(pawn1);
+                            pawn.name = "Pawn " + iterPawn;
+                            pawn.transform.SetParent(boardTransform);
+                            pawn.transform.localPosition = new Vector3(pointArray[iterPos].localPosition.x, pointArray[iterPos].localPosition.y, 0f);
+                            pawn.AddComponent<CircleCollider2D>();
+                            pawnsArray[iterPawn] = pawn;
+                            PawnScript pawnScript = pawnsArray[iterPawn].GetComponent<PawnScript>();
+                            pawnScript.id = iterPawn;
+                            pawnScript.team = 1;
+                            pawnScript.matrix_x = i;
+                            pawnScript.matrix_y = j;
+                            iterPawn++;
+                            iterPos++;
+                        } else {
+                            board[i][j] = 2;
+                            boardString += board[i][j];
+                            GameObject pawn = Instantiate(pawn2);
+                            pawn.name = "Pawn " + iterPawn;
+                            pawn.transform.SetParent(boardTransform);
+                            pawn.transform.localPosition = new Vector3(pointArray[iterPos].localPosition.x, pointArray[iterPos].localPosition.y, 0f);
+                            pawn.AddComponent<CircleCollider2D>();
+                            pawnsArray[iterPawn] = pawn;
+                            PawnScript pawnScript = pawnsArray[iterPawn].GetComponent<PawnScript>();
+                            pawnScript.id = iterPawn;
+                            pawnScript.team = 2;
+                            pawnScript.matrix_x = i;
+                            pawnScript.matrix_y = j;
+                            iterPawn++;
+                            iterPos++;
+                        }
+                    }
+                }
 				boardString += " ";
 			}
 			boardString += "\n";

@@ -10,13 +10,14 @@ public class App : MonoBehaviour {
     public class View {
         public Transform points;
         public Transform board;
+        public Transform empty;
     }
 
     [Serializable]
     public class Model {
         public GameObject pawn1;
         public GameObject pawn2;
-        public GameObject pawn0;
+        public GameObject empty;
     }
 
     [Serializable]

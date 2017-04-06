@@ -428,10 +428,11 @@ MonoBehaviour:
   model:
     pawn1: {fileID: 1581128880225810, guid: 6d33a63bda5c5ac4dacd8cc43d8899cc, type: 2}
     pawn2: {fileID: 1580604609598030, guid: 4a28e8926546c7e479fdf1eeeb266691, type: 2}
-    pawn0: {fileID: 1468509241309004, guid: e0c82c5e96ac5af40bd25e9ca005ef85, type: 2}
+    empty: {fileID: 1468509241309004, guid: e0c82c5e96ac5af40bd25e9ca005ef85, type: 2}
   view:
     points: {fileID: 1624816899}
     board: {fileID: 1044893567}
+    empty: {fileID: 1460438956}
   controller:
     game: {fileID: 1834928194}
     board: {fileID: 1834928195}
@@ -745,6 +746,34 @@ Transform:
   m_Father: {fileID: 1624816899}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1460438955
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1460438956}
+  m_Layer: 0
+  m_Name: EmptyPositions
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1460438956
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1460438955}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1602083696}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1460927732
 GameObject:
   m_ObjectHideFlags: 0
@@ -830,6 +859,7 @@ Transform:
   - {fileID: 1624816899}
   - {fileID: 524425621}
   - {fileID: 1044893567}
+  - {fileID: 1460438956}
   m_Father: {fileID: 586250971}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
