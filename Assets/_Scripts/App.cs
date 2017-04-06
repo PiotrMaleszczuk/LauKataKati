@@ -16,6 +16,7 @@ public class App : MonoBehaviour {
     public class Model {
         public GameObject pawn1;
         public GameObject pawn2;
+        public GameObject pawn0;
     }
 
     [Serializable]

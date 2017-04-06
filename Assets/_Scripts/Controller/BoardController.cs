@@ -8,6 +8,7 @@ public class BoardController : MonoBehaviour
 	private App app;
 	private GameObject pawn1;
 	private GameObject pawn2;
+    private GameObject pawn0;
 
 	private int[][] board;
 	private Transform[] pointArray;
@@ -22,10 +23,11 @@ public class BoardController : MonoBehaviour
 		boardTransform = app.view.board;
 		pawn1 = app.model.pawn1;
 		pawn2 = app.model.pawn2;
+        pawn0 = app.model.pawn0;
 		points = app.view.points;
 		string boardString = "";
 		pointArray = new Transform[points.childCount];
-		pawnsArray = new GameObject[points.childCount - 1];
+		pawnsArray = new GameObject[points.childCount];
 
 		for (int i = 0; i < points.childCount; i++) {
 			pointArray [i] = points.GetChild (i);
@@ -37,10 +39,20 @@ public class BoardController : MonoBehaviour
 			board [i] = new int[7];
 			for (int j = 0; j < board [i].Length; j++) {
 				if (i == 1 && j == 3) {
-					board [i] [j] = 0;
-					boardString += board [i] [j];
-					iterPos++;
-				} else {
+                    GameObject pawn = Instantiate(pawn0);
+                    pawn.name = "Pawn " + iterPawn;
+                    pawn.transform.SetParent(boardTransform);
+                    pawn.transform.localPosition = new Vector3(pointArray[iterPos].localPosition.x, pointArray[iterPos].localPosition.y, 0f);
+                    pawn.AddComponent<CircleCollider2D>();
+                    pawnsArray[iterPawn] = pawn;
+                    PawnScript pawnScript = pawnsArray[iterPawn].GetComponent<PawnScript>();
+                    pawnScript.id = iterPawn;
+                    pawnScript.team = 0;
+                    pawnScript.matrix_x = i;
+                    pawnScript.matrix_y = j;
+                    iterPawn++;
+                    iterPos++;
+                } else {
 					if (i % 2 == 0 && j == 3) {
 						board [i] [j] = -1;
 						boardString += board [i] [j];
@@ -50,7 +62,6 @@ public class BoardController : MonoBehaviour
 							boardString += board [i] [j];
 							iterPos++;
 						} else {
-
 							if (j <= 2) {
 								board [i] [j] = 1;
 								boardString += board [i] [j];
@@ -94,17 +105,14 @@ public class BoardController : MonoBehaviour
 		print (boardString);
 	}
 
-	public void Click (int team, int matrix_x, int matrix_y)
-	{
-		print ("team: " + team + " x: " + matrix_x + " y: " + matrix_y);
-		List<int[]> tmp = new List<int[]> ();
-		do {
-			tmp = app.controller.logic.checking (team, matrix_x, matrix_y, board);
-			for (int i = 0; i < tmp.Count; i++) {
-				print ("Logic = x: " + tmp [i] [0] + " y: " + tmp [i] [1]);
-			}
-
-		} while (app.controller.logic.capture);
-			
+	public void Click (int team, int matrix_x, int matrix_y){
+        print("team: " + team + " x: " + matrix_x + " y: " + matrix_y);
+        if (team != 0) {
+            List<int[]> tmp = new List<int[]>();
+            tmp = app.controller.logic.checking(team, matrix_x, matrix_y, board);
+            for (int i = 0; i < tmp.Count; i++) {
+                print("Logic = x: " + tmp[i][0] + " y: " + tmp[i][1]);
+            }
+        }
 	}
 }
