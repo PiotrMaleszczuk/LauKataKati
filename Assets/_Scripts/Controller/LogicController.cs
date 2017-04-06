@@ -85,13 +85,15 @@ public class LogicController : MonoBehaviour
 					capture_moves_list.Add (tmp_array);
 					capture = true;
 				}
-			} else if (board [mtx_x + x_it + x_it] [mtx_y + y_it + y_it] == 0) {
-				//dodaj do listy mozliwych bic
-				int[] tmp_array = new int[2];
-				tmp_array [0] = mtx_x + x_it + x_it;
-				tmp_array [1] = mtx_y + y_it + y_it;
-				capture_moves_list.Add (tmp_array);
-				capture = true;
+			} else if (mtx_x + x_it + x_it >= 0 && mtx_x + x_it + x_it <= 2 && mtx_y + y_it + y_it >= 0 && mtx_y + y_it + y_it <= 6) {
+				if (board [mtx_x + x_it + x_it] [mtx_y + y_it + y_it] == 0) {
+					//dodaj do listy mozliwych bic
+					int[] tmp_array = new int[2];
+					tmp_array [0] = mtx_x + x_it + x_it;
+					tmp_array [1] = mtx_y + y_it + y_it;
+					capture_moves_list.Add (tmp_array);
+					capture = true;
+				}
 			}
 		} else if (!capture) {
 			if (board [mtx_x + x_it] [mtx_y + y_it] == 0) {
