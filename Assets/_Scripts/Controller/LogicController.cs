@@ -2,27 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LogicController : MonoBehaviour {
+public class LogicController : MonoBehaviour
+{
 	private int[][] board;
-	private bool capture;
 	private int enemy_team;
 	private int mtx_x, mtx_y;
+	public bool capture;
+	List<int[]> capture_moves_list;
+	List<int[]> normal_moves_list;
 
-	private List<int[]> capture_moves_list;
-	private List<int[]> normal_moves_list;
-
-	public void Init()
+	public void Init ()
 	{
 		capture_moves_list = new List<int[]> ();
 		normal_moves_list = new List<int[]> ();
-
+		capture = false;
 	}
-		
 
-	public List<int[]> checking(int team, int mtx_x, int mtx_y, int[][] board, bool capture)
+
+	public List<int[]> checking (int team, int mtx_x, int mtx_y, int[][] board)
 	{
 		this.board = board;
-		this.capture = capture;
 		this.mtx_x = mtx_x;
 		this.mtx_y = mtx_y;
 		capture_moves_list.Clear ();
@@ -66,20 +65,31 @@ public class LogicController : MonoBehaviour {
 		}
 		//przydaloby sie rowniez odeslac flage "capture"
 		if (this.capture) {
+			if (capture_moves_list.Count == 0)
+				capture = false;
 			return capture_moves_list;
 		} else {
 			return normal_moves_list;
 		}
 	}
 
-	private void extension_check(int x_it, int y_it)
+	private void extension_check (int x_it, int y_it)
 	{
 		if (board [mtx_x + x_it] [mtx_y + y_it] == enemy_team) {
-			if (board [mtx_x + x_it + x_it] [mtx_y + y_it + y_it] == 0) {
+			if (mtx_x == 1 && mtx_y == 3) {
+				if (board [mtx_x + x_it] [mtx_y + y_it + y_it] == 0) {
+					//dodaj do listy mozliwych bic
+					int[] tmp_array = new int[2];
+					tmp_array [0] = mtx_x + x_it;
+					tmp_array [1] = mtx_y + y_it + y_it;
+					capture_moves_list.Add (tmp_array);
+					capture = true;
+				}
+			} else if (board [mtx_x + x_it + x_it] [mtx_y + y_it + y_it] == 0) {
 				//dodaj do listy mozliwych bic
 				int[] tmp_array = new int[2];
-				tmp_array [0] = mtx_x + x_it;
-				tmp_array [1] = mtx_y + y_it;
+				tmp_array [0] = mtx_x + x_it + x_it;
+				tmp_array [1] = mtx_y + y_it + y_it;
 				capture_moves_list.Add (tmp_array);
 				capture = true;
 			}
