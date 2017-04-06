@@ -1,5 +1,5 @@
-lastUpgrade=00934
-proj.pluginVersion=0.9.34
+lastUpgrade=00937
+proj.pluginVersion=0.9.37
 proj.AppId=627254920907
 and.BundleId=com.codeaddict.gamebase
 proj.classDir=Assets
