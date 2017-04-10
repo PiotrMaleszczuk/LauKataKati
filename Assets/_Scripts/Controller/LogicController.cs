@@ -7,6 +7,7 @@ public class LogicController : MonoBehaviour
 	private int[][] board;
 	private int enemy_team;
 	private int mtx_x, mtx_y;
+    [HideInInspector]
 	public bool capture;
 	List<int[]> capture_moves_list;
 	List<int[]> normal_moves_list;

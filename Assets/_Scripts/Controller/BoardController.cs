@@ -26,10 +26,19 @@ public class BoardController : MonoBehaviour
 
 	private GlowController glowController;
 
-	PawnScript ps_chosen;
-	List<int[]> moves_list;
+	private PawnScript ps_chosen;
+	private List<int[]> moves_list;
 
-	public void Init ()
+    public GameObject[] GetPawnsArray()
+    {
+        return pawnsArray;
+    }
+    public int[][] GetBoard()
+    {
+        return board;
+    }
+
+    public void Init ()
 	{
 		app = App.Instance;
 		board = new int[3][];
@@ -44,7 +53,7 @@ public class BoardController : MonoBehaviour
 		points = app.view.points;
 		string boardString = "";
 		pointArray = new Transform[points.childCount];
-		pawnsArray = new GameObject[points.childCount];
+		pawnsArray = new GameObject[points.childCount-1];
 		emptyArray = new GameObject[points.childCount];
 		glowsArray = new GameObject[points.childCount];
 
@@ -133,9 +142,13 @@ public class BoardController : MonoBehaviour
 
 	public void Click (PawnScript pawnScript)
 	{
-		print ("team: " + pawnScript.team + " x: " + pawnScript.matrix_x + " y: " + pawnScript.matrix_y);
-        if (ps_chosen == null && pawnScript.team != 0)
+		print ("Clicked - team: " + pawnScript.team + " x: " + pawnScript.matrix_x + " y: " + pawnScript.matrix_y);
+        if (ps_chosen == null && pawnScript.team == app.controller.game.GetTurn())
         {
+            if (app.controller.game.GetCaptureAvailable() != pawnScript.canCapture) {
+                print("CaptureAvailable!");
+                return;
+            }
             ps_chosen = pawnScript;
             print("Chosen pawn: " + ps_chosen.id);
             moves_list = app.controller.logic.checking(pawnScript.team, pawnScript.matrix_x, pawnScript.matrix_y, board);
@@ -145,7 +158,7 @@ public class BoardController : MonoBehaviour
             }
             glowController.Glowing(ps_chosen, moves_list);
         }
-        else if (ps_chosen == pawnScript && pawnScript.team != 0)
+        else if (ps_chosen == pawnScript)
         {
             print("Unchosen pawn: " + pawnScript.id);
             ps_chosen = null;
@@ -193,6 +206,7 @@ public class BoardController : MonoBehaviour
                     {
                         moves_list.Clear();
                         ps_chosen = null;
+                        app.controller.game.ChangeTurn();
 
                     }
                     else

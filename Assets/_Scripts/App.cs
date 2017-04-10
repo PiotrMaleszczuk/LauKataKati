@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class App : MonoBehaviour {
 	
@@ -20,6 +21,7 @@ public class App : MonoBehaviour {
         public GameObject pawn2;
         public GameObject empty;
         public GameObject glows;
+        public Text turnText;
     }
 
     [Serializable]

@@ -41,7 +41,6 @@ public class GlowController : MonoBehaviour
 
 	public void Glowing (PawnScript pS, List<int[]> moves_list)
 	{
-		print (pS.matrix_x + "  " + pS.matrix_y);
 		List<int[]> moves;
 		moves = new List<int[]> ();
 		for (int i = 0; i < moves_list.Count; i++) {

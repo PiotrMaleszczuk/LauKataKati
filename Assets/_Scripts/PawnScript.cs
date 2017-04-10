@@ -8,6 +8,7 @@ public class PawnScript : MonoBehaviour {
 	public int team;
 	public int matrix_x;
 	public int matrix_y;
+    public bool canCapture = false;
 	// Use this for initialization
 	public void Init ()
 	{
