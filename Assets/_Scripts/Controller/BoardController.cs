@@ -134,46 +134,74 @@ public class BoardController : MonoBehaviour
 	public void Click (PawnScript pawnScript)
 	{
 		print ("team: " + pawnScript.team + " x: " + pawnScript.matrix_x + " y: " + pawnScript.matrix_y);
-		if (ps_chosen == null && pawnScript.team != 0) {
-			ps_chosen = pawnScript;
-			print ("Chosen pawn: " + ps_chosen.id);
-			moves_list = app.controller.logic.checking (pawnScript.team, pawnScript.matrix_x, pawnScript.matrix_y, board);
-			for (int i = 0; i < moves_list.Count; i++) {
-				print ("Logic = x: " + moves_list [i] [0] + " y: " + moves_list [i] [1]);
-			}
-			glowController.Glowing (ps_chosen, moves_list);
-		} else if (ps_chosen == pawnScript && pawnScript.team != 0) {
-			print ("Unchosen pawn: " + pawnScript.id);
-			ps_chosen = null;
-			moves_list.Clear ();
-			glowController.DisableGlows ();
-		} else if (pawnScript.team == 0 && ps_chosen != null) {
-			for (int i = 0; i < moves_list.Count; i++) {
-				if (pawnScript.matrix_x == moves_list [i] [0] && pawnScript.matrix_y == moves_list [i] [1]) {
-					if (app.controller.logic.capture) {
-						int captured_x = ps_chosen.matrix_x + (pawnScript.matrix_x - ps_chosen.matrix_x) / 2;
-						int captured_y = ps_chosen.matrix_y + (pawnScript.matrix_y - ps_chosen.matrix_y) / 2;
-						for (int j = 0; i < pawnsArray.Length; j++) {
-							PawnScript ps_captured = pawnsArray [j].GetComponent<PawnScript> ();
-							if (ps_captured.matrix_x == captured_x && ps_captured.matrix_y == captured_y) {
-								ps_captured.gameObject.SetActive (false);
-								board [captured_x] [captured_y] = 0;
-								break;
-							}
-						}
-					}
-					board [ps_chosen.matrix_x] [ps_chosen.matrix_y] = 0;
-					ps_chosen.transform.localPosition = new Vector3 (pawnScript.transform.localPosition.x, pawnScript.transform.localPosition.y, 0f);
-					board [pawnScript.matrix_x] [pawnScript.matrix_y] = ps_chosen.team;
-					ps_chosen.matrix_x = pawnScript.matrix_x;
-					ps_chosen.matrix_y = pawnScript.matrix_y;
-					ps_chosen = null;
-					moves_list.Clear ();
-					glowController.DisableGlows ();
-					break;
+        if (ps_chosen == null && pawnScript.team != 0)
+        {
+            ps_chosen = pawnScript;
+            print("Chosen pawn: " + ps_chosen.id);
+            moves_list = app.controller.logic.checking(pawnScript.team, pawnScript.matrix_x, pawnScript.matrix_y, board);
+            for (int i = 0; i < moves_list.Count; i++)
+            {
+                print("Logic = x: " + moves_list[i][0] + " y: " + moves_list[i][1]);
+            }
+            glowController.Glowing(ps_chosen, moves_list);
+        }
+        else if (ps_chosen == pawnScript && pawnScript.team != 0)
+        {
+            print("Unchosen pawn: " + pawnScript.id);
+            ps_chosen = null;
+            app.controller.logic.capture = false;
+            moves_list.Clear();
+            glowController.DisableGlows();
+        }
+        else if (pawnScript.team == 0 && ps_chosen != null)
+        {
+            for (int i = 0; i < moves_list.Count; i++)
+            {
+                if (pawnScript.matrix_x == moves_list[i][0] && pawnScript.matrix_y == moves_list[i][1])
+                {
+                    if (app.controller.logic.capture)
+                    {
+                        int captured_x;
+                        if (ps_chosen.matrix_x == 1)
+                            captured_x = pawnScript.matrix_x;
+                        else if (pawnScript.matrix_x == 1)
+                            captured_x = ps_chosen.matrix_x;
+                        else
+                            captured_x = ps_chosen.matrix_x + (pawnScript.matrix_x - ps_chosen.matrix_x) / 2;
+                        int captured_y = ps_chosen.matrix_y + (pawnScript.matrix_y - ps_chosen.matrix_y) / 2;
+                        for (int j = 0; j < pawnsArray.Length; j++)
+                        {
+                            PawnScript ps_captured = pawnsArray[j].GetComponent<PawnScript>();
+                            if (ps_captured.matrix_x == captured_x && ps_captured.matrix_y == captured_y)
+                            {
+                                ps_captured.matrix_x = -1;
+                                ps_captured.matrix_y = -1;
+                                ps_captured.gameObject.SetActive(false);
+                                board[captured_x][captured_y] = 0;
+                                break;
+                            }
+                        }
+                        moves_list = app.controller.logic.checking(ps_chosen.team, pawnScript.matrix_x, pawnScript.matrix_y, board);
+                    }
+                    board[ps_chosen.matrix_x][ps_chosen.matrix_y] = 0;
+                    ps_chosen.matrix_x = pawnScript.matrix_x;
+                    ps_chosen.matrix_y = pawnScript.matrix_y;
+                    ps_chosen.transform.localPosition = new Vector3(pawnScript.transform.localPosition.x, pawnScript.transform.localPosition.y, 0f);
+                    board[pawnScript.matrix_x][pawnScript.matrix_y] = ps_chosen.team;
+                    glowController.DisableGlows();
+                    if (!app.controller.logic.capture)
+                    {
+                        moves_list.Clear();
+                        ps_chosen = null;
 
-				}
-			}
-		}
+                    }
+                    else
+                    {
+                        glowController.Glowing(ps_chosen, moves_list);
+                    }
+                    break;
+                }
+            }
+        }
 	}
 }
