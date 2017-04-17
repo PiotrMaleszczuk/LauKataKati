@@ -4,6 +4,7 @@ Lau Kata Kati game - project by Ł. Błaszczak, P. Burdelak, P. Maleszczuk
 Sprawozdanie
 
 Postep pracy - co udalo sie zrobic, co zostaje do zrobienia
+
 format PDF
 Przynieść na zajęcia na pendrive
 
