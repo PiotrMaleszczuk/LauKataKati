@@ -57,6 +57,7 @@ public class GlowController : MonoBehaviour
 
 				if (pS.matrix_x == i && pS.matrix_y == j) {
 					glowsArray [iter].GetComponent<SpriteRenderer> ().color = BLUE;
+					glowsArray [iter].transform.localScale = new Vector3 (1f, 1f, 1f);
 					iter++;
 					continue;
 				}
@@ -64,6 +65,7 @@ public class GlowController : MonoBehaviour
 				for (int k = 0; k < moves.Count; k++) {
 					if (moves [k] [0] == i && moves [k] [1] == j) {
 						glowsArray [iter].GetComponent<SpriteRenderer> ().color = GREEN;
+						glowsArray [iter].transform.localScale = new Vector3 (0.75f, 0.75f, 1f);
 						moves.RemoveAt (k);
 						break;
 					}
