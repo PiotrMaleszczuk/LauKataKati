@@ -459,7 +459,6 @@ MonoBehaviour:
     pawn2: {fileID: 1580604609598030, guid: 4a28e8926546c7e479fdf1eeeb266691, type: 2}
     empty: {fileID: 1468509241309004, guid: e0c82c5e96ac5af40bd25e9ca005ef85, type: 2}
     glows: {fileID: 1466278327674106, guid: 0fc9c699f73cbe14cb21c74d7b62ba2d, type: 2}
-    turnText: {fileID: 1133510491}
   view:
     points: {fileID: 1624816899}
     board: {fileID: 1044893567}
@@ -471,6 +470,7 @@ MonoBehaviour:
     click: {fileID: 1834928196}
     logic: {fileID: 1834928197}
     glow: {fileID: 1834928198}
+    turns: {fileID: 1834928199}
 --- !u!1 &687159587
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,8 +671,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -0.00013477, y: -490}
-  m_SizeDelta: {x: 353.96, y: 100}
+  m_AnchoredPosition: {x: 0, y: -410}
+  m_SizeDelta: {x: 483, y: 265}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1133510491
 MonoBehaviour:
@@ -706,7 +706,10 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Turn: Player'
+  m_Text: 'Turn: Player
+
+
+    Score: 0 | 0'
 --- !u!222 &1133510492
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1123,6 +1126,7 @@ GameObject:
   - component: {fileID: 1834928196}
   - component: {fileID: 1834928197}
   - component: {fileID: 1834928198}
+  - component: {fileID: 1834928199}
   m_Layer: 0
   m_Name: controller
   m_TagString: Untagged
@@ -1200,6 +1204,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a184bf4e04f94a44bb8e1cadea5dac9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1834928199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1834928192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95b172b88b3159d4d850e6a2b7bd78ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnText: {fileID: 1133510491}
 --- !u!1 &1879820772
 GameObject:
   m_ObjectHideFlags: 0

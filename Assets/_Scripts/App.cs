@@ -1,7 +1,6 @@
 ﻿using System;
 using UnityEngine;
 using System.Collections;
-using UnityEngine.UI;
 
 public class App : MonoBehaviour {
 	
@@ -21,7 +20,6 @@ public class App : MonoBehaviour {
         public GameObject pawn2;
         public GameObject empty;
         public GameObject glows;
-        public Text turnText;
     }
 
     [Serializable]
@@ -31,6 +29,7 @@ public class App : MonoBehaviour {
         public ClickController click;
 		public LogicController logic;
         public GlowController glow;
+        public TurnController turns;
     }
 
     public Model model;

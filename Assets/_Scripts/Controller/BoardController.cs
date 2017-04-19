@@ -143,9 +143,9 @@ public class BoardController : MonoBehaviour
 	public void Click (PawnScript pawnScript)
 	{
 		print ("Clicked - team: " + pawnScript.team + " x: " + pawnScript.matrix_x + " y: " + pawnScript.matrix_y);
-        if (ps_chosen == null && pawnScript.team == app.controller.game.GetTurn())
+        if (ps_chosen == null && pawnScript.team == app.controller.turns.GetTurn())
         {
-            if (app.controller.game.GetCaptureAvailable() != pawnScript.canCapture) {
+            if (app.controller.turns.GetCaptureAvailable() != pawnScript.canCapture) {
                 print("CaptureAvailable!");
                 return;
             }
@@ -206,7 +206,7 @@ public class BoardController : MonoBehaviour
                     {
                         moves_list.Clear();
                         ps_chosen = null;
-                        app.controller.game.ChangeTurn();
+                        app.controller.turns.ChangeTurn();
 
                     }
                     else
