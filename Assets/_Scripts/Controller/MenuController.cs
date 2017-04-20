@@ -62,6 +62,7 @@ public class MenuController : MonoBehaviour {
 		rightArrow.onClick.AddListener (ShopRightArrow);
 
 		SetCoinsStatus ();
+		SetTimes();
 	}
 
 	public void StartGame(){
@@ -98,15 +99,10 @@ public class MenuController : MonoBehaviour {
 		SetTimer();
 	}
 
-	void OnEnable()
-	{
-		SetTimes();
-	}
-
 	private void SetTimes()
 	{
 		var currentTime = new DateTime(DateTime.Now.Ticks);
-		lastWatchedAd = new DateTime(MPlugin.Instance.SaveData.LastWatchedAd.Ticks);
+		lastWatchedAd = new DateTime(SaveDataController.Instance.Data.LastWatchedAd.Ticks);
 
 		var diff = currentTime.Subtract(lastWatchedAd);
 		if (diff.TotalSeconds > TIME_20MIN)
@@ -136,7 +132,7 @@ public class MenuController : MonoBehaviour {
 	}
 
 	public void SetCoinsStatus(){
-		coinsText.text = "You have: " + MPlugin.Instance.SaveData.coins + " COINS";
+		coinsText.text = "You have: " + SaveDataController.Instance.Data.coins + " COINS";
 	}
 		
 	public void ShowAd()
@@ -153,9 +149,9 @@ public class MenuController : MonoBehaviour {
 		{
 		case ShowResult.Finished:
 			Debug.Log ("USER FINISHED TO WATCH AD");
-			MPlugin.Instance.SaveData.coins += 10;
-			MPlugin.Instance.SaveData.LastWatchedAd = DateTime.Now;
-			MPlugin.Client.Save (MPlugin.Instance.SaveData);
+			SaveDataController.Instance.Data.coins += 10;
+			SaveDataController.Instance.Data.LastWatchedAd = DateTime.Now;
+			SaveDataController.Instance.Data.Save ();
 			SetCoinsStatus ();
 			SetTimes();
 			break;
