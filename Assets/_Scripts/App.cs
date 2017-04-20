@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class App : MonoBehaviour {
@@ -12,6 +13,8 @@ public class App : MonoBehaviour {
         public Transform board;
         public Transform empty;
         public Transform glow;
+		public Transform pauseUI;
+		public Text turnText;
     }
 
     [Serializable]
@@ -30,6 +33,7 @@ public class App : MonoBehaviour {
 		public LogicController logic;
         public GlowController glow;
         public TurnController turns;
+		public PauseController pause;
     }
 
     public Model model;

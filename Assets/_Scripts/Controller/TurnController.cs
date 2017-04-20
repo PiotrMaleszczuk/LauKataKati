@@ -9,7 +9,7 @@ public class TurnController : MonoBehaviour {
     private App app;
     private int turn;
     private bool captureAvailable = false;
-    public Text turnText;
+	private Text turnText;
 
     public int GetTurn()
     {
@@ -24,6 +24,7 @@ public class TurnController : MonoBehaviour {
     public void Init()
     {
         app = App.Instance;
+		turnText = app.view.turnText;
         turn = Random.Range(1, 3);
         turnText.text = "Turn: Player " + turn + "\n\nScore: 0 | 0";
     }

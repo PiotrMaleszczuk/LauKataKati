@@ -9,10 +9,11 @@ public class GameController : MonoBehaviour {
     //Controllers inits
     void Awake(){
         app = App.Instance;
-        app.controller.board.Init();
-        app.controller.click.Init();
-		app.controller.logic.Init();
-        app.controller.glow.Init();
-        app.controller.turns.Init();
+		app.controller.board.Init ();
+		app.controller.click.Init ();
+		app.controller.logic.Init ();
+		app.controller.glow.Init ();
+		app.controller.turns.Init ();
+		app.controller.pause.Init ();
 	}
 }
