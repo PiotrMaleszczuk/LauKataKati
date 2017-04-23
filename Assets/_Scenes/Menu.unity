@@ -631,6 +631,7 @@ GameObject:
   - component: {fileID: 324890982}
   - component: {fileID: 324890984}
   - component: {fileID: 324890983}
+  - component: {fileID: 324890985}
   m_Layer: 0
   m_Name: Price
   m_TagString: Untagged
@@ -695,6 +696,23 @@ CanvasRenderer:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 324890981}
+--- !u!95 &324890985
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 324890981}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 05c30c31f80054f12b554c36775af781, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!1 &352739912
 GameObject:
   m_ObjectHideFlags: 0
@@ -725,9 +743,32 @@ MonoBehaviour:
   timer: {fileID: 1600996869}
   watchAd: {fileID: 1891060984}
   coinsText: {fileID: 260121632}
+  priceText: {fileID: 324890983}
   leftArrow: {fileID: 1268466918}
   rightArrow: {fileID: 202723341}
+  buyButton: {fileID: 248988044}
   shopAnimator: {fileID: 1456033121}
+  priceAnimator: {fileID: 324890985}
+  pawn1Image: {fileID: 1771523683}
+  pawn2Image: {fileID: 1336199832}
+  prices: 0a000000140000001e0000002800000032000000
+  pawn1Sprites:
+  - {fileID: 21300000, guid: bef197578654f764398550bbb101439c, type: 3}
+  - {fileID: 21300000, guid: cfbfdd34dba2f8e40bdc3b9bec39c45a, type: 3}
+  - {fileID: 21300000, guid: bef197578654f764398550bbb101439c, type: 3}
+  - {fileID: 21300000, guid: cfbfdd34dba2f8e40bdc3b9bec39c45a, type: 3}
+  - {fileID: 21300000, guid: bef197578654f764398550bbb101439c, type: 3}
+  pawn2Sprites:
+  - {fileID: 21300000, guid: cfbfdd34dba2f8e40bdc3b9bec39c45a, type: 3}
+  - {fileID: 21300000, guid: bef197578654f764398550bbb101439c, type: 3}
+  - {fileID: 21300000, guid: cfbfdd34dba2f8e40bdc3b9bec39c45a, type: 3}
+  - {fileID: 21300000, guid: bef197578654f764398550bbb101439c, type: 3}
+  - {fileID: 21300000, guid: cfbfdd34dba2f8e40bdc3b9bec39c45a, type: 3}
+  soundButton: {fileID: 897706467}
+  soundButtonText: {fileID: 1535204015}
+  forceBeatingButton: {fileID: 2011757220}
+  forceBeatingText: {fileID: 1366754250}
+  creditsButton: {fileID: 1175070914}
   animator: {fileID: 416716424}
   startGameButton: {fileID: 643731387}
   shopButton: {fileID: 1812590356}
@@ -2727,7 +2768,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Buy It
+  m_Text: Buy
 --- !u!222 &1338682530
 CanvasRenderer:
   m_ObjectHideFlags: 0

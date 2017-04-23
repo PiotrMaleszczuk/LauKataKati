@@ -8,36 +8,69 @@ using System;
 
 public class MenuController : MonoBehaviour {
 
+	private enum State {
+		Selected,
+		Unselected,
+		ToBuy
+	}
+	private State state;
+
 	// Timer and ads
 	private const int TIME_20MIN = 1200;
 	private const float HALF_ALPHA = (125f/255f);
 	private bool shouldSetTimer = false;
-
 	private DateTime lastWatchedAd;
+
+	[Header("Timer and ads")]
 	public Text timer;
 	public Button watchAd;
 
 	// Shop
+	[Header("Shop")]
 	public Text coinsText;
+	public Text priceText;
 	public Button leftArrow;
 	public Button rightArrow;
-
+	public Button buyButton;
 	public Animator shopAnimator;
 
-	private const string RIGHT_ARROW_TRIGGER = "Right";
-	private const string LEFT_ARROW_TRIGGER = "Left";
+	private Text leftArrowText;
+	private Text rightArrowText;
+	private Text buyButtonText;
+
+	[Header("Shop items")]
+	public Animator priceAnimator;
+	public Image pawn1Image;
+	public Image pawn2Image;
+	public int[] prices;
+	public Sprite[] pawn1Sprites;
+	public Sprite[] pawn2Sprites;
+
+	private int currentPosition = 0;
+	private bool isMoveAnim = false;
+
+	// Options
+	[Header("Options items")]
+	public Button soundButton;
+	public Text soundButtonText;
+	public Button forceBeatingButton;
+	public Text forceBeatingText;
+	public Button creditsButton;
 
 	// To controll animation in Menu
+	[Header("To controll animation in Menu")]
+	public Animator animator;
+
 	private const string MAIN_TO_SHOP_TRIGGER = "MainToShop";
 	private const string MAIN_TO_OPTIONS_TRIGGER = "MainToOptions";
 	private const string SHOP_TO_MAIN_TRIGGER = "ShopToMain";
 	private const string OPTIONS_TO_MAIN_TRIGGER = "OptionsToMain";
-
+	private const string NOT_ENOUGHT_MONEY_TRIGGER = "NotEnoughtMoney";
+	private const string MOVE_SHOP_SKIN_BOOL = "Move";
 	private const string SCENE_GAMEPLAY = "Gameplay";
 
-	public Animator animator;
-
 	// All Buttons in scene Menu
+	[Header("All Buttons in scene Menu")]
 	public Button startGameButton;
 	public Button shopButton;
 	public Button exitShopButton;
@@ -60,8 +93,22 @@ public class MenuController : MonoBehaviour {
 		exitOptions.onClick.AddListener (ExitOptions);
 		leftArrow.onClick.AddListener (ShopLeftArrow);
 		rightArrow.onClick.AddListener (ShopRightArrow);
+		buyButton.onClick.AddListener (BuyButtonAction);
+		soundButton.onClick.AddListener (SoundsButton);
+		forceBeatingButton.onClick.AddListener (ForceBeatingButton);
+		creditsButton.onClick.AddListener (CreditsButton);
 
+		leftArrowText = leftArrow.GetComponentInChildren<Text> ();
+		rightArrowText = rightArrow.GetComponentInChildren<Text> ();
+		priceAnimator = priceText.GetComponent<Animator> ();
+		buyButtonText = buyButton.GetComponentInChildren<Text> ();
+
+		currentPosition = SaveDataController.Instance.Data.selectedSkin;
 		SetCoinsStatus ();
+		SetPrice (prices [currentPosition]);
+		SetArrowsView ();
+		SetBuyButtonText ();
+		SetSoundsAndForceBeatingTexts ();
 		SetTimes();
 	}
 
@@ -86,11 +133,75 @@ public class MenuController : MonoBehaviour {
 	}
 
 	public void ShopRightArrow(){
-		shopAnimator.SetTrigger (RIGHT_ARROW_TRIGGER);
+		if (isMoveAnim) return;
+		if (currentPosition == (prices.Length - 1)) {
+			return;
+		}
+
+		currentPosition++;
+		SetPrice(prices[currentPosition]);
+		SetArrowsView ();
+		StartCoroutine (MovePawnShopAnimation());
 	}
 
 	public void ShopLeftArrow(){
-		shopAnimator.SetTrigger (LEFT_ARROW_TRIGGER);
+		if (isMoveAnim) return;
+		if (currentPosition == 0) {
+			return;
+		}
+
+		currentPosition--;
+		SetPrice(prices[currentPosition]);
+		SetArrowsView ();
+		StartCoroutine (MovePawnShopAnimation());
+	}
+
+	public void BuyButtonAction(){
+		if (state == State.Selected) {
+			return;
+		} else if (state == State.Unselected) {
+			SaveDataController.Instance.Data.selectedSkin = currentPosition;
+			SaveDataController.Instance.Data.Save ();
+			SetBuyButtonText ();
+		} else if (state == State.ToBuy) {
+			if (SaveDataController.Instance.Data.coins >= prices [currentPosition]) {
+				bool[] owned = SaveDataController.Instance.Data.skinOwned;
+				owned [currentPosition] = true;
+				SaveDataController.Instance.Data.skinOwned = owned;
+				SaveDataController.Instance.Data.coins -= prices [currentPosition];
+				SaveDataController.Instance.Data.Save ();
+				SetBuyButtonText ();
+				SetCoinsStatus ();
+			} else {
+				priceAnimator.SetTrigger (NOT_ENOUGHT_MONEY_TRIGGER);
+			}
+		}
+	}
+
+	public void SoundsButton(){
+		bool sounds = SaveDataController.Instance.Data.sounds;
+		if (sounds) {
+			SaveDataController.Instance.Data.sounds = false;
+		} else {
+			SaveDataController.Instance.Data.sounds = true;
+		}
+
+		SetSoundsAndForceBeatingTexts ();
+	}
+
+	public void ForceBeatingButton(){
+		bool forceBeating = SaveDataController.Instance.Data.isForceBeating;
+		if (forceBeating) {
+			SaveDataController.Instance.Data.isForceBeating = false;
+		} else {
+			SaveDataController.Instance.Data.isForceBeating = true;
+		}
+
+		SetSoundsAndForceBeatingTexts ();
+	}
+
+	public void CreditsButton(){
+		print ("TODO Credist here");
 	}
 
 	void Update()
@@ -129,10 +240,70 @@ public class MenuController : MonoBehaviour {
 
 		var time = TimeSpan.FromSeconds(TIME_20MIN - diff.TotalSeconds);
 		timer.text = string.Format("{0:D2}:{1:D2}:{2:D2}", time.Hours, time.Minutes, time.Seconds);
+
+		if (time.Seconds < 0) {
+			SetTimes ();
+		}
 	}
 
 	public void SetCoinsStatus(){
 		coinsText.text = "You have: " + SaveDataController.Instance.Data.coins + " COINS";
+	}
+
+	private void SetPrice(int price){
+		priceText.text = "Price: " + price;
+	}
+
+	private void SetArrowsView(){
+		if (currentPosition == 0) {
+			leftArrowText.color = new Color (leftArrowText.color.r, leftArrowText.color.g, leftArrowText.color.b, 0.1f);
+			rightArrowText.color = new Color (rightArrowText.color.r, rightArrowText.color.g, rightArrowText.color.b, 1f);
+		} else if (currentPosition == (prices.Length - 1)) {
+			leftArrowText.color = new Color (leftArrowText.color.r, leftArrowText.color.g, leftArrowText.color.b, 1f);
+			rightArrowText.color = new Color (rightArrowText.color.r, rightArrowText.color.g, rightArrowText.color.b, 0.1f);
+		} else {
+			leftArrowText.color = new Color (leftArrowText.color.r, leftArrowText.color.g, leftArrowText.color.b, 1f);
+			rightArrowText.color = new Color (rightArrowText.color.r, rightArrowText.color.g, rightArrowText.color.b, 1f);
+		}
+	}
+
+	private void SetPawnView(){
+		pawn1Image.sprite = pawn1Sprites [currentPosition];
+		pawn2Image.sprite = pawn2Sprites [currentPosition];
+	}
+
+	private void SetBuyButtonText(){
+		bool[] owned = SaveDataController.Instance.Data.skinOwned;
+		int selected = SaveDataController.Instance.Data.selectedSkin;
+
+		if (owned [currentPosition]) {
+			if (selected == currentPosition) {
+				buyButtonText.text = "SELECTED";
+				state = State.Selected;
+			} else {
+				buyButtonText.text = "TAP TO CHOOSE";
+				state = State.Unselected;
+			}
+		} else {
+			buyButtonText.text = "BUY";
+			state = State.ToBuy;
+		}
+	}
+
+	private void SetSoundsAndForceBeatingTexts(){
+		bool sounds = SaveDataController.Instance.Data.sounds;
+		if (sounds) {
+			soundButtonText.text = "ON";
+		} else {
+			soundButtonText.text = "OFF"; 
+		}
+
+		bool forceBeating = SaveDataController.Instance.Data.isForceBeating;
+		if (forceBeating) {
+			forceBeatingText.text = "ON";
+		} else {
+			forceBeatingText.text = "OFF";
+		}
 	}
 		
 	public void ShowAd()
@@ -164,4 +335,32 @@ public class MenuController : MonoBehaviour {
 		}
 	}
 
+	private IEnumerator MovePawnShopAnimation() {
+		isMoveAnim = true;
+		bool run = true;
+		bool run2 = true;
+
+		shopAnimator.SetBool (MOVE_SHOP_SKIN_BOOL, true);
+		yield return new WaitForSecondsRealtime(0.1f);
+
+		while(run) {
+			if(!shopAnimator.GetCurrentAnimatorStateInfo(0).IsName("ShopPawnRightAnimation")) {
+				SetPawnView();
+				SetBuyButtonText ();
+				shopAnimator.SetBool (MOVE_SHOP_SKIN_BOOL, false);
+				run = false;
+			}
+			yield return null;
+		}
+
+		yield return new WaitForSecondsRealtime(0.1f);
+
+		while(run2) {
+			if(!shopAnimator.GetCurrentAnimatorStateInfo(0).IsName("ShopPawnLeftAnimation")) {
+				isMoveAnim = false;
+				run2 = false;
+			}
+			yield return null;
+		}
+	}
 }

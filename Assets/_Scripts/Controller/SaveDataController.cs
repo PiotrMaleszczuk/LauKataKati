@@ -38,6 +38,7 @@ public class Data
 	private const string WIN_COUNT_KEY = "winCount";
 	private const string LOST_COUNT_KEY = "lostCount";
 	private const string COINS_KEY = "coins";
+	private const string SELECTED_SKIN_KEY = "selectedSkin";
 	private const string SKIN_OWNED_KEY = "skinOwned";
 	private const string LAST_WATCHED_AD_KEY = "lastWatchedAd";
 	private const string FORCE_BEATING_KEY = "forceBeating";
@@ -81,6 +82,11 @@ public class Data
 		get {  return PlayerPrefs.GetInt(COINS_KEY); }
 		set { PlayerPrefs.SetInt (COINS_KEY, value); }
 	}
+
+	public int selectedSkin {
+		get {  return PlayerPrefs.GetInt(SELECTED_SKIN_KEY); }
+		set { PlayerPrefs.SetInt (SELECTED_SKIN_KEY, value); }
+	}
 		
 	public bool[] skinOwned {
 		get {
@@ -119,6 +125,7 @@ public class Data
 		if (!PlayerPrefs.HasKey(SOUNDS_KEY)) { PlayerPrefs.SetInt(SOUNDS_KEY, 0); }
 		if (!PlayerPrefs.HasKey(FORCE_BEATING_KEY)) { PlayerPrefs.SetInt(FORCE_BEATING_KEY, 0); }
 		if (!PlayerPrefs.HasKey(COINS_KEY)) { PlayerPrefs.SetInt(COINS_KEY, 0); }
+		if (!PlayerPrefs.HasKey(SELECTED_SKIN_KEY)) { PlayerPrefs.SetInt(SELECTED_SKIN_KEY, 0); }
 		if (!PlayerPrefs.HasKey(SKIN_OWNED_KEY)) { PlayerPrefs.SetString(SKIN_OWNED_KEY, "1000000000"); }
 		if (!PlayerPrefs.HasKey(LAST_WATCHED_AD_KEY)) { PlayerPrefs.SetString(LAST_WATCHED_AD_KEY, DateTime.MinValue.ToString(FMT)); }
 	}
