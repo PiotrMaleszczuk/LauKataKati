@@ -189,7 +189,7 @@ public class BoardController : MonoBehaviour
                             {
                                 ps_captured.matrix_x = -1;
                                 ps_captured.matrix_y = -1;
-                                ps_captured.gameObject.SetActive(false);
+                                ps_captured.Disable();
                                 board[captured_x][captured_y] = 0;
                                 break;
                             }
@@ -199,7 +199,7 @@ public class BoardController : MonoBehaviour
                     board[ps_chosen.matrix_x][ps_chosen.matrix_y] = 0;
                     ps_chosen.matrix_x = pawnScript.matrix_x;
                     ps_chosen.matrix_y = pawnScript.matrix_y;
-                    ps_chosen.transform.localPosition = new Vector3(pawnScript.transform.localPosition.x, pawnScript.transform.localPosition.y, 0f);
+                    ps_chosen.MoveTo(pawnScript.transform.localPosition.x, pawnScript.transform.localPosition.y);
                     board[pawnScript.matrix_x][pawnScript.matrix_y] = ps_chosen.team;
                     glowController.DisableGlows();
                     if (!app.controller.logic.capture)
