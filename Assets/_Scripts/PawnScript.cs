@@ -28,10 +28,10 @@ public class PawnScript : MonoBehaviour {
         {
             if (Vector3.Distance(target, transform.position) > distance / 2)
             {
-                if (transform.localScale.x < 1.15F)
+                if (transform.localScale.x < 1.3f)
                     transform.localScale += new Vector3(grow_speed, grow_speed, 0);
             }
-            else if (transform.localScale.x > 1.0F)
+            else if (transform.localScale.x > 1.0f)
                 transform.localScale += new Vector3(-grow_speed, -grow_speed, 0);
 
             transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
