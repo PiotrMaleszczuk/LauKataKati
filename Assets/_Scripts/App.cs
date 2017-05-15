@@ -34,6 +34,7 @@ public class App : MonoBehaviour {
         public GlowController glow;
         public TurnController turns;
 		public PauseController pause;
+        public AIController ai;
     }
 
     public Model model;

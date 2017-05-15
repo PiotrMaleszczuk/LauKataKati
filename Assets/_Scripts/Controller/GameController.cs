@@ -15,5 +15,6 @@ public class GameController : MonoBehaviour {
 		app.controller.glow.Init ();
 		app.controller.turns.Init ();
 		app.controller.pause.Init ();
+        app.controller.ai.Init();
 	}
 }

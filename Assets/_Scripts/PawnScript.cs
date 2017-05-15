@@ -44,7 +44,7 @@ public class PawnScript : MonoBehaviour {
         }
         if(disable)
         {
-            print(alpha);
+            //print(alpha);
             alpha -= 0.04f;
             gameObject.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, alpha);
             if(alpha<=0)

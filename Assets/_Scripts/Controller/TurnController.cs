@@ -25,7 +25,7 @@ public class TurnController : MonoBehaviour {
     {
         app = App.Instance;
 		turnText = app.view.turnText;
-        turn = Random.Range(1, 3);
+        turn = 1;
         turnText.text = "Turn: Player " + turn + "\n\nScore: 0 | 0";
     }
 
@@ -39,6 +39,7 @@ public class TurnController : MonoBehaviour {
 
         GameObject[] tmpPawnsArray = app.controller.board.GetPawnsArray();
         captureAvailable = false;
+
         for (int i = 0; i < tmpPawnsArray.Length; i++)
         {
             PawnScript tmpPawnScript;
@@ -52,7 +53,7 @@ public class TurnController : MonoBehaviour {
             }
             if (tmpPawnScript.team != turn)
                 continue;
-            app.controller.logic.checking(turn, tmpPawnScript.matrix_x, tmpPawnScript.matrix_y, app.controller.board.GetBoard());
+            app.controller.logic.checking(turn, tmpPawnScript.matrix_x, tmpPawnScript.matrix_y, app.controller.board.Board);
             if (app.controller.logic.capture)
             {
                 tmpPawnScript.canCapture = true;
@@ -60,6 +61,7 @@ public class TurnController : MonoBehaviour {
             }
             app.controller.logic.capture = false;
         }
+        
         if (points[0] == 9)
         {
             turnText.text = "Player 1 wins!!!\n\nScore: " + points[1] + " | " + points[0];
@@ -72,5 +74,69 @@ public class TurnController : MonoBehaviour {
         }
         else
             turnText.text = "Turn: Player " + turn + "\n\nScore: " + points[1] + " | " + points[0];
+        
+        if (turn == 2)
+        {
+            print("before");
+            PrintBoard(app.controller.board.Board);
+            int[][] board_before = app.controller.board.Board;
+            int[][] board_after = app.controller.ai.ComputerMakeMove(9);
+            for(int i=0;i<board_after.Length;i++)
+            {
+                for(int j=0;j<board_after[i].Length;j++)
+                {
+                    if (board_before[i][j] == 2 && board_after[i][j]==0)
+                    {
+                        for (int k = 0; k < tmpPawnsArray.Length; k++)
+                        {
+                            PawnScript tmpPawnScript;
+                            tmpPawnScript = tmpPawnsArray[k].GetComponent<PawnScript>();
+                            if (tmpPawnScript.matrix_x==i && tmpPawnScript.matrix_y==j)
+                            {
+                                app.controller.board.Click(tmpPawnScript);
+                            }
+                        }
+                    }
+                }
+            }
+            GameObject[] tmpEmptyArray = app.controller.board.EmptyArray;
+            for (int i = 0; i < board_after.Length; i++)
+            {
+                for (int j = 0; j < board_after[i].Length; j++)
+                {
+                    if (board_before[i][j] == 0 && board_after[i][j] == 2)
+                    {
+                        for (int k = 0; k < tmpEmptyArray.Length; k++)
+                        {
+                            PawnScript tmpPawnScript;
+                            tmpPawnScript = tmpEmptyArray[k].GetComponent<PawnScript>();
+                            if (tmpPawnScript.matrix_x == i && tmpPawnScript.matrix_y == j)
+                            {
+                                print(tmpPawnScript.id);
+                                app.controller.board.Click(tmpPawnScript);
+                            }
+                        }
+                    }
+                }
+            }
+            print("after");
+            PrintBoard(app.controller.board.Board);
+            //ChangeTurn();
+        }
     }
+    private void PrintBoard(int[][] tab)
+    {
+        string boardString = "";
+        for (int i = 0; i < tab.Length; i++)
+        {
+            for (int j = 0; j < tab[i].Length; j++)
+            {
+                boardString += tab[i][j];
+                boardString += " ";
+            }
+            boardString += "\n";
+        }
+        print(boardString);
+    }
+
 }

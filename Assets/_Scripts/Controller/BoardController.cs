@@ -33,9 +33,14 @@ public class BoardController : MonoBehaviour
     {
         return pawnsArray;
     }
-    public int[][] GetBoard()
+    public int[][] Board
     {
-        return board;
+        get { return board; }
+        set { board = value; }
+    }
+    public GameObject[] EmptyArray
+    {
+        get { return emptyArray; }
     }
 
     public void Init ()
@@ -207,7 +212,6 @@ public class BoardController : MonoBehaviour
                         moves_list.Clear();
                         ps_chosen = null;
                         app.controller.turns.ChangeTurn();
-
                     }
                     else
                     {
