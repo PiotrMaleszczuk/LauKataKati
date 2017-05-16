@@ -29,9 +29,9 @@ public class BoardController : MonoBehaviour
 	private PawnScript ps_chosen;
 	private List<int[]> moves_list;
 
-    public GameObject[] GetPawnsArray()
+    public GameObject[] PawnsArray
     {
-        return pawnsArray;
+		get { return pawnsArray; }
     }
     public int[][] Board
     {
@@ -148,9 +148,9 @@ public class BoardController : MonoBehaviour
 	public void Click (PawnScript pawnScript)
 	{
 		print ("Clicked - team: " + pawnScript.team + " x: " + pawnScript.matrix_x + " y: " + pawnScript.matrix_y);
-        if (ps_chosen == null && pawnScript.team == app.controller.turns.GetTurn())
+        if (ps_chosen == null && pawnScript.team == app.controller.turns.Turn)
         {
-            if (app.controller.turns.GetCaptureAvailable() != pawnScript.canCapture) {
+            if (app.controller.turns.CaptureAvailable != pawnScript.canCapture) {
                 print("CaptureAvailable!");
                 return;
             }

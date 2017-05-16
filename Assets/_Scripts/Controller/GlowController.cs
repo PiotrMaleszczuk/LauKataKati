@@ -10,14 +10,12 @@ public class GlowController : MonoBehaviour
 	private readonly Color GREEN = new Color (0f, 1f, 0f, 1f);
 	private readonly Color BLUE = new Color (0f, 0f, 1f, 1f);
 	private readonly Color HIDDEN = new Color (0f, 0f, 0f, 0f);
-	private Transform boardTransform;
     
 	private GameObject[] glowsArray;
 
 	public void Init ()
 	{
 		app = App.Instance;
-		boardTransform = app.view.board;
 		board = new int[3][];
 		glowsArray = app.controller.board.glowsArray;
 

@@ -11,14 +11,14 @@ public class TurnController : MonoBehaviour {
     private bool captureAvailable = false;
 	private Text turnText;
 
-    public int GetTurn()
+    public int Turn
     {
-        return turn;
+		get { return turn; }
     }
 
-    public bool GetCaptureAvailable()
+    public bool CaptureAvailable
     {
-        return captureAvailable;
+		get { return captureAvailable; }
     }
 
     public void Init()
@@ -37,7 +37,7 @@ public class TurnController : MonoBehaviour {
         else
             turn = 1;
 
-        GameObject[] tmpPawnsArray = app.controller.board.GetPawnsArray();
+        GameObject[] tmpPawnsArray = app.controller.board.PawnsArray;
         captureAvailable = false;
 
         for (int i = 0; i < tmpPawnsArray.Length; i++)

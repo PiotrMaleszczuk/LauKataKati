@@ -6,8 +6,6 @@ using UnityEngine;
 public class AIController : MonoBehaviour {
     private App app;
 
-
-
     public void Init()
     {
         app = App.Instance;
@@ -17,9 +15,9 @@ public class AIController : MonoBehaviour {
     public int[][] ComputerMakeMove(int depth)
     {
         bool t;
-        if (app.controller.turns.GetTurn() == 1)
+        if (app.controller.turns.Turn == 1)
             t = true;
-        else if (app.controller.turns.GetTurn() == 2)
+        else if (app.controller.turns.Turn == 2)
             t = false;
         else
             return null;
