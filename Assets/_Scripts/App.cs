@@ -15,6 +15,7 @@ public class App : MonoBehaviour {
         public Transform glow;
 		public Transform pauseUI;
 		public Text turnText;
+		public Transform gameOverUI;
     }
 
     [Serializable]
@@ -35,6 +36,7 @@ public class App : MonoBehaviour {
         public TurnController turns;
 		public PauseController pause;
         public AIController ai;
+		public GameOverController gameOver;
     }
 
     public Model model;
