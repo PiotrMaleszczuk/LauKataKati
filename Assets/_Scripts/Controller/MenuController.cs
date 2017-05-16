@@ -27,6 +27,9 @@ public class MenuController : MonoBehaviour {
 
 	// Shop
 	[Header("Shop")]
+	public GameObject pawn1;
+	public GameObject pawn2;
+
 	public Text coinsText;
 	public Text priceText;
 	public Button leftArrow;
@@ -298,6 +301,8 @@ public class MenuController : MonoBehaviour {
 	private void SetPawnView(){
 		pawn1Image.sprite = pawn1Sprites [currentPosition];
 		pawn2Image.sprite = pawn2Sprites [currentPosition];
+		pawn1.GetComponent<SpriteRenderer> ().sprite = pawn1Sprites [currentPosition];
+		pawn2.GetComponent<SpriteRenderer> ().sprite = pawn2Sprites [currentPosition];
 	}
 
 	private void SetBuyButtonText(){
