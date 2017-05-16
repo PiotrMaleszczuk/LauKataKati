@@ -65,6 +65,8 @@ public class MenuController : MonoBehaviour {
 	private const string MAIN_TO_OPTIONS_TRIGGER = "MainToOptions";
 	private const string SHOP_TO_MAIN_TRIGGER = "ShopToMain";
 	private const string OPTIONS_TO_MAIN_TRIGGER = "OptionsToMain";
+	private const string MAIN_TO_MODE_TRIGGER = "MainToModeChooser";
+	private const string MODE_TO_MAIN_TRIGGER = "ModeChooserToMain";
 	private const string NOT_ENOUGHT_MONEY_TRIGGER = "NotEnoughtMoney";
 	private const string MOVE_SHOP_SKIN_BOOL = "Move";
 	private const string SCENE_GAMEPLAY = "Gameplay";
@@ -76,6 +78,10 @@ public class MenuController : MonoBehaviour {
 	public Button exitShopButton;
 	public Button optionsButton;
 	public Button exitOptions;
+	public Button singlePlayerGame;
+	public Button localMultiplayerGame;
+	public Button multiplayerGame;
+	public Button backBackgroundButton;
 
 	void Awake() {
 		#if UNITY_ANDROID
@@ -86,6 +92,10 @@ public class MenuController : MonoBehaviour {
 	}
 
 	void Start () {
+		singlePlayerGame.onClick.AddListener (SinglePlayerGame);
+		localMultiplayerGame.onClick.AddListener (LocalMultiPlayerGame);
+		multiplayerGame.onClick.AddListener (MultiplayerGame);
+		backBackgroundButton.onClick.AddListener (BackBackgroundAction);
 		startGameButton.onClick.AddListener (StartGame);
 		shopButton.onClick.AddListener (GoToShop);
 		exitShopButton.onClick.AddListener (ExitShop);
@@ -108,12 +118,26 @@ public class MenuController : MonoBehaviour {
 		SetPrice (prices [currentPosition]);
 		SetArrowsView ();
 		SetBuyButtonText ();
+		SetPawnView ();
 		SetSoundsAndForceBeatingTexts ();
 		SetTimes();
 	}
 
-	public void StartGame(){
+	public void SinglePlayerGame(){
 		SceneManager.LoadScene (SCENE_GAMEPLAY);
+	}
+
+	public void LocalMultiPlayerGame(){
+		SceneManager.LoadScene (SCENE_GAMEPLAY);
+	}
+
+	public void MultiplayerGame(){
+		SceneManager.LoadScene (SCENE_GAMEPLAY);
+	}
+
+	public void StartGame(){
+		animator.ResetTrigger (MODE_TO_MAIN_TRIGGER);
+		animator.SetTrigger (MAIN_TO_MODE_TRIGGER);
 	}
 
 	public void GoToShop(){
@@ -130,6 +154,10 @@ public class MenuController : MonoBehaviour {
 
 	public void ExitOptions(){
 		animator.SetTrigger (OPTIONS_TO_MAIN_TRIGGER);
+	}
+
+	public void BackBackgroundAction(){
+		animator.SetTrigger (MODE_TO_MAIN_TRIGGER);
 	}
 
 	public void ShopRightArrow(){
