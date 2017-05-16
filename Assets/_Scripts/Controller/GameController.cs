@@ -13,9 +13,10 @@ public class GameController : MonoBehaviour {
 		app.controller.click.Init ();
 		app.controller.logic.Init ();
 		app.controller.glow.Init ();
-		app.controller.turns.Init ();
 		app.controller.pause.Init ();
         app.controller.ai.Init();
 		app.controller.gameOver.Init ();
+		app.controller.turns.Init ();
+
 	}
 }

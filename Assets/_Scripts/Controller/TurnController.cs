@@ -25,17 +25,19 @@ public class TurnController : MonoBehaviour {
     {
         app = App.Instance;
 		turnText = app.view.turnText;
-        turn = 1;
+		turn = Random.Range(1,3);
         turnText.text = "Turn: Player " + turn + "\n\nScore: 0 | 0";
+		if (turn == 2)
+			app.controller.ai.ComputerMakeMove (9);
     }
 
     public void ChangeTurn()
     {
-        int[] points = { 0, 0 };
         if (turn == 1)
             turn = 2;
         else
             turn = 1;
+		CountPoints ();
 
         GameObject[] tmpPawnsArray = app.controller.board.PawnsArray;
         captureAvailable = false;
@@ -48,7 +50,6 @@ public class TurnController : MonoBehaviour {
             tmpPawnScript.canCapture = false;
             if (tmpPawnScript.matrix_x == -1)
             {
-                points[tmpPawnScript.team - 1]++;
                 continue;
             }
             if (tmpPawnScript.team != turn)
@@ -61,69 +62,42 @@ public class TurnController : MonoBehaviour {
             }
             app.controller.logic.capture = false;
         }
+		if (turn == 2)
+			app.controller.ai.ComputerMakeMove (9);
         
-        if (points[0] == 9)
-        {
-            turnText.text = "Player 1 wins!!!\n\nScore: " + points[1] + " | " + points[0];
-            turn = -1;
-        }
-        else if (points[1] == 9)
-        {
-            turnText.text = "Player 2 wins!!!\n\nScore: " + points[1] + " | " + points[0];
-            turn = -1;
-        }
-        else
-            turnText.text = "Turn: Player " + turn + "\n\nScore: " + points[1] + " | " + points[0];
         
-        if (turn == 2)
-        {
-            print("before");
-            PrintBoard(app.controller.board.Board);
-            int[][] board_before = app.controller.board.Board;
-            int[][] board_after = app.controller.ai.ComputerMakeMove(9);
-            for(int i=0;i<board_after.Length;i++)
-            {
-                for(int j=0;j<board_after[i].Length;j++)
-                {
-                    if (board_before[i][j] == 2 && board_after[i][j]==0)
-                    {
-                        for (int k = 0; k < tmpPawnsArray.Length; k++)
-                        {
-                            PawnScript tmpPawnScript;
-                            tmpPawnScript = tmpPawnsArray[k].GetComponent<PawnScript>();
-                            if (tmpPawnScript.matrix_x==i && tmpPawnScript.matrix_y==j)
-                            {
-                                app.controller.board.Click(tmpPawnScript);
-                            }
-                        }
-                    }
-                }
-            }
-            GameObject[] tmpEmptyArray = app.controller.board.EmptyArray;
-            for (int i = 0; i < board_after.Length; i++)
-            {
-                for (int j = 0; j < board_after[i].Length; j++)
-                {
-                    if (board_before[i][j] == 0 && board_after[i][j] == 2)
-                    {
-                        for (int k = 0; k < tmpEmptyArray.Length; k++)
-                        {
-                            PawnScript tmpPawnScript;
-                            tmpPawnScript = tmpEmptyArray[k].GetComponent<PawnScript>();
-                            if (tmpPawnScript.matrix_x == i && tmpPawnScript.matrix_y == j)
-                            {
-                                print(tmpPawnScript.id);
-                                app.controller.board.Click(tmpPawnScript);
-                            }
-                        }
-                    }
-                }
-            }
-            print("after");
-            PrintBoard(app.controller.board.Board);
-            //ChangeTurn();
-        }
+        
+        
     }
+
+	private void CountPoints()
+	{
+		int[] points = { 9, 9 };
+		int[][] board = app.controller.board.Board;
+		for (int i = 0; i < board.Length; i++) {
+			for (int j = 0; j < board [i].Length; j++) {
+				if (board [i] [j] == 1)
+					points [1]--;
+				else if (board [i] [j] == 2)
+					points [0]--;
+			}
+		}
+		if (points[0] == 9)
+		{
+			app.controller.gameOver.GameOver (true);
+			turnText.text = "Player 1 wins!!!\n\nScore: " + points[1] + " | " + points[0];
+			turn = -1;
+		}
+		else if (points[1] == 9)
+		{
+			app.controller.gameOver.GameOver (false);
+			turnText.text = "Player 2 wins!!!\n\nScore: " + points[1] + " | " + points[0];
+			turn = -1;
+		}
+		else
+			turnText.text = "Turn: Player " + turn + "\n\nScore: " + points[1] + " | " + points[0];
+	}
+
     private void PrintBoard(int[][] tab)
     {
         string boardString = "";
