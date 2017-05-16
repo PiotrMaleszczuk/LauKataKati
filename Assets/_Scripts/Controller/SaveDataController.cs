@@ -42,6 +42,7 @@ public class Data
 	private const string SKIN_OWNED_KEY = "skinOwned";
 	private const string LAST_WATCHED_AD_KEY = "lastWatchedAd";
 	private const string FORCE_BEATING_KEY = "forceBeating";
+	private const string DIFFICULT_KEY = "difficult";
 	private const string SOUNDS_KEY = "sounds";
 	private const string FMT = "yyyy-MM-dd HH:mm:ss.fff";
 	//
@@ -66,6 +67,11 @@ public class Data
 			PlayerPrefs.SetInt (FORCE_BEATING_KEY, 1);
 		else
 			PlayerPrefs.SetInt (FORCE_BEATING_KEY, 0);}
+	}
+
+	public int difficult {
+		get {  return PlayerPrefs.GetInt(DIFFICULT_KEY); }
+		set { PlayerPrefs.SetInt (DIFFICULT_KEY, value); }
 	}
 
 	public int winCount {
@@ -124,6 +130,7 @@ public class Data
 		if (!PlayerPrefs.HasKey(LOST_COUNT_KEY)) { PlayerPrefs.SetInt(LOST_COUNT_KEY, 0); }
 		if (!PlayerPrefs.HasKey(SOUNDS_KEY)) { PlayerPrefs.SetInt(SOUNDS_KEY, 0); }
 		if (!PlayerPrefs.HasKey(FORCE_BEATING_KEY)) { PlayerPrefs.SetInt(FORCE_BEATING_KEY, 0); }
+		if (!PlayerPrefs.HasKey(DIFFICULT_KEY)) { PlayerPrefs.SetInt(DIFFICULT_KEY, 1); }
 		if (!PlayerPrefs.HasKey(COINS_KEY)) { PlayerPrefs.SetInt(COINS_KEY, 0); }
 		if (!PlayerPrefs.HasKey(SELECTED_SKIN_KEY)) { PlayerPrefs.SetInt(SELECTED_SKIN_KEY, 0); }
 		if (!PlayerPrefs.HasKey(SKIN_OWNED_KEY)) { PlayerPrefs.SetString(SKIN_OWNED_KEY, "1000000000"); }

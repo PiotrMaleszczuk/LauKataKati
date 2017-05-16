@@ -59,6 +59,7 @@ public class MenuController : MonoBehaviour {
 	public Button forceBeatingButton;
 	public Text forceBeatingText;
 	public Button creditsButton;
+	public Button creditsBack;
 
 	// To controll animation in Menu
 	[Header("To controll animation in Menu")]
@@ -71,6 +72,8 @@ public class MenuController : MonoBehaviour {
 	private const string MAIN_TO_MODE_TRIGGER = "MainToModeChooser";
 	private const string MODE_TO_MAIN_TRIGGER = "ModeChooserToMain";
 	private const string NOT_ENOUGHT_MONEY_TRIGGER = "NotEnoughtMoney";
+	private const string OPTIONS_TO_CREDITS_TRIGGER = "OptionToCredits";
+	private const string CREDITS_TO_OPTIONS = "CreditsToOptions";
 	private const string MOVE_SHOP_SKIN_BOOL = "Move";
 	private const string SCENE_GAMEPLAY = "Gameplay";
 
@@ -110,6 +113,7 @@ public class MenuController : MonoBehaviour {
 		soundButton.onClick.AddListener (SoundsButton);
 		forceBeatingButton.onClick.AddListener (ForceBeatingButton);
 		creditsButton.onClick.AddListener (CreditsButton);
+		creditsBack.onClick.AddListener (CreditsBackButton);
 
 		leftArrowText = leftArrow.GetComponentInChildren<Text> ();
 		rightArrowText = rightArrow.GetComponentInChildren<Text> ();
@@ -122,6 +126,7 @@ public class MenuController : MonoBehaviour {
 		SetArrowsView ();
 		SetBuyButtonText ();
 		SetPawnView ();
+		SetPawnPrefabs ();
 		SetSoundsAndForceBeatingTexts ();
 		SetTimes();
 	}
@@ -193,6 +198,7 @@ public class MenuController : MonoBehaviour {
 		} else if (state == State.Unselected) {
 			SaveDataController.Instance.Data.selectedSkin = currentPosition;
 			SaveDataController.Instance.Data.Save ();
+			SetPawnPrefabs ();
 			SetBuyButtonText ();
 		} else if (state == State.ToBuy) {
 			if (SaveDataController.Instance.Data.coins >= prices [currentPosition]) {
@@ -228,11 +234,22 @@ public class MenuController : MonoBehaviour {
 			SaveDataController.Instance.Data.isForceBeating = true;
 		}
 
+		int difficult = SaveDataController.Instance.Data.difficult;
+		if (difficult == 3) {
+			SaveDataController.Instance.Data.difficult = 1;
+		} else {
+			SaveDataController.Instance.Data.difficult += 1;
+		}
+
 		SetSoundsAndForceBeatingTexts ();
 	}
 
 	public void CreditsButton(){
-		print ("TODO Credist here");
+		animator.SetTrigger (OPTIONS_TO_CREDITS_TRIGGER);
+	}
+
+	public void CreditsBackButton(){
+		animator.SetTrigger (CREDITS_TO_OPTIONS);
 	}
 
 	void Update()
@@ -301,6 +318,9 @@ public class MenuController : MonoBehaviour {
 	private void SetPawnView(){
 		pawn1Image.sprite = pawn1Sprites [currentPosition];
 		pawn2Image.sprite = pawn2Sprites [currentPosition];
+	}
+
+	private void SetPawnPrefabs(){
 		pawn1.GetComponent<SpriteRenderer> ().sprite = pawn1Sprites [currentPosition];
 		pawn2.GetComponent<SpriteRenderer> ().sprite = pawn2Sprites [currentPosition];
 	}
@@ -331,12 +351,8 @@ public class MenuController : MonoBehaviour {
 			soundButtonText.text = "OFF"; 
 		}
 
-		bool forceBeating = SaveDataController.Instance.Data.isForceBeating;
-		if (forceBeating) {
-			forceBeatingText.text = "ON";
-		} else {
-			forceBeatingText.text = "OFF";
-		}
+		int difficult = SaveDataController.Instance.Data.difficult;
+		forceBeatingText.text = difficult.ToString();
 	}
 		
 	public void ShowAd()
