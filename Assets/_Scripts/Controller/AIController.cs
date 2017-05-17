@@ -10,12 +10,15 @@ public class AIController : MonoBehaviour {
 		public List<int[][]> boards;
 		public List<List<int[]>> moves;
 	}
+	private int depth;
 
 	public void Init()
 	{
 		app = App.Instance;
+		depth = SaveDataController.Instance.Data.difficult;
+
 	}
-	public void ComputerClick(List<int[]> moveToClick)
+	private void ComputerClick(List<int[]> moveToClick)
 	{
 		GameObject[] pawnsArray = app.controller.board.PawnsArray;
 		GameObject[] emptyArray = app.controller.board.EmptyArray;
@@ -39,7 +42,7 @@ public class AIController : MonoBehaviour {
 		}
 	}
 
-	public int[][] ComputerMakeMove(int depth)
+	public int[][] ComputerMakeMove()
 	{
 		AI_MiniMax Current = new AI_MiniMax(app.controller.board.Board, false);
 		AI_MiniMax next = Current.FindNextMove(depth);
@@ -176,7 +179,7 @@ public class AIController : MonoBehaviour {
 			return ret;
 		}
 
-		int CountPoints()
+		private int CountPoints()
 		{
 			int[] points = new int[2];
 			points[0] = 9;
@@ -196,8 +199,7 @@ public class AIController : MonoBehaviour {
 			{
 				GameOver = true;
 			}
-
-			return points[0]-points[1];
+			return Mathf.RoundToInt(Mathf.Pow ((float)(points [0] - points [1]),(float)app.controller.turns.TurnsWithouCapture));
 		}
 
 		void ComputeScore()

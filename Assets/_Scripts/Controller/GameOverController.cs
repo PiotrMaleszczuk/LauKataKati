@@ -12,6 +12,7 @@ public class GameOverController : MonoBehaviour {
 
 	private readonly Color GREEN = new Color (0f, 1f, 0f, 1f);
 	private readonly Color RED = new Color (1f, 0f, 0f, 1f);
+	private readonly Color YELLOW = new Color (1f, 0.92f, 0.016f, 1f);
 
 	public Button homeButton;
 	public Button restartButton;
@@ -28,14 +29,21 @@ public class GameOverController : MonoBehaviour {
 		restartButton.onClick.AddListener (Restart);
 	}
 
-	public void GameOver(bool winner){
-		if (winner == false) {
-			app.controller.gameOver.infoText.color = RED;
-			app.controller.gameOver.infoText.text = "YOU'RE the LOSER";
-		} 
-		else {
+	public void GameOver(int winner){
+		switch(winner)
+		{
+		case 1:
 			app.controller.gameOver.infoText.color = GREEN;
 			app.controller.gameOver.infoText.text = "YOU'RE the WINNER";
+			break;
+		case 2:
+			app.controller.gameOver.infoText.color = RED;
+			app.controller.gameOver.infoText.text = "YOU'RE the LOSER";
+			break;
+		case 3:
+			app.controller.gameOver.infoText.color = YELLOW;
+			app.controller.gameOver.infoText.text = "DRAW";
+			break;
 		}
 		gameOverUI.gameObject.SetActive (true);
 		ShowAd ();

@@ -10,7 +10,14 @@ public class TurnController : MonoBehaviour {
     private int turn;
     private bool captureAvailable = false;
 	private Text turnText;
+	private int turnsWithoutCapture;
+	private int[] points;
 
+
+	public int TurnsWithouCapture 
+	{
+		get { return turnsWithoutCapture; }
+	}
     public int Turn
     {
 		get { return turn; }
@@ -24,18 +31,21 @@ public class TurnController : MonoBehaviour {
     public void Init()
     {
         app = App.Instance;
+		captureAvailable = false;
+		turnsWithoutCapture = 0;
+		points = new int[]{ 0, 0 };
 		turnText = app.view.turnText;
 		turn = Random.Range(1,3);
         turnText.text = "Turn: Player " + turn + "\n\nScore: 0 | 0";
 		if (turn == 2)
-			app.controller.ai.ComputerMakeMove (9);
+			app.controller.ai.ComputerMakeMove ();
     }
 
     public void ChangeTurn()
     {
         if (turn == 1)
             turn = 2;
-        else
+		else if (turn == 2)
             turn = 1;
 		CountPoints ();
 
@@ -63,7 +73,7 @@ public class TurnController : MonoBehaviour {
             app.controller.logic.capture = false;
         }
 		if (turn == 2)
-			app.controller.ai.ComputerMakeMove (9);
+			app.controller.ai.ComputerMakeMove ();
         
         
         
@@ -72,7 +82,10 @@ public class TurnController : MonoBehaviour {
 
 	private void CountPoints()
 	{
-		int[] points = { 9, 9 };
+		int[] tmp_points = new int[2];
+		tmp_points[0] = points[0];
+		tmp_points[1] = points[1];
+		points = new int[]{ 9, 9 };
 		int[][] board = app.controller.board.Board;
 		for (int i = 0; i < board.Length; i++) {
 			for (int j = 0; j < board [i].Length; j++) {
@@ -82,20 +95,48 @@ public class TurnController : MonoBehaviour {
 					points [0]--;
 			}
 		}
+		if (tmp_points [0] == points [0] && tmp_points [1] == points [1])
+			turnsWithoutCapture++;
+		else
+			turnsWithoutCapture = 0;
+
+		if (TurnsWithouCapture >= 20) {
+			if (points [0] > points [1]) 
+			{
+				turnText.text = "Out of moves!\n\nPlayer 1 wins!!!\n\nScore: " + points [0] + " | " + points [1];
+				turn = -1;
+				app.controller.gameOver.GameOver (1);
+			} 
+			else if (points [1] > points [0]) 
+			{
+				turnText.text = "Out of moves!\n\nPlayer 2 wins!!!\n\nScore: " + points [0] + " | " + points [1];
+				turn = -1;
+				app.controller.gameOver.GameOver (2);
+			} 
+			else 
+			{
+				turnText.text = "Out of moves!\n\nDraw!!!\n\nScore: " + points [0] + " | " + points [1];
+				turn = -1;
+				app.controller.gameOver.GameOver (3);
+			}
+			
+		}
+
 		if (points[0] == 9)
 		{
-			app.controller.gameOver.GameOver (true);
-			turnText.text = "Player 1 wins!!!\n\nScore: " + points[1] + " | " + points[0];
+			turnText.text = "Player 1 wins!!!\n\nScore: " + points[0] + " | " + points[1];
 			turn = -1;
+			app.controller.gameOver.GameOver (1);
 		}
 		else if (points[1] == 9)
 		{
-			app.controller.gameOver.GameOver (false);
-			turnText.text = "Player 2 wins!!!\n\nScore: " + points[1] + " | " + points[0];
+			turnText.text = "Player 2 wins!!!\n\nScore: " + points[0] + " | " + points[1];
 			turn = -1;
+			app.controller.gameOver.GameOver (2);
 		}
 		else
-			turnText.text = "Turn: Player " + turn + "\n\nScore: " + points[1] + " | " + points[0];
+			turnText.text = "Turn: Player " + turn + "\n\nScore: " + points[0] + " | " + points[1]
+				+ "\n\nWithout capture: "+turnsWithoutCapture+"/20";
 	}
 
     private void PrintBoard(int[][] tab)
