@@ -35,6 +35,7 @@ public class GameOverController : MonoBehaviour {
 		case 1:
 			app.controller.gameOver.infoText.color = GREEN;
 			app.controller.gameOver.infoText.text = "YOU'RE the WINNER";
+			SaveDataController.Instance.Data.coins += 10;
 			break;
 		case 2:
 			app.controller.gameOver.infoText.color = RED;
@@ -43,6 +44,7 @@ public class GameOverController : MonoBehaviour {
 		case 3:
 			app.controller.gameOver.infoText.color = YELLOW;
 			app.controller.gameOver.infoText.text = "DRAW";
+			SaveDataController.Instance.Data.coins += 5;
 			break;
 		}
 		gameOverUI.gameObject.SetActive (true);

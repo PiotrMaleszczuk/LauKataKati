@@ -198,8 +198,8 @@ PlayerSettings:
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: C:/Users/kabac/Documents/_gamebase/gamebase.keystore
-  AndroidKeyaliasName: gamebase
+  AndroidKeystoreName: kauKataKati.keystore
+  AndroidKeyaliasName: lppteam
   AndroidTVCompatibility: 1
   AndroidIsGame: 1
   androidEnableBanner: 1

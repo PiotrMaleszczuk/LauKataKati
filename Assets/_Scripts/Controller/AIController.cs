@@ -16,6 +16,7 @@ public class AIController : MonoBehaviour {
 	{
 		app = App.Instance;
 		depth = SaveDataController.Instance.Data.difficult;
+		print (depth);
 
 	}
 	private void ComputerClick(List<int[]> moveToClick)
@@ -199,7 +200,7 @@ public class AIController : MonoBehaviour {
 			{
 				GameOver = true;
 			}
-			return Mathf.RoundToInt(Mathf.Pow ((float)(points [0] - points [1]),(float)app.controller.turns.TurnsWithouCapture));
+			return (points [0] - points [1]);
 		}
 
 		void ComputeScore()

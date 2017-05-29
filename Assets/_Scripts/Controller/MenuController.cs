@@ -95,6 +95,7 @@ public class MenuController : MonoBehaviour {
 		#elif UNITY_IOS
 		Advertisement.Initialize("1374174", false);
 		#endif
+		Application.targetFrameRate = 60;
 	}
 
 	void Start () {
@@ -136,11 +137,11 @@ public class MenuController : MonoBehaviour {
 	}
 
 	public void LocalMultiPlayerGame(){
-		SceneManager.LoadScene (SCENE_GAMEPLAY);
+		//SceneManager.LoadScene (SCENE_GAMEPLAY);
 	}
 
 	public void MultiplayerGame(){
-		SceneManager.LoadScene (SCENE_GAMEPLAY);
+		//SceneManager.LoadScene (SCENE_GAMEPLAY);
 	}
 
 	public void StartGame(){
@@ -235,7 +236,7 @@ public class MenuController : MonoBehaviour {
 		}
 
 		int difficult = SaveDataController.Instance.Data.difficult;
-		if (difficult == 3) {
+		if (difficult == 9) {
 			SaveDataController.Instance.Data.difficult = 1;
 		} else {
 			SaveDataController.Instance.Data.difficult += 1;
