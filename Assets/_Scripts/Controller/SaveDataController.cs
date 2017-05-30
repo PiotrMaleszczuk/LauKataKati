@@ -45,9 +45,10 @@ public class Data
 	private const string DIFFICULT_KEY = "difficult";
 	private const string SOUNDS_KEY = "sounds";
 	private const string FMT = "yyyy-MM-dd HH:mm:ss.fff";
-	//
+    private const string MODE_KEY = "mode";
+    //
 
-	public bool sounds {
+    public bool sounds {
 		get { if (PlayerPrefs.GetInt (SOUNDS_KEY) == 1)
 				return true;
 			else
@@ -92,9 +93,15 @@ public class Data
 	public int selectedSkin {
 		get {  return PlayerPrefs.GetInt(SELECTED_SKIN_KEY); }
 		set { PlayerPrefs.SetInt (SELECTED_SKIN_KEY, value); }
-	}
-		
-	public bool[] skinOwned {
+    }
+
+    public int mode
+    {
+        get { return PlayerPrefs.GetInt(MODE_KEY); }
+        set { PlayerPrefs.SetInt(MODE_KEY, value); }
+
+    }
+    public bool[] skinOwned {
 		get {
 			bool[] tab = new bool[10];
 			string stringTab = PlayerPrefs.GetString (SKIN_OWNED_KEY);
@@ -131,7 +138,8 @@ public class Data
 		if (!PlayerPrefs.HasKey(SOUNDS_KEY)) { PlayerPrefs.SetInt(SOUNDS_KEY, 0); }
 		if (!PlayerPrefs.HasKey(FORCE_BEATING_KEY)) { PlayerPrefs.SetInt(FORCE_BEATING_KEY, 0); }
 		if (!PlayerPrefs.HasKey(DIFFICULT_KEY)) { PlayerPrefs.SetInt(DIFFICULT_KEY, 1); }
-		if (!PlayerPrefs.HasKey(COINS_KEY)) { PlayerPrefs.SetInt(COINS_KEY, 0); }
+        if (!PlayerPrefs.HasKey(MODE_KEY)) { PlayerPrefs.SetInt(MODE_KEY, 1); }
+        if (!PlayerPrefs.HasKey(COINS_KEY)) { PlayerPrefs.SetInt(COINS_KEY, 0); }
 		if (!PlayerPrefs.HasKey(SELECTED_SKIN_KEY)) { PlayerPrefs.SetInt(SELECTED_SKIN_KEY, 0); }
 		if (!PlayerPrefs.HasKey(SKIN_OWNED_KEY)) { PlayerPrefs.SetString(SKIN_OWNED_KEY, "1000000000"); }
 		if (!PlayerPrefs.HasKey(LAST_WATCHED_AD_KEY)) { PlayerPrefs.SetString(LAST_WATCHED_AD_KEY, DateTime.MinValue.ToString(FMT)); }

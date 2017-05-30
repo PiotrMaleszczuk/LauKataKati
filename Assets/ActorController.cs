@@ -7,8 +7,6 @@ namespace LostPolygon.AndroidBluetoothMultiplayer.Examples {
 	/// 
 	public class ActorController : MonoBehaviour {
 		private NetworkView _networkView;
-		public int x;
-		public int y;
 		public int turn;
 		public bool started = false;
 

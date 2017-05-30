@@ -88,8 +88,12 @@ public class MenuController : MonoBehaviour {
 	public Button localMultiplayerGame;
 	public Button multiplayerGame;
 	public Button backBackgroundButton;
+    public Button multiplayerServerButton;
+    public Button multiplayerClientButton;
+    public Button multiplayerServerClientExit;
+    public GameObject multiplayerServerClientWindow;
 
-	void Awake() {
+    void Awake() {
 		#if UNITY_ANDROID
 		Advertisement.Initialize("1374173", false);
 		#elif UNITY_IOS
@@ -115,8 +119,11 @@ public class MenuController : MonoBehaviour {
 		forceBeatingButton.onClick.AddListener (ForceBeatingButton);
 		creditsButton.onClick.AddListener (CreditsButton);
 		creditsBack.onClick.AddListener (CreditsBackButton);
+        multiplayerServerButton.onClick.AddListener(MultiplayerServerButtonAction);
+        multiplayerClientButton.onClick.AddListener(MultiplayerClientButtonAction);
+        multiplayerServerClientExit.onClick.AddListener(MultiplayerWindowExitButtonAction);
 
-		leftArrowText = leftArrow.GetComponentInChildren<Text> ();
+        leftArrowText = leftArrow.GetComponentInChildren<Text> ();
 		rightArrowText = rightArrow.GetComponentInChildren<Text> ();
 		priceAnimator = priceText.GetComponent<Animator> ();
 		buyButtonText = buyButton.GetComponentInChildren<Text> ();
@@ -133,16 +140,40 @@ public class MenuController : MonoBehaviour {
 	}
 
 	public void SinglePlayerGame(){
-		SceneManager.LoadScene (SCENE_GAMEPLAY);
+        SaveDataController.Instance.Data.mode = 1;
+        SaveDataController.Instance.Data.Save();
+        SceneManager.LoadScene (SCENE_GAMEPLAY);
 	}
 
 	public void LocalMultiPlayerGame(){
-		//SceneManager.LoadScene (SCENE_GAMEPLAY);
-	}
+        SaveDataController.Instance.Data.mode = 2;
+        SaveDataController.Instance.Data.Save();
+        SceneManager.LoadScene(SCENE_GAMEPLAY);
+    }
 
-	public void MultiplayerGame(){
-		//SceneManager.LoadScene (SCENE_GAMEPLAY);
-	}
+    public void MultiplayerGame()
+    {
+        this.multiplayerServerClientWindow.SetActive(true);
+    }
+
+    public void MultiplayerServerButtonAction()
+    {
+        SaveDataController.Instance.Data.mode = 3;
+        SaveDataController.Instance.Data.Save();
+        SceneManager.LoadScene(SCENE_GAMEPLAY);
+    }
+
+    public void MultiplayerClientButtonAction()
+    {
+        SaveDataController.Instance.Data.mode = 4;
+        SaveDataController.Instance.Data.Save();
+        SceneManager.LoadScene(SCENE_GAMEPLAY);
+    }
+
+    public void MultiplayerWindowExitButtonAction()
+    {
+        this.multiplayerServerClientWindow.SetActive(false);
+    }
 
 	public void StartGame(){
 		animator.ResetTrigger (MODE_TO_MAIN_TRIGGER);
