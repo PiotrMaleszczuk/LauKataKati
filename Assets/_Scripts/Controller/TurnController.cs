@@ -12,7 +12,14 @@ public class TurnController : MonoBehaviour {
 	private Text turnText;
 	private int turnsWithoutCapture;
 	private int[] points;
+	private Mode mode;
 
+	private enum Mode {
+		single,
+		multiplayer_local,
+		multiplayer_bluetooth_client,
+		multiplayer_bluetooth_server
+	}
 
 	public int TurnsWithouCapture 
 	{
@@ -31,14 +38,31 @@ public class TurnController : MonoBehaviour {
     public void Init()
     {
         app = App.Instance;
+		int modeIndex = SaveDataController.Instance.Data.mode;
+		switch (modeIndex) {
+		case 1:
+			this.mode = Mode.single;
+			break;
+		case 2:
+			this.mode = Mode.multiplayer_local;
+			break;
+		case 3:
+			this.mode = Mode.multiplayer_bluetooth_server;
+			break;
+		case 4:
+			this.mode = Mode.multiplayer_bluetooth_client;
+			break;
+		}
 		captureAvailable = false;
 		turnsWithoutCapture = 0;
 		points = new int[]{ 0, 0 };
 		turnText = app.view.turnText;
 		turn = Random.Range(1,3);
         turnText.text = "Turn: Player " + turn + "\n\nScore: 0 | 0";
-		if (turn == 2)
-			app.controller.ai.ComputerMakeMove ();
+		if(mode == Mode.single){
+			if (turn == 2)
+				app.controller.ai.ComputerMakeMove ();
+		}
     }
 
     public void ChangeTurn()
@@ -72,9 +96,11 @@ public class TurnController : MonoBehaviour {
             }
             app.controller.logic.capture = false;
         }
-		if (turn == 2)
-			app.controller.ai.ComputerMakeMove ();
-        
+
+		if (mode == Mode.single) {
+			if (turn == 2)
+				app.controller.ai.ComputerMakeMove ();
+		}
         
         
         
