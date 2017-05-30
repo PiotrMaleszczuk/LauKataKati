@@ -119,7 +119,7 @@ PlayerSettings:
     16:10: 1
     16:9: 1
     Others: 1
-  bundleIdentifier: com.codeaddict.gamebase
+  bundleIdentifier: com.LPPTeam.LauKataKati
   bundleVersion: 1.0
   preloadedAssets: []
   metroInputSource: 0
@@ -198,7 +198,7 @@ PlayerSettings:
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: kauKataKati.keystore
+  AndroidKeystoreName: D:/UnityProjects/LKK/LauKataKati/kauKataKati.keystore
   AndroidKeyaliasName: lppteam
   AndroidTVCompatibility: 1
   AndroidIsGame: 1

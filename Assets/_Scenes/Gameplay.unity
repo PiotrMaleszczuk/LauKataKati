@@ -3304,6 +3304,7 @@ GameObject:
   - component: {fileID: 1834928200}
   - component: {fileID: 1834928201}
   - component: {fileID: 1834928202}
+  - component: {fileID: 1834928203}
   m_Layer: 0
   m_Name: controller
   m_TagString: Untagged
@@ -3432,6 +3433,19 @@ MonoBehaviour:
   homeButton: {fileID: 860982427}
   restartButton: {fileID: 1288315753}
   infoText: {fileID: 1290598365}
+--- !u!114 &1834928203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1834928192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19cd8dffe8dd36e4894e10934099a6a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActorPrefab: {fileID: 1410505564914800, guid: 02fe37aaf2365564daf7753a9a62ae69,
+    type: 2}
 --- !u!1 &1879820772
 GameObject:
   m_ObjectHideFlags: 0

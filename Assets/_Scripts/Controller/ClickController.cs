@@ -29,7 +29,6 @@ public class ClickController : MonoBehaviour
 					board.Click (pS);
 				}
 			}
-
 			if (Input.GetMouseButtonDown (0)) {
 				Vector3 mousePos = Camera.main.ScreenToWorldPoint (Input.mousePosition);
 				mousePos.z = 0;
