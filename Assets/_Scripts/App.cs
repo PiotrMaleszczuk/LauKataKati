@@ -37,6 +37,8 @@ public class App : MonoBehaviour {
 		public PauseController pause;
         public AIController ai;
 		public GameOverController gameOver;
+        public BluetoothController bluetooth;
+        public GameModeController gameMode;
     }
 
     public Model model;

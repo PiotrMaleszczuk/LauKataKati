@@ -7,20 +7,15 @@ using UnityEngine.UI;
 public class TurnController : MonoBehaviour {
 
     private App app;
+    private GameModeController gameMode;
     private int turn;
     private bool captureAvailable = false;
 	private Text turnText;
 	private int turnsWithoutCapture;
 	private int[] points;
-    private Mode mode;
- 
-    private enum Mode
-    {
-        single,
-        multiplayer_local,
-        multiplayer_bluetooth_client,
-        multiplayer_bluetooth_server
-    }
+   
+    private bool started = false;
+    
 
     public int TurnsWithouCapture 
 	{
@@ -39,32 +34,31 @@ public class TurnController : MonoBehaviour {
     public void Init()
     {
         app = App.Instance;
-        int modeIndex = SaveDataController.Instance.Data.mode;
-        switch (modeIndex)
-        {
-            case 1:
-                this.mode = Mode.single;
-                break;
-            case 2:
-                this.mode = Mode.multiplayer_local;
-                break;
-            case 3:
-                this.mode = Mode.multiplayer_bluetooth_server;
-                break;
-            case 4:
-                this.mode = Mode.multiplayer_bluetooth_client;
-                break;
-        }
-    captureAvailable = false;
+        gameMode = app.controller.gameMode;
+        captureAvailable = false;
 		turnsWithoutCapture = 0;
 		points = new int[]{ 0, 0 };
 		turnText = app.view.turnText;
-		turn = Random.Range(1,3);
-        turnText.text = "Turn: Player " + turn + "\n\nScore: 0 | 0";
-        if (mode == Mode.single)
+        if (gameMode.mode != GameModeController.Mode.multiplayer_bluetooth_client)
+        {
+            turn = Random.Range(1, 3);
+            turnText.text = "Turn: Player " + turn + "\n\nScore: 0 | 0";
+            started = true;
+        }
+        if (gameMode.mode == GameModeController.Mode.single)
         {
             if (turn == 2)
                 app.controller.ai.ComputerMakeMove();
+        }
+    }
+    
+    public void SetTurnBeforeStart(int turn)
+    {
+        if(!started)
+        {
+            this.turn = turn;
+            turnText.text = "Turn: Player " + turn + "\n\nScore: 0 | 0";
+            started = true;
         }
     }
 
@@ -99,7 +93,7 @@ public class TurnController : MonoBehaviour {
             }
             app.controller.logic.capture = false;
         }
-        if (mode == Mode.single)
+        if (gameMode.mode == GameModeController.Mode.single)
         {
             if (turn == 2)
                 app.controller.ai.ComputerMakeMove();

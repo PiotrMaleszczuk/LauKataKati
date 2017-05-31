@@ -834,6 +834,8 @@ MonoBehaviour:
     pause: {fileID: 1834928200}
     ai: {fileID: 1834928201}
     gameOver: {fileID: 1834928202}
+    bluetooth: {fileID: 1834928203}
+    gameMode: {fileID: 1834928205}
 --- !u!1 &601493799
 GameObject:
   m_ObjectHideFlags: 0
@@ -3305,6 +3307,8 @@ GameObject:
   - component: {fileID: 1834928201}
   - component: {fileID: 1834928202}
   - component: {fileID: 1834928203}
+  - component: {fileID: 1834928204}
+  - component: {fileID: 1834928205}
   m_Layer: 0
   m_Name: controller
   m_TagString: Untagged
@@ -3441,11 +3445,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 1834928192}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19cd8dffe8dd36e4894e10934099a6a9, type: 3}
+  m_Script: {fileID: 11500000, guid: 5a038e21159601740bedeef16c22d526, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActorPrefab: {fileID: 1410505564914800, guid: 02fe37aaf2365564daf7753a9a62ae69,
-    type: 2}
+--- !u!148 &1834928204
+NetworkView:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1834928192}
+  m_Enabled: 1
+  m_StateSynchronization: 1
+  m_Observed: {fileID: 1834928203}
+  m_ViewID:
+    m_ID: 1
+    m_Type: 1
+--- !u!114 &1834928205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1834928192}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04c488c060ccda74b9534c8fef3f1be0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1879820772
 GameObject:
   m_ObjectHideFlags: 0

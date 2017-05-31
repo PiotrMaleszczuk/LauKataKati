@@ -147,29 +147,35 @@ public class BoardController : MonoBehaviour
 
 	public void Click (PawnScript pawnScript)
 	{
-		print ("Clicked - team: " + pawnScript.team + " x: " + pawnScript.matrix_x + " y: " + pawnScript.matrix_y);
+        Debug.Log("Clicked - team: " + pawnScript.team + " x: " + pawnScript.matrix_x + " y: " + pawnScript.matrix_y);
         if (ps_chosen == null && pawnScript.team == app.controller.turns.Turn)
         {
             if (app.controller.turns.CaptureAvailable != pawnScript.canCapture) {
-                print("CaptureAvailable!");
+                Debug.Log("CaptureAvailable!");
                 return;
             }
             ps_chosen = pawnScript;
-            print("Chosen pawn: " + ps_chosen.id);
+            Debug.Log("Chosen pawn: " + ps_chosen.id);
             moves_list = app.controller.logic.checking(pawnScript.team, pawnScript.matrix_x, pawnScript.matrix_y, board);
             for (int i = 0; i < moves_list.Count; i++)
             {
-                print("Logic = x: " + moves_list[i][0] + " y: " + moves_list[i][1]);
+                Debug.Log("Logic = x: " + moves_list[i][0] + " y: " + moves_list[i][1]);
             }
             glowController.Glowing(ps_chosen, moves_list);
+            if ((app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client && app.controller.turns.Turn == 2)|| 
+                (app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server && app.controller.turns.Turn == 1))
+                app.controller.bluetooth.SendMove(pawnScript.matrix_x, pawnScript.matrix_y);
         }
         else if (ps_chosen == pawnScript)
         {
-            print("Unchosen pawn: " + pawnScript.id);
+            Debug.Log("Unchosen pawn: " + pawnScript.id);
             ps_chosen = null;
             app.controller.logic.capture = false;
             moves_list.Clear();
             glowController.DisableGlows();
+            if ((app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client && app.controller.turns.Turn == 2) ||
+                (app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server && app.controller.turns.Turn == 1))
+                app.controller.bluetooth.SendMove(pawnScript.matrix_x, pawnScript.matrix_y);
         }
         else if (pawnScript.team == 0 && ps_chosen != null)
         {
@@ -207,6 +213,9 @@ public class BoardController : MonoBehaviour
                     ps_chosen.MoveTo(pawnScript.transform.localPosition.x, pawnScript.transform.localPosition.y);
                     board[pawnScript.matrix_x][pawnScript.matrix_y] = ps_chosen.team;
                     glowController.DisableGlows();
+                    if ((app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client && app.controller.turns.Turn == 2) ||
+                        (app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server && app.controller.turns.Turn == 1))
+                        app.controller.bluetooth.SendMove(pawnScript.matrix_x, pawnScript.matrix_y);
                     if (!app.controller.logic.capture)
                     {
                         moves_list.Clear();
@@ -217,6 +226,7 @@ public class BoardController : MonoBehaviour
                     {
                         glowController.Glowing(ps_chosen, moves_list);
                     }
+
                     break;
                 }
             }

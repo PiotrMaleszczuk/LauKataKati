@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour {
     //Controllers inits
     void Awake(){
         app = App.Instance;
+        app.controller.gameMode.Init ();
 		app.controller.board.Init ();
 		app.controller.click.Init ();
 		app.controller.logic.Init ();
@@ -17,6 +18,6 @@ public class GameController : MonoBehaviour {
         app.controller.ai.Init();
 		app.controller.gameOver.Init ();
 		app.controller.turns.Init ();
-
+        app.controller.bluetooth.Init ();
 	}
 }
