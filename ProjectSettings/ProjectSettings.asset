@@ -198,7 +198,7 @@ PlayerSettings:
   AndroidTargetDevice: 0
   AndroidSplashScreenScale: 0
   androidSplashScreen: {fileID: 0}
-  AndroidKeystoreName: D:/UnityProjects/LKK/LauKataKati/kauKataKati.keystore
+  AndroidKeystoreName: E:/UnityProjects/LauKataKati/LauKataKati/kauKataKati.keystore
   AndroidKeyaliasName: lppteam
   AndroidTVCompatibility: 1
   AndroidIsGame: 1

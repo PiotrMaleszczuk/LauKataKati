@@ -164,7 +164,9 @@ public class BoardController : MonoBehaviour
             glowController.Glowing(ps_chosen, moves_list);
             if ((app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client && app.controller.turns.Turn == 2)|| 
                 (app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server && app.controller.turns.Turn == 1))
-                app.controller.bluetooth.SendMove(pawnScript.matrix_x, pawnScript.matrix_y);
+				//app.controller.bluetooth.SendMove(pawnScript.matrix_x, pawnScript.matrix_y);
+				FindObjectOfType<LostPolygon.AndroidBluetoothMultiplayer.Examples.ActorController>().SendMove(pawnScript.matrix_x, pawnScript.matrix_y);
+			
         }
         else if (ps_chosen == pawnScript)
         {
@@ -175,7 +177,8 @@ public class BoardController : MonoBehaviour
             glowController.DisableGlows();
             if ((app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client && app.controller.turns.Turn == 2) ||
                 (app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server && app.controller.turns.Turn == 1))
-                app.controller.bluetooth.SendMove(pawnScript.matrix_x, pawnScript.matrix_y);
+                //app.controller.bluetooth.SendMove(pawnScript.matrix_x, pawnScript.matrix_y);
+					FindObjectOfType<LostPolygon.AndroidBluetoothMultiplayer.Examples.ActorController>().SendMove(pawnScript.matrix_x, pawnScript.matrix_y);
         }
         else if (pawnScript.team == 0 && ps_chosen != null)
         {
@@ -215,7 +218,8 @@ public class BoardController : MonoBehaviour
                     glowController.DisableGlows();
                     if ((app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client && app.controller.turns.Turn == 2) ||
                         (app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server && app.controller.turns.Turn == 1))
-                        app.controller.bluetooth.SendMove(pawnScript.matrix_x, pawnScript.matrix_y);
+                        //app.controller.bluetooth.SendMove(pawnScript.matrix_x, pawnScript.matrix_y);
+							FindObjectOfType<LostPolygon.AndroidBluetoothMultiplayer.Examples.ActorController>().SendMove(pawnScript.matrix_x, pawnScript.matrix_y);
                     if (!app.controller.logic.capture)
                     {
                         moves_list.Clear();

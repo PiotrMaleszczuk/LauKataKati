@@ -36,6 +36,7 @@ public class PauseController : MonoBehaviour {
 	}
 
 	private void Home(){
+		app.controller.bluetooth.StopConnection ();
 		SceneManager.LoadScene (SCENE_MENU);
 	}
 

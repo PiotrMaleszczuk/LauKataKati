@@ -5,8 +5,9 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 
-public class BluetoothController : BluetoothDemoGuiBase
+public class BluetoothController : MonoBehaviour
 {
+	public GameObject ActorPrefab; // Reference to the test actor
     private App app;
 
     private const string SCENE_MENU = "Menu";
@@ -30,10 +31,9 @@ public class BluetoothController : BluetoothDemoGuiBase
 
 
     // Don't forget to unregister the event delegates!
-    protected override void OnDestroy()
-    {
-        base.OnDestroy();
-
+    void OnDestroy()
+	{
+		Screen.sleepTimeout = SleepTimeout.SystemSetting;
         AndroidBluetoothMultiplayer.ListeningStarted -= OnBluetoothListeningStarted;
         AndroidBluetoothMultiplayer.ListeningStopped -= OnBluetoothListeningStopped;
         AndroidBluetoothMultiplayer.AdapterEnabled -= OnBluetoothAdapterEnabled;
@@ -148,7 +148,7 @@ public class BluetoothController : BluetoothDemoGuiBase
                 started = true;
             }*/
             started = true;
-            SetupGame();
+            //SetupGame();
         }
         else
         {
@@ -158,244 +158,172 @@ public class BluetoothController : BluetoothDemoGuiBase
         }
     }
 
-    private enum SendState
-    {
-        wait,
-        setup,
-        transfer
-    }
-    private SendState sendState = SendState.wait;
-    private List<int> xToSend = new List<int>();
-    private List<int> yToSend = new List<int>();
-
-    public void SetupGame()
-    {
-        sendState = SendState.setup;
-    }
-
-    public void SendMove(int x, int y)
-    {
-        print("SendMove: " + x + " "+y);
-        sendState = SendState.transfer;
-        print("SendMove sendState: " + sendState);
-        xToSend.Add(x);
-        yToSend.Add(y);
-    }
-
-
-    private void PrepareClick(int x, int y)
-    {
-        GameObject[] pawnsArray = app.controller.board.PawnsArray;
-        bool isPawn = false;
-        for (int j = 0; j < pawnsArray.Length; j++)
-        {
-            PawnScript ps = pawnsArray[j].GetComponent<PawnScript>();
-            if (ps.matrix_x == x && ps.matrix_y == y)
-            {
-                app.controller.board.Click(ps);
-                isPawn = true;
-                break;
-            }
-        }
-        if(!isPawn)
-        {
-            GameObject[] empty = app.controller.board.EmptyArray;
-            for (int j = 0; j < empty.Length; j++)
-            {
-                PawnScript ps = empty[j].GetComponent<PawnScript>();
-                if (ps.matrix_x == x && ps.matrix_y == y)
-                {
-                    app.controller.board.Click(ps);
-                    break;
-                }
-            }
-        }
-    }
     
-    private void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info) {
 
-        if (started) {
-            if (stream.isWriting) {
-                print("Writing sendState: " + sendState);
-                if (sendState == SendState.setup)
-                {
-                    int ss = (int)sendState;
-                    Debug.Log("Send Sendstate: " + ss);
-                    stream.Serialize(ref ss);
-                    if (app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server)
-                    {
-                        int turn = FindObjectOfType<TurnController>().Turn;
-                        Debug.Log("Send turn: " + turn);
-                        stream.Serialize(ref turn);
-                    }
-                    sendState = SendState.wait;
-                }
-                else if (sendState == SendState.transfer)
-                {
-                    int ss = (int)sendState;
-                    int x = xToSend[0];
-                    int y = yToSend[0];
-                    Debug.Log("Send Sendstate: " + ss);
-                    Debug.Log("Send Move: " + x + " - "+y);
+	private void OnGUI() {
+		BluetoothMultiplayerMode currentMode = AndroidBluetoothMultiplayer.GetCurrentMode();
+		if (currentMode != BluetoothMultiplayerMode.None) {
+			GUI.contentColor = Color.black;
+			GUI.Label (
+				new Rect (10, 10, 300, 100), 
+				currentMode == BluetoothMultiplayerMode.Client ? "Client Connected" : "Server Connected");
+		} else {
+			GUI.contentColor = Color.black;
+			GUI.Label (
+				new Rect (10, 10, 300, 100), 
+				"Disconnected");
+		}
+	}
+    
+    
 
-                    stream.Serialize(ref ss);
-                    stream.Serialize(ref x);
-                    stream.Serialize(ref y);
+	public void StopConnection(){
+		if (Network.peerType != NetworkPeerType.Disconnected)
+			Network.Disconnect();
+		OnBackToMenu ();
+	}
 
-
-
-                    xToSend.RemoveAt(0);
-                    yToSend.RemoveAt(0);
-                    if (xToSend.Count==0)
-                        sendState = SendState.wait;
-                }
-            } else {
-                int ss = (int)SendState.wait;
-                stream.Serialize(ref ss);
-                Debug.Log("Recive Sendstate: " + ss);
-                if (ss == (int)SendState.setup)
-                {
-                    if (app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client)
-                    {
-                        int turn = 0;
-                        stream.Serialize(ref turn);
-                        Debug.Log("Recive turn: " + turn);
-                        app.controller.turns.SetTurnBeforeStart(turn);
-                    }
-                    else
-                    {
-                        SetupGame();
-                    }
-                }
-                else if (ss == (int)SendState.transfer)
-                {
-                    int x = -1;
-                    int y = -1;
-                    stream.Serialize(ref x);
-                    stream.Serialize(ref y);
-
-                    Debug.Log("Recive Move: " + x + " - " + y);
-                    PrepareClick(x,y);
-                }
-
-            }
+	public void OnBackToMenu() {
+		// Gracefully closing all Bluetooth connectivity and loading the menu
+		try {
+			AndroidBluetoothMultiplayer.StopDiscovery();
+			AndroidBluetoothMultiplayer.Stop();
+		} catch {
+			// 
 		}
 	}
 
-    protected override void OnBackToMenu()
-    {
-        // Gracefully closing all Bluetooth connectivity and loading the menu
-        try
-        {
-            AndroidBluetoothMultiplayer.StopDiscovery();
-            AndroidBluetoothMultiplayer.Stop();
-        }
-        catch
-        {
-            // 
-        }
-        SceneManager.LoadScene(SCENE_MENU);
+	#region Bluetooth events
 
-    }
+	private void OnBluetoothListeningStarted() {
+		Debug.Log("Event - ListeningStarted");
 
-    #region Bluetooth events
+		// Starting Unity networking server if Bluetooth listening started successfully
+		Network.InitializeServer(4, kPort, false);
+	}
 
-    private void OnBluetoothListeningStarted()
-    {
-        Debug.Log("Event - ListeningStarted");
+	private void OnBluetoothListeningStopped() {
+		Debug.Log("Event - ListeningStopped");
 
-        // Starting Unity networking server if Bluetooth listening started successfully
-        Network.InitializeServer(4, kPort, false);
-    }
+		// For demo simplicity, stop server if listening was canceled
+		AndroidBluetoothMultiplayer.Stop();
+	}
 
-    private void OnBluetoothListeningStopped()
-    {
-        Debug.Log("Event - ListeningStopped");
+	private void OnBluetoothDevicePicked(BluetoothDevice device) {
+		Debug.Log("Event - DevicePicked: " + BluetoothExamplesTools.FormatDevice(device));
 
-        // For demo simplicity, stop server if listening was canceled
-        AndroidBluetoothMultiplayer.Stop();
-    }
+		// Trying to connect to a device user had picked
+		AndroidBluetoothMultiplayer.Connect(device.Address, kPort);
+	}
 
-    private void OnBluetoothDevicePicked(BluetoothDevice device)
-    {
-        Debug.Log("Event - DevicePicked: " + BluetoothExamplesTools.FormatDevice(device));
+	private void OnBluetoothClientDisconnected(BluetoothDevice device) {
+		Debug.Log("Event - ClientDisconnected: " + BluetoothExamplesTools.FormatDevice(device));
+	}
 
-        // Trying to connect to a device user had picked
-        AndroidBluetoothMultiplayer.Connect(device.Address, kPort);
-    }
+	private void OnBluetoothClientConnected(BluetoothDevice device) {
+		Debug.Log("Event - ClientConnected: " + BluetoothExamplesTools.FormatDevice(device));
+	}
 
-    private void OnBluetoothClientDisconnected(BluetoothDevice device)
-    {
-        Debug.Log("Event - ClientDisconnected: " + BluetoothExamplesTools.FormatDevice(device));
-    }
+	private void OnBluetoothDisconnectedFromServer(BluetoothDevice device) {
+		Debug.Log("Event - DisconnectedFromServer: " + BluetoothExamplesTools.FormatDevice(device));
 
-    private void OnBluetoothClientConnected(BluetoothDevice device)
-    {
-        Debug.Log("Event - ClientConnected: " + BluetoothExamplesTools.FormatDevice(device));
-    }
+		// Stopping Unity networking on Bluetooth failure
+		Network.Disconnect();
+	}
 
-    private void OnBluetoothDisconnectedFromServer(BluetoothDevice device)
-    {
-        Debug.Log("Event - DisconnectedFromServer: " + BluetoothExamplesTools.FormatDevice(device));
+	private void OnBluetoothConnectionToServerFailed(BluetoothDevice device) {
+		Debug.Log("Event - ConnectionToServerFailed: " + BluetoothExamplesTools.FormatDevice(device));
+	}
 
-        // Stopping Unity networking on Bluetooth failure
-        Network.Disconnect();
-    }
+	private void OnBluetoothConnectedToServer(BluetoothDevice device) {
+		Debug.Log("Event - ConnectedToServer: " + BluetoothExamplesTools.FormatDevice(device));
 
-    private void OnBluetoothConnectionToServerFailed(BluetoothDevice device)
-    {
-        Debug.Log("Event - ConnectionToServerFailed: " + BluetoothExamplesTools.FormatDevice(device));
-    }
+		// Trying to negotiate a Unity networking connection, 
+		// when Bluetooth client connected successfully
+		Network.Connect(kLocalIp, kPort);
+	}
 
-    private void OnBluetoothConnectedToServer(BluetoothDevice device)
-    {
-        Debug.Log("Event - ConnectedToServer: " + BluetoothExamplesTools.FormatDevice(device));
+	private void OnBluetoothAdapterDisabled() {
+		Debug.Log("Event - AdapterDisabled");
+	}
 
-        // Trying to negotiate a Unity networking connection, 
-        // when Bluetooth client connected successfully
-        Network.Connect(kLocalIp, kPort);
-    }
+	private void OnBluetoothAdapterEnableFailed() {
+		Debug.Log("Event - AdapterEnableFailed");
+	}
 
-    private void OnBluetoothAdapterDisabled()
-    {
-        Debug.Log("Event - AdapterDisabled");
-    }
+	private void OnBluetoothAdapterEnabled() {
+		Debug.Log("Event - AdapterEnabled");
 
-    private void OnBluetoothAdapterEnableFailed()
-    {
-        Debug.Log("Event - AdapterEnableFailed");
-    }
+		// Resuming desired action after enabling the adapter
+		switch (_desiredMode) {
+		case BluetoothMultiplayerMode.Server:
+			Network.Disconnect();
+			AndroidBluetoothMultiplayer.StartServer(kPort);
+			break;
+		case BluetoothMultiplayerMode.Client:
+			Network.Disconnect();
+			AndroidBluetoothMultiplayer.ShowDeviceList();
+			break;
+		}
 
-    private void OnBluetoothAdapterEnabled()
-    {
-        Debug.Log("Event - AdapterEnabled");
+		_desiredMode = BluetoothMultiplayerMode.None;
+	}
 
-        // Resuming desired action after enabling the adapter
-        switch (_desiredMode)
-        {
-            case BluetoothMultiplayerMode.Server:
-                Network.Disconnect();
-                AndroidBluetoothMultiplayer.StartServer(kPort);
-                break;
-            case BluetoothMultiplayerMode.Client:
-                Network.Disconnect();
-                AndroidBluetoothMultiplayer.ShowDeviceList();
-                break;
-        }
+	private void OnBluetoothDiscoverabilityEnableFailed() {
+		Debug.Log("Event - DiscoverabilityEnableFailed");
+	}
 
-        _desiredMode = BluetoothMultiplayerMode.None;
-    }
+	private void OnBluetoothDiscoverabilityEnabled(int discoverabilityDuration) {
+		Debug.Log(string.Format("Event - DiscoverabilityEnabled: {0} seconds", discoverabilityDuration));
+	}
 
-    private void OnBluetoothDiscoverabilityEnableFailed()
-    {
-        Debug.Log("Event - DiscoverabilityEnableFailed");
-    }
+	#endregion Bluetooth events
 
-    private void OnBluetoothDiscoverabilityEnabled(int discoverabilityDuration)
-    {
-        Debug.Log(string.Format("Event - DiscoverabilityEnabled: {0} seconds", discoverabilityDuration));
-    }
+	#region Network events
 
-    #endregion Bluetooth events
+	private void OnPlayerDisconnected(NetworkPlayer player) {
+		Debug.Log("Player disconnected: " + player.GetHashCode());
+		Network.RemoveRPCs(player);
+		Network.DestroyPlayerObjects(player);
+	}
+
+	private void OnFailedToConnect(NetworkConnectionError error) {
+		Debug.Log("Can't connect to the networking server");
+
+		// Stopping all Bluetooth connectivity on Unity networking disconnect event
+		AndroidBluetoothMultiplayer.Stop();
+	}
+
+	private void OnDisconnectedFromServer() {
+		Debug.Log("Disconnected from server");
+
+		// Stopping all Bluetooth connectivity on Unity networking disconnect event
+		AndroidBluetoothMultiplayer.Stop();
+
+		TestActor[] objects = FindObjectsOfType(typeof(TestActor)) as TestActor[];
+		if (objects != null) {
+			foreach (TestActor obj in objects) {
+				Destroy(obj.gameObject);
+			}
+		}
+	}
+
+	private void OnConnectedToServer() {
+		Debug.Log("Connected to server");
+
+		// Instantiating a simple test actor
+		Network.Instantiate(ActorPrefab, Vector3.zero, Quaternion.identity, 0);
+	}
+
+	private void OnServerInitialized() {
+		Debug.Log("Server initialized");
+
+		// Instantiating a simple test actor
+		if (Network.isServer) {
+			Network.Instantiate(ActorPrefab, Vector3.zero, Quaternion.identity, 0);
+		}
+	}
+
+	#endregion Network events
 
 }

@@ -71,7 +71,7 @@ namespace LostPolygon.AndroidBluetoothMultiplayer.Examples {
                 stream.Serialize(ref color.g);
                 stream.Serialize(ref color.b);
                 stream.Serialize(ref color.a);
-
+				Debug.Log (color);
                 _renderer.material.color = color;
             }
 

@@ -20,7 +20,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4620028655393492}
   - component: {fileID: 148682353197838220}
-  - component: {fileID: 114857192319289578}
+  - component: {fileID: 114320336553727346}
   m_Layer: 0
   m_Name: actor
   m_TagString: Untagged
@@ -41,7 +41,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114857192319289578
+--- !u!114 &114320336553727346
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -49,11 +49,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 1410505564914800}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a038e21159601740bedeef16c22d526, type: 3}
+  m_Script: {fileID: 11500000, guid: 8c1fc491d7284ce43b3e9fb6d52cc34c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  x: 0
-  y: 0
   turn: 0
   started: 0
 --- !u!148 &148682353197838220
@@ -64,7 +62,7 @@ NetworkView:
   m_GameObject: {fileID: 1410505564914800}
   m_Enabled: 1
   m_StateSynchronization: 2
-  m_Observed: {fileID: 0}
+  m_Observed: {fileID: 114320336553727346}
   m_ViewID:
     m_ID: 0
     m_Type: 0

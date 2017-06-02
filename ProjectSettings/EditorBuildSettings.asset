@@ -11,3 +11,11 @@ EditorBuildSettings:
     path: Assets/_Scenes/Gameplay.unity
   - enabled: 0
     path: Assets/Scene/Gameplay.unity
+  - enabled: 0
+    path: Assets/AndroidBluetoothMultiplayer/Demos/Scenes/BluetoothDemoMenu.unity
+  - enabled: 0
+    path: Assets/AndroidBluetoothMultiplayer/Demos/Scenes/BluetoothMultiplayerDemo.unity
+  - enabled: 0
+    path: Assets/AndroidBluetoothMultiplayer/Demos/Scenes/BluetoothFileTransferDemo.unity
+  - enabled: 0
+    path: Assets/AndroidBluetoothMultiplayer/Demos/Scenes/BluetoothDiscoveryDemo.unity
