@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using LostPolygon.AndroidBluetoothMultiplayer;
 using LostPolygon.AndroidBluetoothMultiplayer.Examples;
 using UnityEngine.SceneManagement;
@@ -8,6 +9,9 @@ using System.Collections.Generic;
 public class BluetoothController : MonoBehaviour
 {
 	public GameObject ActorPrefab; // Reference to the test actor
+	public GameObject ServerClientMultiplayerWindow;
+	public Text ServerClinetInfo;
+	public Button homeButton;
     private App app;
 
     private const string SCENE_MENU = "Menu";
@@ -49,10 +53,26 @@ public class BluetoothController : MonoBehaviour
         AndroidBluetoothMultiplayer.DevicePicked -= OnBluetoothDevicePicked;
     }
 
+	private void Home(){
+		StopConnection ();
+		SceneManager.LoadScene (SCENE_MENU);
+	}
+
     public void Init()
     {
         app = App.Instance;
+		switch (app.controller.gameMode.mode) {
+		case GameModeController.Mode.multiplayer_bluetooth_client:
+			ServerClientMultiplayerWindow.SetActive (true);
+			ServerClinetInfo.text = "Connecting to server...";
+			break;
+		case GameModeController.Mode.multiplayer_bluetooth_server:
+			ServerClientMultiplayerWindow.SetActive (true);
+			ServerClinetInfo.text = "Waiting for player...";
+			break;
+		}
 
+		homeButton.onClick.AddListener (Home);
         // Setting the UUID. Must be unique for every application
         _initResult = AndroidBluetoothMultiplayer.Initialize("8ce255c0-200a-11e0-ac64-0800200c9a66");
 
@@ -157,25 +177,21 @@ public class BluetoothController : MonoBehaviour
         }
     }
 
+//	private void OnGUI() {
+//		BluetoothMultiplayerMode currentMode = AndroidBluetoothMultiplayer.GetCurrentMode();
+//		if (currentMode != BluetoothMultiplayerMode.None) {
+//			GUI.contentColor = Color.black;
+//			GUI.Label (
+//				new Rect (10, 10, 300, 100), 
+//				currentMode == BluetoothMultiplayerMode.Client ? "Client Connected" : "Server Connected");
+//		} else {
+//			GUI.contentColor = Color.black;
+//			GUI.Label (
+//				new Rect (10, 10, 300, 100), 
+//				"Disconnected");
+//		}
+//	}
     
-
-	private void OnGUI() {
-		BluetoothMultiplayerMode currentMode = AndroidBluetoothMultiplayer.GetCurrentMode();
-		if (currentMode != BluetoothMultiplayerMode.None) {
-			GUI.contentColor = Color.black;
-			GUI.Label (
-				new Rect (10, 10, 300, 100), 
-				currentMode == BluetoothMultiplayerMode.Client ? "Client Connected" : "Server Connected");
-		} else {
-			GUI.contentColor = Color.black;
-			GUI.Label (
-				new Rect (10, 10, 300, 100), 
-				"Disconnected");
-		}
-	}
-    
-    
-
 	public void StopConnection(){
 		if (Network.peerType != NetworkPeerType.Disconnected)
 			Network.Disconnect();
@@ -225,6 +241,9 @@ public class BluetoothController : MonoBehaviour
 
 	private void OnBluetoothDisconnectedFromServer(BluetoothDevice device) {
 		Debug.Log("Event - DisconnectedFromServer: " + BluetoothExamplesTools.FormatDevice(device));
+
+		ServerClinetInfo.text = "Server disconnected, go to menu!";
+		ServerClientMultiplayerWindow.SetActive (true);
 
 		// Stopping Unity networking on Bluetooth failure
 		Network.Disconnect();
@@ -284,6 +303,9 @@ public class BluetoothController : MonoBehaviour
 		Debug.Log("Player disconnected: " + player.GetHashCode());
 		Network.RemoveRPCs(player);
 		Network.DestroyPlayerObjects(player);
+
+		ServerClinetInfo.text = "Client disconnected, go to menu!";
+		ServerClientMultiplayerWindow.SetActive (true);
 	}
 
 	private void OnFailedToConnect(NetworkConnectionError error) {

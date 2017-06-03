@@ -135,9 +135,11 @@ namespace LostPolygon.AndroidBluetoothMultiplayer.Examples {
 					Debug.Log ("Odbieranie (Klient/Serwer): " + "State: " + ss + ", Turn " + turn + ", x, y :" + x + ", " + y);
 					if (isServer && sendState == 1 && ss == 2) {
 						Debug.Log ("Serwer Odbieranie - SetUp: " + " Potwierdzenie ustawienia tury klienta");
+						app.controller.bluetooth.ServerClientMultiplayerWindow.SetActive (false);
 						this.ChangeState (2);
 					} else if (!isServer && sendState == 1 && ss == 1) {
 						app.controller.turns.SetTurnBeforeStart (turn);
+						app.controller.bluetooth.ServerClientMultiplayerWindow.SetActive (false);
 						Debug.Log ("Client Odbieranie - SetUp: " + "Ustawiam ture na " + turn);
 						Debug.Log ("Stan przed ustawieniem: " + sendState);
 						Debug.Log ("Ustawiam na waiting (2)");
