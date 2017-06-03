@@ -29,30 +29,35 @@ public class GameOverController : MonoBehaviour {
 		restartButton.onClick.AddListener (Restart);
 	}
 
+	public void ChangeWindowToMultiplayerBluetooth(){
+		restartButton.gameObject.SetActive (false);
+		homeButton.transform.localPosition = new Vector3 (0f, homeButton.transform.localPosition.y, homeButton.transform.localPosition.z);
+	}
+
 	public void GameOver(int winner){
 		switch(winner){
 	        case 1:
-		        app.controller.gameOver.infoText.color = GREEN;
-		        app.controller.gameOver.infoText.text = "YOU'RE the WINNER";
+		        infoText.color = GREEN;
+		        infoText.text = "YOU'RE the WINNER";
 		        SaveDataController.Instance.Data.coins += 10;
 		        break;
 	        case 2:
-		        app.controller.gameOver.infoText.color = RED;
-		        app.controller.gameOver.infoText.text = "YOU'RE the LOSER";
+		        infoText.color = RED;
+		        infoText.text = "YOU'RE the LOSER";
                 SaveDataController.Instance.Data.coins += 2;
 		        break;
 	        case 3:
-		        app.controller.gameOver.infoText.color = YELLOW;
-		        app.controller.gameOver.infoText.text = "DRAW";
+		        infoText.color = YELLOW;
+		        infoText.text = "DRAW";
 		        SaveDataController.Instance.Data.coins += 5;
 		        break;
             case 4:
-                app.controller.gameOver.infoText.color = GREEN;
-		        app.controller.gameOver.infoText.text = "WHITE WIN";
+                infoText.color = GREEN;
+		        infoText.text = "WHITE WIN";
                 break;
             case 5:
-                app.controller.gameOver.infoText.color = GREEN;
-		        app.controller.gameOver.infoText.text = "BLACK WIN";
+                infoText.color = GREEN;
+		        infoText.text = "BLACK WIN";
                 break;
 		}
 		gameOverUI.gameObject.SetActive (true);

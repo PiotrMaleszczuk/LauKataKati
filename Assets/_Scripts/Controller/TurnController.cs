@@ -142,9 +142,11 @@ public class TurnController : MonoBehaviour {
                     app.controller.gameOver.GameOver(4);
                 }
                 else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server) {
+					app.controller.gameOver.ChangeWindowToMultiplayerBluetooth ();
                     app.controller.gameOver.GameOver(1);
                 }
-                else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client) {
+				else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client) {
+					app.controller.gameOver.ChangeWindowToMultiplayerBluetooth ();
                     app.controller.gameOver.GameOver(2);
                 }
                 else {
@@ -159,10 +161,12 @@ public class TurnController : MonoBehaviour {
                 if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_local) {
                     app.controller.gameOver.GameOver(5);
                 }
-                else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server) {
+				else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server) {
+					app.controller.gameOver.ChangeWindowToMultiplayerBluetooth ();
                     app.controller.gameOver.GameOver(2);
                 }
-                else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client) {
+				else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client) {
+					app.controller.gameOver.ChangeWindowToMultiplayerBluetooth ();
                     app.controller.gameOver.GameOver(2);
                 }
                 else {
@@ -173,6 +177,10 @@ public class TurnController : MonoBehaviour {
 			{
 				turnText.text = "Out of moves!\n\nDraw!!!\n\nScore: " + points [0] + " | " + points [1];
 				turn = -1;
+				if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server ||
+				   app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client) {
+					app.controller.gameOver.ChangeWindowToMultiplayerBluetooth ();
+				}
 				app.controller.gameOver.GameOver (3);
 			}
 			
@@ -186,10 +194,12 @@ public class TurnController : MonoBehaviour {
             if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_local) {
                 app.controller.gameOver.GameOver(4);
             }
-            else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server) {
+			else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server) {
+				app.controller.gameOver.ChangeWindowToMultiplayerBluetooth ();
                 app.controller.gameOver.GameOver(1);
             }
-            else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client) {
+			else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client) {
+				app.controller.gameOver.ChangeWindowToMultiplayerBluetooth ();
                 app.controller.gameOver.GameOver(2);
             }
             else {
@@ -204,10 +214,12 @@ public class TurnController : MonoBehaviour {
             if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_local) {
                 app.controller.gameOver.GameOver(5);
             }
-            else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server) {
+			else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server) {
+				app.controller.gameOver.ChangeWindowToMultiplayerBluetooth ();
                 app.controller.gameOver.GameOver(2);
             }
-            else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client) {
+			else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client) {
+				app.controller.gameOver.ChangeWindowToMultiplayerBluetooth ();
                 app.controller.gameOver.GameOver(1);
             }
             else {
