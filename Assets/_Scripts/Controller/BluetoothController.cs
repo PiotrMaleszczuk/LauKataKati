@@ -242,7 +242,7 @@ public class BluetoothController : MonoBehaviour
 	private void OnBluetoothDisconnectedFromServer(BluetoothDevice device) {
 		Debug.Log("Event - DisconnectedFromServer: " + BluetoothExamplesTools.FormatDevice(device));
 
-		ServerClinetInfo.text = "Server disconnected, go to menu!";
+		ServerClinetInfo.text = "Server disconnected\n go to menu!";
 		ServerClientMultiplayerWindow.SetActive (true);
 
 		// Stopping Unity networking on Bluetooth failure
@@ -304,7 +304,7 @@ public class BluetoothController : MonoBehaviour
 		Network.RemoveRPCs(player);
 		Network.DestroyPlayerObjects(player);
 
-		ServerClinetInfo.text = "Client disconnected, go to menu!";
+		ServerClinetInfo.text = "Client disconnected\n go to menu!";
 		ServerClientMultiplayerWindow.SetActive (true);
 	}
 
