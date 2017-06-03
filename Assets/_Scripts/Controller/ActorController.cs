@@ -2,14 +2,9 @@
 using System.Collections.Generic;
 
 namespace LostPolygon.AndroidBluetoothMultiplayer.Examples {
-	/// <summary>
-	/// A very simple object. Moves to the position of the touch with interpolation.
-	/// </summary>
-	/// 
 	public class ActorController : MonoBehaviour {
 		private App app;
 		private NetworkView _networkView;
-		//public int turn = 0;
 		public bool started = false;
 
 		private void Awake() {
@@ -18,33 +13,38 @@ namespace LostPolygon.AndroidBluetoothMultiplayer.Examples {
 
 		private void Start() {
 			app = App.Instance;
-			//turn = FindObjectOfType<TurnController> ().Turn;
+			this.isServer = app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server ? true : false;
 			started = true;
-			if (app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server)
-				sendState = SendState.setup;
-			else
-				sendState = SendState.wait;
 		}
 
-		private enum SendState
-		{
-			wait,
-			setup,
-			transfer
+		private bool isServer = false;
+		// 1 - setup, 2 - waiting, 3 - transfer
+		private int sendState {
+			get { return app.controller.gameMode.sendState; }
+			set { app.controller.gameMode.sendState = value; }
 		}
-		private SendState sendState;
-		private List<int> xToSend = new List<int>();
-		private List<int> yToSend = new List<int>();
+
+		private List<int> xToSend {
+			get { return app.controller.gameMode.xToSend; }
+			set { app.controller.gameMode.xToSend = value; }
+		}
+
+		private List<int> yToSend {
+			get { return app.controller.gameMode.yToSend; }
+			set { app.controller.gameMode.yToSend = value; }
+		}
 
 		public void SetupGame()
 		{
-			sendState = SendState.setup;
+			//state 1 - waiting
+			sendState = 1;
 		}
 
 		public void SendMove(int x, int y)
 		{
 			print("SendMove: " + x + " "+y);
-			sendState = SendState.transfer;
+			//state 3 - transfer
+			sendState = 3;
 			print("SendMove sendState: " + sendState);
 			xToSend.Add(x);
 			yToSend.Add(y);
@@ -80,88 +80,76 @@ namespace LostPolygon.AndroidBluetoothMultiplayer.Examples {
 			}
 		}
 
+		private void ChangeState(int state) {
+			this.sendState = state;
+		}
+
 		private void OnSerializeNetworkView(BitStream stream, NetworkMessageInfo info) {
+			if (started) {
+				if (stream.isWriting) {
+					int ss = 4;
+					int turn = 4;
+					int x = 9;
+					int y = 9;
 
-//			if (stream.isWriting) {
-//				float liczba = 0f;
-//				if (app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client) {
-//					liczba = 100f;
-//				} else {
-//					liczba = 50f;
-//				}
-//
-//				stream.Serialize(ref liczba);
-//				Debug.Log ("Send: " + liczba);
-//			} else {
-//				float liczba = 0f;
-//
-//				stream.Serialize(ref liczba);
-//				Debug.Log ("Recive: " + liczba);
-//			}
-//
+					if (sendState == 1 && isServer) {
+						ss = sendState;
+						turn = app.controller.turns.Turn;
+						Debug.Log ("Serwer Wysyłanie - SetUp: " + "State: " + ss + ", Turn " + turn + ", x, y :" + x + ", " + y);
+					} else if (sendState == 1 && !isServer) {
+						Debug.Log ("Client Wysyłanie - SetUp: Waiting for setup, moj stan: " + sendState);
+					} else if (sendState == 2 && !isServer) {
+						Debug.Log ("Client Wysyłanie - Waiting, moj stan: " + sendState);
+						ss = sendState;
+					} else if (sendState == 2 && isServer) {
+						Debug.Log ("Serwer Wysyłanie - Waiting, moj stan: " + sendState);
+						ss = sendState;
+					} else if (sendState == 3){
+						ss = sendState;
+						x = xToSend[0];
+						y = yToSend[0];
+						Debug.Log("Send Sendstate: " + ss+" mode: "+app.controller.gameMode.mode);
+						Debug.Log("Send Move: " + x + " - "+y+" mode: "+app.controller.gameMode.mode);
+						xToSend.RemoveAt(0);
+						yToSend.RemoveAt(0);
+						if (xToSend.Count==0)
+							sendState = 2;
+					}
 
-			if (stream.isWriting) {
-				//print("Writing sendState: " + sendState);
-				if (sendState == SendState.setup && app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server)
-				{
-					print("przeszlo ifa writing"+" mode: "+app.controller.gameMode.mode);
-					int ss = (int)sendState;
-					Debug.Log("Send Sendstate: " + ss+" mode: "+app.controller.gameMode.mode);
-					stream.Serialize(ref ss);
-					print ("przeszlo ifa writing serwera"+" mode: "+app.controller.gameMode.mode);
-					int turn = FindObjectOfType<TurnController>().Turn;
-					Debug.Log("Send turn: " + turn+" mode: "+app.controller.gameMode.mode);
-					stream.Serialize(ref turn);
-					sendState = SendState.wait;
-				}
-				else if (sendState == SendState.transfer)
-				{
-					print ("przeszlo ifa transfer"+" mode: "+app.controller.gameMode.mode);
-					int ss = (int)sendState;
-					int x = xToSend[0];
-					int y = yToSend[0];
-					Debug.Log("Send Sendstate: " + ss+" mode: "+app.controller.gameMode.mode);
-					Debug.Log("Send Move: " + x + " - "+y+" mode: "+app.controller.gameMode.mode);
+					string all = ss.ToString () + turn.ToString () + x.ToString () + y.ToString ();
+					int toSend = int.Parse (all);
+					Debug.Log ("Do wysłania (klient/serwer): " + toSend);
+					stream.Serialize (ref toSend);
 
-					stream.Serialize(ref ss);
-					stream.Serialize(ref x);
-					stream.Serialize(ref y);
+				} else {
+					int recived = 4499;
+					stream.Serialize (ref recived);
+					Debug.Log ("Odbieranie (Klient/Serwer): " + recived);
+					string all = recived.ToString ();
+					Debug.Log ("Odbieranie (Klient/Serwer): (string) " + all);
+					int ss = int.Parse (all [0].ToString());
+					int turn = int.Parse (all [1].ToString());
+					int x = int.Parse (all [2].ToString());
+					int y = int.Parse (all [3].ToString());
 
-					xToSend.RemoveAt(0);
-					yToSend.RemoveAt(0);
-					if (xToSend.Count==0)
-						sendState = SendState.wait;
-				}
-			} else {
-				int ss = (int)SendState.wait;
-				stream.Serialize(ref ss);
-				Debug.Log("Recive Sendstate: " + ss +" mode: "+app.controller.gameMode.mode);
-				if (ss == (int)SendState.setup)
-				{
-					print ("recive/if setup"+" mode: "+app.controller.gameMode.mode);
-					if (app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client)
-					{
-						print ("if client"+" mode: "+app.controller.gameMode.mode);
-						int turn = 0;
-						stream.Serialize(ref turn);
-						Debug.Log("Recive turn: " + turn);
-						app.controller.turns.SetTurnBeforeStart(turn);
+					Debug.Log ("Odbieranie (Klient/Serwer): " + "State: " + ss + ", Turn " + turn + ", x, y :" + x + ", " + y);
+					if (isServer && sendState == 1 && ss == 2) {
+						Debug.Log ("Serwer Odbieranie - SetUp: " + " Potwierdzenie ustawienia tury klienta");
+						this.ChangeState (2);
+					} else if (!isServer && sendState == 1 && ss == 1) {
+						app.controller.turns.SetTurnBeforeStart (turn);
+						Debug.Log ("Client Odbieranie - SetUp: " + "Ustawiam ture na " + turn);
+						Debug.Log ("Stan przed ustawieniem: " + sendState);
+						Debug.Log ("Ustawiam na waiting (2)");
+						this.ChangeState (2);
+						Debug.Log ("Stan po ustawieniu: " + sendState);
+					} else if (ss == 3) {
+						Debug.Log("Recive Move: " + x + " - " + y+" mode: "+app.controller.gameMode.mode);
+						PrepareClick(x,y);
 					}
 				}
-				else if (ss == (int)SendState.transfer)
-				{
-					print ("przeszlo ifa odbior transfer"+" mode: "+app.controller.gameMode.mode);
-					int x = -1;
-					int y = -1;
-					stream.Serialize(ref x);
-					stream.Serialize(ref y);
-
-					Debug.Log("Recive Move: " + x + " - " + y+" mode: "+app.controller.gameMode.mode);
-					PrepareClick(x,y);
-				}
-
 			}
-			
+
 		}
 	}
 }

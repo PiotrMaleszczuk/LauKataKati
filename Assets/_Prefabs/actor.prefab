@@ -52,7 +52,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c1fc491d7284ce43b3e9fb6d52cc34c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turn: 0
   started: 0
 --- !u!148 &148682353197838220
 NetworkView:

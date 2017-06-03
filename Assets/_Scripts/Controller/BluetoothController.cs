@@ -74,7 +74,6 @@ public class BluetoothController : MonoBehaviour
         AndroidBluetoothMultiplayer.ClientDisconnected += OnBluetoothClientDisconnected;
         AndroidBluetoothMultiplayer.DevicePicked += OnBluetoothDevicePicked;
 
-        _networkView = GetComponent<NetworkView>();
         int modeIndex = SaveDataController.Instance.Data.mode;
         switch (modeIndex)
         {

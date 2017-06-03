@@ -14,6 +14,11 @@ public class GameModeController : MonoBehaviour {
         multiplayer_bluetooth_server
     }
 
+	public int sendState = 1;
+
+	public List<int> xToSend = new List<int>();
+	public List<int> yToSend = new List<int>();
+
     // Use this for initialization
     public void Init () {
         int modeIndex = SaveDataController.Instance.Data.mode;
