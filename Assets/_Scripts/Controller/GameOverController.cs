@@ -30,22 +30,30 @@ public class GameOverController : MonoBehaviour {
 	}
 
 	public void GameOver(int winner){
-		switch(winner)
-		{
-		case 1:
-			app.controller.gameOver.infoText.color = GREEN;
-			app.controller.gameOver.infoText.text = "YOU'RE the WINNER";
-			SaveDataController.Instance.Data.coins += 10;
-			break;
-		case 2:
-			app.controller.gameOver.infoText.color = RED;
-			app.controller.gameOver.infoText.text = "YOU'RE the LOSER";
-			break;
-		case 3:
-			app.controller.gameOver.infoText.color = YELLOW;
-			app.controller.gameOver.infoText.text = "DRAW";
-			SaveDataController.Instance.Data.coins += 5;
-			break;
+		switch(winner){
+	        case 1:
+		        app.controller.gameOver.infoText.color = GREEN;
+		        app.controller.gameOver.infoText.text = "YOU'RE the WINNER";
+		        SaveDataController.Instance.Data.coins += 10;
+		        break;
+	        case 2:
+		        app.controller.gameOver.infoText.color = RED;
+		        app.controller.gameOver.infoText.text = "YOU'RE the LOSER";
+                SaveDataController.Instance.Data.coins += 2;
+		        break;
+	        case 3:
+		        app.controller.gameOver.infoText.color = YELLOW;
+		        app.controller.gameOver.infoText.text = "DRAW";
+		        SaveDataController.Instance.Data.coins += 5;
+		        break;
+            case 4:
+                app.controller.gameOver.infoText.color = GREEN;
+		        app.controller.gameOver.infoText.text = "WHITE WIN";
+                break;
+            case 5:
+                app.controller.gameOver.infoText.color = GREEN;
+		        app.controller.gameOver.infoText.text = "BLACK WIN";
+                break;
 		}
 		gameOverUI.gameObject.SetActive (true);
 		ShowAd ();

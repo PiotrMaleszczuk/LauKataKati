@@ -42,7 +42,12 @@ public class TurnController : MonoBehaviour {
         if (gameMode.mode != GameModeController.Mode.multiplayer_bluetooth_client)
         {
             turn = Random.Range(1, 3);
-            turnText.text = "Turn: Player " + turn + "\n\nScore: 0 | 0";
+            if(turn == 1) {
+                turnText.text = "Turn: White" + "\n\nScore: 0 | 0";
+            }
+            else {
+                turnText.text = "Turn: Black" + "\n\nScore: 0 | 0";
+            }
             started = true;
         }
         if (gameMode.mode == GameModeController.Mode.single)
@@ -57,7 +62,12 @@ public class TurnController : MonoBehaviour {
         if(!started)
         {
             this.turn = turn;
-            turnText.text = "Turn: Player " + turn + "\n\nScore: 0 | 0";
+            if(turn == 1) {
+                turnText.text = "Turn: White" + "\n\nScore: 0 | 0";
+            }
+            else {
+                turnText.text = "Turn: Black" + "\n\nScore: 0 | 0";
+            }
             started = true;
         }
     }
@@ -125,15 +135,39 @@ public class TurnController : MonoBehaviour {
 		if (TurnsWithouCapture >= 20) {
 			if (points [0] > points [1]) 
 			{
-				turnText.text = "Out of moves!\n\nPlayer 1 wins!!!\n\nScore: " + points [0] + " | " + points [1];
+				turnText.text = "Out of moves!\n\nWhite wins!!!\n\nScore: " + points [0] + " | " + points [1];
 				turn = -1;
-				app.controller.gameOver.GameOver (1);
+
+                if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_local) {
+                    app.controller.gameOver.GameOver(4);
+                }
+                else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server) {
+                    app.controller.gameOver.GameOver(1);
+                }
+                else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client) {
+                    app.controller.gameOver.GameOver(2);
+                }
+                else {
+                    app.controller.gameOver.GameOver(1);
+                }
 			} 
 			else if (points [1] > points [0]) 
 			{
-				turnText.text = "Out of moves!\n\nPlayer 2 wins!!!\n\nScore: " + points [0] + " | " + points [1];
+				turnText.text = "Out of moves!\n\nBlack wins!!!\n\nScore: " + points [0] + " | " + points [1];
 				turn = -1;
-				app.controller.gameOver.GameOver (2);
+
+                if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_local) {
+                    app.controller.gameOver.GameOver(5);
+                }
+                else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server) {
+                    app.controller.gameOver.GameOver(2);
+                }
+                else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client) {
+                    app.controller.gameOver.GameOver(2);
+                }
+                else {
+                    app.controller.gameOver.GameOver(2);
+                }
 			} 
 			else 
 			{
@@ -146,19 +180,49 @@ public class TurnController : MonoBehaviour {
 
 		if (points[0] == 9)
 		{
-			turnText.text = "Player 1 wins!!!\n\nScore: " + points[0] + " | " + points[1];
-			turn = -1;
-			app.controller.gameOver.GameOver (1);
+			turnText.text = "White wins!!!\n\nScore: " + points[0] + " | " + points[1];
+            turn = -1;
+
+            if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_local) {
+                app.controller.gameOver.GameOver(4);
+            }
+            else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server) {
+                app.controller.gameOver.GameOver(1);
+            }
+            else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client) {
+                app.controller.gameOver.GameOver(2);
+            }
+            else {
+                app.controller.gameOver.GameOver(1);
+            }
 		}
 		else if (points[1] == 9)
 		{
-			turnText.text = "Player 2 wins!!!\n\nScore: " + points[0] + " | " + points[1];
+			turnText.text = "Black wins!!!\n\nScore: " + points[0] + " | " + points[1];
 			turn = -1;
-			app.controller.gameOver.GameOver (2);
+
+            if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_local) {
+                app.controller.gameOver.GameOver(5);
+            }
+            else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_server) {
+                app.controller.gameOver.GameOver(2);
+            }
+            else if(app.controller.gameMode.mode == GameModeController.Mode.multiplayer_bluetooth_client) {
+                app.controller.gameOver.GameOver(1);
+            }
+            else {
+                app.controller.gameOver.GameOver(2);
+            }
 		}
 		else
-			turnText.text = "Turn: Player " + turn + "\n\nScore: " + points[0] + " | " + points[1]
-				+ "\n\nWithout capture: "+turnsWithoutCapture+"/20";
+            if(turn == 1) {
+                turnText.text = "Turn: White" + "\n\nScore: " + points[0] + " | " + points[1]
+                    + "\n\nWithout capture: " + turnsWithoutCapture + "/20";
+            }
+            else {
+                turnText.text = "Turn: Black"+ "\n\nScore: " + points[0] + " | " + points[1]
+                    + "\n\nWithout capture: " + turnsWithoutCapture + "/20";
+            }
 	}
 
     private void PrintBoard(int[][] tab)
