@@ -71,30 +71,32 @@ public class BoardController : MonoBehaviour
 		for (int i = 0; i < board.Length; i++) {
 			board [i] = new int[7];
 			for (int j = 0; j < board [i].Length; j++) {
-				GameObject empty_position = Instantiate (empty);
-				empty_position.name = "Empty " + iterPos;
-				empty_position.transform.SetParent (emptyTransform);
-				empty_position.transform.localPosition = new Vector3 (pointArray [iterPos].localPosition.x, pointArray [iterPos].localPosition.y, 1);
-				empty_position.AddComponent<CircleCollider2D> ();
-				empty_position.GetComponent<CircleCollider2D> ().radius = 1.25f;
-				emptyArray [iterPos] = empty_position;
-				PawnScript emptyScript = emptyArray [iterPos].GetComponent<PawnScript> ();
-				emptyScript.id = iterPos;
-				emptyScript.team = 0;
-				emptyScript.matrix_x = i;
-				emptyScript.matrix_y = j;
+                if(i % 2 == 0 && j == 3) { }
+                else {
+                    GameObject empty_position = Instantiate(empty);
+                    empty_position.name = "Empty " + iterPos;
+                    empty_position.transform.SetParent(emptyTransform);
+                    empty_position.transform.localPosition = new Vector3(pointArray[iterPos].localPosition.x, pointArray[iterPos].localPosition.y, 1);
+                    empty_position.AddComponent<CircleCollider2D>();
+                    empty_position.GetComponent<CircleCollider2D>().radius = 1.25f;
+                    emptyArray[iterPos] = empty_position;
+                    PawnScript emptyScript = emptyArray[iterPos].GetComponent<PawnScript>();
+                    emptyScript.id = iterPos;
+                    emptyScript.team = 0;
+                    emptyScript.matrix_x = i;
+                    emptyScript.matrix_y = j;
 
-				ps_chosen = null;
-				moves_list = new List<int[]> ();
+                    ps_chosen = null;
+                    moves_list = new List<int[]>();
 
-				GameObject glowPosition = Instantiate (glow);
-				glowPosition.name = "Glow " + iterPos;
-				glowPosition.transform.SetParent (glowTransform);
-				glowPosition.transform.localPosition = new Vector3 (pointArray [iterPos].localPosition.x, pointArray [iterPos].localPosition.y, 0f);
-				glowsArray [iterPos] = glowPosition;
-				SpriteRenderer renderer = glowsArray [iterPos].GetComponent<SpriteRenderer> ();
-				renderer.color = new Color (0f, 1f, 0f, 0f);
-
+                    GameObject glowPosition = Instantiate(glow);
+                    glowPosition.name = "Glow " + iterPos;
+                    glowPosition.transform.SetParent(glowTransform);
+                    glowPosition.transform.localPosition = new Vector3(pointArray[iterPos].localPosition.x, pointArray[iterPos].localPosition.y, 0f);
+                    glowsArray[iterPos] = glowPosition;
+                    SpriteRenderer renderer = glowsArray[iterPos].GetComponent<SpriteRenderer>();
+                    renderer.color = new Color(0f, 1f, 0f, 0f);
+                }
 				if (i == 1 && j == 3) {
 					board [i] [j] = 0;
 					boardString += board [i] [j];
