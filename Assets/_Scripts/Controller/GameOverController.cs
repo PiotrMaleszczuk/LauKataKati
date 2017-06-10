@@ -83,7 +83,30 @@ public class GameOverController : MonoBehaviour {
 
 		if (Advertisement.IsReady())
 		{
-			Advertisement.Show("video");
+			Advertisement.Show("video", new ShowOptions() {resultCallback = HandleAdResult});
+
 		}
+	}
+
+	private void HandleAdResult(ShowResult result)
+	{		
+		string resultString  ="";
+
+		switch (result)
+		{
+		case ShowResult.Finished:
+			Debug.Log ("USER FINISHED TO WATCH AD");
+			resultString = "Finished";
+			break;
+		case ShowResult.Skipped:
+			Debug.Log ("USER SKIPPED AD");
+			resultString = "Skipped";
+			break;
+		case ShowResult.Failed:
+			Debug.Log ("FAILED TO SHOW AD");
+			resultString = "Failed";
+			break;
+		}
+		DataCollectingController.Instance.SaveData("Advertisement - Place: GameOver | Result: "+resultString+" | Time: "+System.DateTime.UtcNow.ToString("HH:mm dd MMMM, yyyy"));
 	}
 }

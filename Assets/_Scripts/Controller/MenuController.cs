@@ -396,7 +396,9 @@ public class MenuController : MonoBehaviour {
 	}
 
 	private void HandleAdResult(ShowResult result)
-	{
+	{		
+		string resultString  ="";
+		
 		switch (result)
 		{
 		case ShowResult.Finished:
@@ -405,15 +407,19 @@ public class MenuController : MonoBehaviour {
 			SaveDataController.Instance.Data.LastWatchedAd = DateTime.Now;
 			SaveDataController.Instance.Data.Save ();
 			SetCoinsStatus ();
-			SetTimes();
+			SetTimes ();
+			resultString = "Finished";
 			break;
 		case ShowResult.Skipped:
-			Debug.Log("USER SKIPPED AD");
+			Debug.Log ("USER SKIPPED AD");
+			resultString = "Skipped";
 			break;
 		case ShowResult.Failed:
-			Debug.Log("FAILED TO SHOW AD");
+			Debug.Log ("FAILED TO SHOW AD");
+			resultString = "Failed";
 			break;
 		}
+		DataCollectingController.Instance.SaveData("Advertisement - Place: shop | Result: "+resultString+" | Time: "+System.DateTime.UtcNow.ToString("HH:mm dd MMMM, yyyy"));
 	}
 
 	private IEnumerator MovePawnShopAnimation() {

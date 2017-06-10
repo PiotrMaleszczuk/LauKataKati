@@ -24,11 +24,10 @@ public class SaveDataController : MonoBehaviour {
 		if (SaveDataController.instance == null)
 		{
 			SaveDataController.instance = this;
+			this.data = new Data ();
+			this.data.InicializePrefs ();
+			DontDestroyOnLoad(this.gameObject);
 		}
-
-		this.data = new Data ();
-		this.data.InicializePrefs ();
-		DontDestroyOnLoad(this.gameObject);
 	}
 }
 
