@@ -7,26 +7,35 @@ public class AIController : MonoBehaviour {
 	private App app;
 	struct Available
 	{
-		public List<int[][]> boards;
-		public List<List<int[]>> moves;
+		public List<int[][]> boards; //dostępne plansze
+		public List<List<int[]>> moves; //dostępne ruchy
 	}
-	private int depth;
+	private int depth; //głębokość przeszukiwania
 
-	public void Init()
+	public void Init() //metoda inicjalizujaca
 	{
 		app = App.Instance;
 		depth = SaveDataController.Instance.Data.difficult;
-		print (depth);
-
 	}
-	private void ComputerClick(List<int[]> moveToClick)
+
+    public void ComputerMakeMove() //metoda wywoływana zewnętrznie nakazująca maszynie grającej znalezienie następnego ruchu
+    {
+        AI_MiniMax Current = new AI_MiniMax(app.controller.board.Board, false); //budowanie stanu maszyny na podstawie aktualnego stanu planszy
+        AI_MiniMax next = Current.FindNextMove(depth); //szukanie najlepszego ruchu
+        if (next != null)
+        {
+            ComputerClick(next.Moves); //wywołanie imitacji kliknięcia
+        }
+    }
+
+    private void ComputerClick(List<int[]> moveToClick) //metoda imitująca kliknięcie na podstawie najlepszego znalezionego ruchu
 	{
 		GameObject[] pawnsArray = app.controller.board.PawnsArray;
 		GameObject[] emptyArray = app.controller.board.EmptyArray;
 		for (int i = 0; i < pawnsArray.Length; i++) {
 			PawnScript tmpPawnScript = pawnsArray [i].GetComponent<PawnScript> ();
 			if (tmpPawnScript.matrix_x == moveToClick [0] [0] && tmpPawnScript.matrix_y == moveToClick [0] [1]) {
-				app.controller.board.Click (tmpPawnScript);
+				app.controller.board.Click (tmpPawnScript); //wywołanie kliknięcia pionka
 			}
 		}
 
@@ -37,24 +46,14 @@ public class AIController : MonoBehaviour {
 				PawnScript tmpPawnScript = emptyArray [j].GetComponent<PawnScript> ();
 				if (tmpPawnScript.matrix_x == moveToClick [i] [0] && tmpPawnScript.matrix_y == moveToClick [i] [1]) 
 				{
-					app.controller.board.Click (tmpPawnScript);
+					app.controller.board.Click (tmpPawnScript); //wywołanie kliknięcia pustej pozycji
 				}
 			}
 		}
 	}
 
-	public int[][] ComputerMakeMove()
-	{
-		AI_MiniMax Current = new AI_MiniMax(app.controller.board.Board, false);
-		AI_MiniMax next = Current.FindNextMove(depth);
-		if (next != null) 
-		{
-				ComputerClick (next.Moves);
-		}
-		return null;
-	}
-
-	sealed class AI_MiniMax
+   
+	class AI_MiniMax //klasa odpowiadająca za rdzeń maszyny grającej
 	{
 		private int[][] board;
 		private List<int[]> moves; 
@@ -84,7 +83,7 @@ public class AIController : MonoBehaviour {
 			private set;
 		}
 
-		public AI_MiniMax(int[][] values, bool turnForPlayerX)
+		public AI_MiniMax(int[][] values, bool turnForPlayerX) //konstruktor
 		{
 			app = App.Instance;
 			m_TurnForPlayerX = turnForPlayerX;
@@ -96,7 +95,7 @@ public class AIController : MonoBehaviour {
 			ComputeScore();
 		}
 
-		public bool IsTerminalNode()
+		public bool IsTerminalNode() //sprawdzanie czy na planszy znajduje się przynajmniej jeden pionek z danej drużyny
 		{
 			if (GameOver)
 				return true;
@@ -115,7 +114,7 @@ public class AIController : MonoBehaviour {
 				return true;
 		}
 
-		public IEnumerable<AI_MiniMax> GetChildren()
+		public IEnumerable<AI_MiniMax> GetChildren() //pobieranie plansz dostępnych przy następnym ruchu
 		{
 			FindAvailableBoards(board, m_TurnForPlayerX ? 1 : 2);
 
@@ -128,12 +127,12 @@ public class AIController : MonoBehaviour {
 			}
 		}
 
-		//http://www.ocf.berkeley.edu/~yosenl/extras/alphabeta/alphabeta.html
-		public int MiniMax(int depth, bool needMax, int alpha, int beta, out AI_MiniMax childWithMax)
+        //http://www.ocf.berkeley.edu/~yosenl/extras/alphabeta/alphabeta.html
+        //metoda implementująca strategię MiniMax z AlfaBeta cięciami
+        public int MiniMax(int depth, bool needMax, int alpha, int beta, out AI_MiniMax childWithMax) 
 		{
 			childWithMax = null;
-			System.Diagnostics.Debug.Assert(m_TurnForPlayerX == needMax);
-			if (depth == 0 || IsTerminalNode())
+			if (depth == 0 || IsTerminalNode()) //zwrocenie wyniku przy odpowiedniej glebokosci lub w przypadku konca gry
 			{
 				RecursiveScore = m_Score;
 				return m_Score;
@@ -173,45 +172,39 @@ public class AIController : MonoBehaviour {
 			return RecursiveScore;
 		}
 
-		public AI_MiniMax FindNextMove(int depth)
+		public AI_MiniMax FindNextMove(int depth) //metoda wywoływana zewnętrznie, uruchamia wyszkianie następnego ruchu
 		{
 			AI_MiniMax ret = null;
 			MiniMax(depth, m_TurnForPlayerX, int.MinValue + 1, int.MaxValue - 1, out ret);
 			return ret;
 		}
 
-		private int CountPoints()
-		{
-			int[] points = new int[2];
-			points[0] = 9;
-			points[1] = 9;
-			for (int i = 0; i < board.Length; i++)
-			{
-				for (int j = 0; j < board[i].Length; j++)
-				{
-					if (board[i][j] == 1)
-						points[1] -= 1;
-					else if (board[i][j] == 2)
-						points[0] -= 1;
-				}
-			}
 
-			if (points[1] == 9 || points[0] == 9)
-			{
-				GameOver = true;
-			}
-			return (points [0] - points [1]);
+		void ComputeScore() //przeliczanie punktów
+		{
+            int[] points = new int[2];
+            points[0] = 9;
+            points[1] = 9;
+            for (int i = 0; i < board.Length; i++)
+            {
+                for (int j = 0; j < board[i].Length; j++)
+                {
+                    if (board[i][j] == 1)
+                        points[1] -= 1;
+                    else if (board[i][j] == 2)
+                        points[0] -= 1;
+                }
+            }
+
+            if (points[1] == 9 || points[0] == 9)
+            {
+                GameOver = true;
+            }
+            m_Score = (points[0] - points[1]);
 		}
 
-		void ComputeScore()
-		{
-			int ret = 0;
 
-
-			ret = CountPoints();
-			m_Score = ret;
-		}
-		private void FindAvailableBoards(int[][] board, int turn)
+		private void FindAvailableBoards(int[][] board, int turn) //metoda buduje dostępne plansze na podstawie dostępnych ruchów
 		{
 			available.boards.Clear();
 			bool captureAvailable = false;
@@ -221,7 +214,7 @@ public class AIController : MonoBehaviour {
 				{
 					if (board[rbI][rbJ] != turn)
 						continue;
-					List<int[]> tmpAvailableMoves = app.controller.logic.checking(turn, rbI, rbJ, board);
+					List<int[]> tmpAvailableMoves = app.controller.logic.checking(turn, rbI, rbJ, board); //pobranie wszystkich możliwych ruchów dla danego pionka
 					if (app.controller.logic.capture && !captureAvailable)
 					{
 						available.boards.Clear();
@@ -233,7 +226,6 @@ public class AIController : MonoBehaviour {
 
 					for (int k = 0; k < tmpAvailableMoves.Count; k++)
 					{
-						//print(rbI + " : " + rbJ + " | " + tmpAvailableMoves[k][0] + " : " + tmpAvailableMoves[k][1]);
 						int[][] boardA;
 						boardA = new int[3][];
 						List<int[]> moveA = new List<int[]>();
@@ -319,7 +311,8 @@ public class AIController : MonoBehaviour {
 				}
 			}
 		}
-		private void CaptureCombo(int[][] boardA, int[] x_y_after, int[] x_y_before, int turn)
+
+		private void CaptureCombo(int[][] boardA, int[] x_y_after, int[] x_y_before, int turn) //metoda wspomagająca budowanie dostępnych plansz w przypadku wielokrotnych bić
 		{
 			int[][] boardB;
 			boardB = new int[3][];
@@ -366,28 +359,5 @@ public class AIController : MonoBehaviour {
 				available.boards.Add(boardB);
 			}
 		}
-
-		static bool IsSameAI_MiniMax(AI_MiniMax a, AI_MiniMax b, bool compareRecursiveScore)
-		{
-			if (a == b)
-				return true;
-			if (a == null || b == null)
-				return false;
-			for (int i = 0; i < a.board.Length; i++)
-			{
-				if (a.board[i] != b.board[i])
-					return false;
-			}
-
-			if (a.m_Score != b.m_Score)
-				return false;
-
-			if (compareRecursiveScore && Mathf.Abs(a.RecursiveScore) != Mathf.Abs(b.RecursiveScore))
-				return false;
-
-			return true;
-		}
 	}
-
-
 }
