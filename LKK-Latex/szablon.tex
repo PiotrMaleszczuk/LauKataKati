@@ -1,0 +1,27 @@
+\documentclass{article}
+\usepackage[polish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{polski}   
+\usepackage{graphicx}   % rysunki
+\usepackage{listings}   % kody programów
+\usepackage{enumerate}
+\usepackage{listings}
+
+\input{konfiguracja.tex}
+
+\title{\TytulPolski}
+\author{\Student}
+
+\begin{document}
+\input{strona_tytulowa.tex} % strona tytułowa
+\newpage\tableofcontents    % spis treści
+\input{wstep.tex}	        % wstęp     
+\input{podzial.tex}		    % podział pracy
+\input{funkcjonalnosci.tex} % funkcjonalności aplikacji    
+\input{technologie.tex}		% opis wybranych technologii
+\input{architektura.tex}	% architektura zbudowania
+\input{instrukcja.tex}		% instrukcja uzytkowania aplikacji
+\input{podsumowanie.tex}	% podsumowanie i wnioski
+\input{spisy.tex}			% spis rysunków i tabel
+\end{document}

@@ -1,0 +1,37 @@
+\select@language {polish}
+\contentsline {section}{\numberline {1}Wst\IeC {\k e}p}{3}
+\contentsline {subsection}{\numberline {1.1}Opis tematu}{3}
+\contentsline {subsection}{\numberline {1.2}Za\IeC {\l }o\IeC {\.z}enia realizacyjne}{3}
+\contentsline {section}{\numberline {2}Podzia\IeC {\l } i harmonogram pracy}{4}
+\contentsline {section}{\numberline {3}Funkcjonalno\IeC {\'s}ci oferowane przez aplikacj\IeC {\k e}}{5}
+\contentsline {subsection}{\numberline {3.1}Rozgrywka singleplayer}{5}
+\contentsline {subsection}{\numberline {3.2}Rozgrywka multiplayer local}{5}
+\contentsline {subsection}{\numberline {3.3}Rozgrywka multiplayer bluetooth}{5}
+\contentsline {subsection}{\numberline {3.4}Funkcjonalno\IeC {\'s}\IeC {\'c} sklepu}{5}
+\contentsline {subsection}{\numberline {3.5}Zmiana trudno\IeC {\'s}ci AI}{5}
+\contentsline {section}{\numberline {4}Wyb\IeC {\'o}r technologii informatycznych}{6}
+\contentsline {subsection}{\numberline {4.1}System Latex}{6}
+\contentsline {subsection}{\numberline {4.2}System Github}{6}
+\contentsline {subsection}{\numberline {4.3}System Trello}{6}
+\contentsline {subsection}{\numberline {4.4}J\IeC {\k e}zyk programowania C\#}{6}
+\contentsline {subsection}{\numberline {4.5}\IeC {\'S}rodowisko programistyczne Visual Studio}{6}
+\contentsline {subsection}{\numberline {4.6}\IeC {\'S}rodowisko Unity}{6}
+\contentsline {section}{\numberline {5}Architektura}{7}
+\contentsline {subsection}{\numberline {5.1}Model View Controller}{7}
+\contentsline {subsection}{\numberline {5.2}Kontroler planszy}{7}
+\contentsline {subsection}{\numberline {5.3}Kontroler tur}{7}
+\contentsline {subsection}{\numberline {5.4}Kontroler logiki}{7}
+\contentsline {subsection}{\numberline {5.5}Kontroler wizualizacji}{7}
+\contentsline {subsection}{\numberline {5.6}Kontroler klikni\IeC {\k e}\IeC {\'c}}{8}
+\contentsline {subsection}{\numberline {5.7}Kontroler Bluetooth}{8}
+\contentsline {subsection}{\numberline {5.8}Kontroler aktora Bluetooth}{8}
+\contentsline {subsection}{\numberline {5.9}Kontroler SI}{8}
+\contentsline {subsection}{\numberline {5.10}Kontroler zapisu danych}{8}
+\contentsline {subsection}{\numberline {5.11}Kontroler gromadzenia danych}{8}
+\contentsline {subsection}{\numberline {5.12}Kontroler pauzy}{8}
+\contentsline {subsection}{\numberline {5.13}Kontroler ko\IeC {\'n}ca gry}{9}
+\contentsline {subsection}{\numberline {5.14}Kontroler menu}{9}
+\contentsline {section}{\numberline {6}Instrukcja u\IeC {\.z}ytkowania aplikacji}{10}
+\contentsline {section}{\numberline {7}Podsumowanie}{12}
+\contentsline {section}{Spis rysunk\IeC {\'o}w}{13}
+\contentsline {section}{Spis tabel}{13}

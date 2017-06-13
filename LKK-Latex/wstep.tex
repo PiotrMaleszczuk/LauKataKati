@@ -1,0 +1,21 @@
+\newpage\section{Wstęp}
+\subsection{Opis tematu}
+Realizacja gry Lau Kata Kati, polegająca na utworzeniu ogólnej architektury gry pozwalającej na przeprowadzenie rozgrywki zgodnie z zasadami, a następnie podłączenie maszyny grającej, która rywalizuje z użytkownikiem.\\
+
+\subsection{Założenia realizacyjne}
+Aplikacja przeznaczona na urządzenia mobilne z system Android w wersji minimum 4.0.3. Do implementacji gry został wykorzystany silnik Unity 5.5.2f1, który zapewnia szeroką gamę narzędzi potrzebnych do napisania kompletnej gry, tj. graficzny interfejs zarządzania sceną, pisanie skryptów w języku C\# obsługujących poszczególny elementy gry, budowanie aplikacji na urządzenia Android. Do pisania skryptów wykorzystano środowisko Visual Studio.\\
+\\
+Maszyna grająca swoje działanie opiera na strategii Minimax z Alfa-Beta cięciami. Algorytm pobiera aktualny stan planszy w postaci tablicy dwuwymiarowej, a następnie oblicza najlepszą ścieżkę do określonej głębokości drzewa za pomocą rekurencyjnej metody. Ścieżka wybierana jest na podstawie zysku punktów (punkty maszyny grającej - punkty gracza). Po wybraniu najlepszej drogi, pobierany jest z niej pierwszy ruch, a następnie wywołuje się metodę imitującą naciśnięcie odpowiedniego pionka i punktu przeznaczenia do którego ma zostać przeniesiony. Sposób, w którym imituje się naciśnięcie danego elementu został wybrany, ponieważ był to najszybszy i najprostszy sposób przemianowania dwuosobowej rozgrywki lokalnej na rozgrywkę ze sztuczną inteligencją.\\
+\\
+Aplikacja posiada:
+\begin{itemize}
+	\item Trzy tryby rozgrywki (singleplayer, multiplayer lokalny oraz przez połączenie Bluetooth),
+	
+	\item zmianę poziomu trudności maszyny grającej,
+	
+	\item zmianę skórek pionków,
+	
+	\item system reklam, 
+	
+	\item system zbierania danych.
+\end{itemize}

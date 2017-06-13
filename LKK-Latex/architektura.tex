@@ -1,0 +1,69 @@
+\newpage\section{Architektura}
+Rozdział opisuje architekturę, która została wykorzystana w projekcie oraz ogólny opis funkcjonalności zaimplementowanych w danym module.
+
+\subsection{Model View Controller}
+Wzorzec projektowy służący do organizowania struktury aplikacji posiadających graficzne interfejsy użytkownika. Zastosowanie go w projekcie umożliwia wygodny podział na kontrolery, które przejmują odpowiedzialność na zadaną funkcjonalnością wykonywaną na modelach. Widoki umożliwiają oddzielenie warstwy prezentacji od wszelkich operacji wewnętrznych.
+
+\subsection{Kontroler planszy}
+Kontroler odpowiedzialny za stworzenie oraz obsługę macierzy stanu planszy, na której opiera się cała rozgrywka.  Macierz początkowa ma postać:
+$$
+\left| \begin{array}{ccccccc}
+1 & 1 & 1 & -1 & 2 & 2 & 2 \\
+1 & 1 & 1 & 0 & 2 & 2 & 2  \\
+1 & 1 & 1 & -1 & 2 & 2 & 2 \\
+\end{array} \right|
+$$\\
+-1 - pole nieużywane \\
+0 - pole puste \\
+1 - pole z pionkiem gracza 1 \\
+2 - pole z pionkiem gracza 2
+
+\subsection{Kontroler tur}
+Główny kontroler odpowiedzialny za przebieg całej rozgrywki.\\
+Odpowiada za zmianę tur graczy, przeliczanie punktów, zakończenie gry. 
+
+\subsection{Kontroler logiki}
+Kontroler na podstawie pozycji pionka oraz macierzy planszy zwraca możliwe dla niego ruchy oraz flagę czy dostępne jest kolejne bicie w tej samej turze. 
+
+\subsection{Kontroler wizualizacji}
+Jest to kontroler obsługujący wizualizację przebiegu rozgrywki. 
+Przeszukuje macierz pozycji pionków - odpowiednik wirtualnej planszy. Gdy kontroler na danej pozycji w macierzy napotka wartość '1' lub '2' ustawia na odpowiadającym jej polu pionek. Jeżeli wartość ta wynosi '0' usuwa pionek z danego pola planszy.\\
+\\
+Dodatkowo kontroler obsługuje funkcję wyświetlania podpowiedzi możliwych ruchów dla danego pionka po jego naciśnięciu.
+
+\subsection{Kontroler kliknięć}
+Pobiera punkt kliknięcia i szuka elementu tj. pionka, pustego pola,\\
+który w danym miejscu się znajduje, a następnie przesyła go do kontolera planszy.
+
+\subsection{Kontroler Bluetooth}
+Uruchamia moduł bluetooth, zależnie od wybranego trybu jako klient lub\\
+serwer. Korzysta ze specjalnego pluginu, który mapuje działanie bluetooth\\
+na wbudowaną obsługę połączenia sieciowego w Unity.
+
+\subsection{Kontroler aktora Bluetooth}
+W tym kontrolerze, odbywa się główna komunikacja bluetooth pomiędzy\\
+klientem a serwerem. Komuinikaty wysyłane są w prostej czterocyfrowej postaci:\\
+s t x y \\
+,gdzie: \\
+s – status komunikatu 1-setup, 2-waiting, 3-transfer \\
+t – tura w rozgrywce \\
+x – pozycja x kliknięcia \\
+y – pozycja y kliknięcia \\
+
+\subsection{Kontroler SI}
+Odpowiedzialny za działanie sztucznej inteligencji podczas rozgrywki jednoosobowej. Maszyna grajaca korzysta ze strategi MiniMax z Alfa-Beta cięciami.
+
+\subsection{Kontroler zapisu danych}
+Odpowiada za przechowywanie danych użytkownika tj. stan konta, kupione skórki. Dodatkowo umożliwia komunikację pomiędzy scenami.
+
+\subsection{Kontroler gromadzenia danych}
+Kontroler zapisuje do pliku informacje na tematy użytkownika: specyfikacja\\ telefonu, lokalizacja, oglądanie reklam, długość korzystania z aplikacji.
+
+\subsection{Kontroler pauzy}
+Umożliwia wykonanie pauzy podczas rozgrywki. Umożliwia wyjście do głównego menu, zrestartowanie rozgrywki oraz wznowienie aktualnej.
+
+\subsection{Kontroler końca gry}
+Wywoływany po zakończeniu rozgrywki. Uruchamia reklamy, a następnie umożliwia przejście do menu głównego.
+
+\subsection{Kontroler menu}
+Odpowiada za działanie całego menu głównego: obsługa sklepu, zmiany ustawień aplikacji, uruchamianie poszczególnych trybów gry.
