@@ -15,6 +15,9 @@ public class MenuController : MonoBehaviour {
 	}
 	private State state;
 
+    //Exit game
+    private bool onceClickedExit = false;
+
 	// Timer and ads
 	private const int TIME_20MIN = 1200;
 	private const float HALF_ALPHA = (125f/255f);
@@ -286,7 +289,25 @@ public class MenuController : MonoBehaviour {
 
 	void Update()
 	{
-		if (!shouldSetTimer) return;
+        if (animator.GetCurrentAnimatorStateInfo(0).IsTag("main"))
+        {
+            print("main");
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                print("escape");
+                if (onceClickedExit)
+                    Application.Quit();
+                else
+                    onceClickedExit = true;
+            }
+        }
+        else if (onceClickedExit)
+        {
+            print("nie main");
+            onceClickedExit = false;
+        }
+            
+        if (!shouldSetTimer) return;
 		SetTimer();
 	}
 
